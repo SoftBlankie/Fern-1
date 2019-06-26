@@ -2,18 +2,18 @@
   "name": "fern",
   "version": "1.0.0",
   "description": "Lang-8 alternative journal app built with PERN",
-  "main": "server/index.js",
+  "main": "server",
   "scripts": {
-    "start": "node server/index.js",
-    "server": "nodemoon server/index.js"
+    "start": "node server",
+    "server": "nodemon server"
   },
   "repository": {
     "type": "git",
-    "url" : "git+https://github.com/SoftBlankie/Fern.git"
+    "url": "git+https://github.com/SoftBlankie/Fern.git"
   },
-  "keywords": {
+  "keywords": [
     "react"
-  },
+  ],
   "author": "Derick Phan",
   "license": "ISC",
   "devDependencies": {
