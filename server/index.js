@@ -5,10 +5,10 @@ const cookieParser = require('cookie-parser');
 
 var db = require('./database');
 
+const auth = require('./routes/api/auth');
+
 const ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
-
-var auth = require('./auth');
 
 const app = express();
 app.use(express.json());
@@ -16,7 +16,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-app.use('/auth', auth);
+app.use('/api/auth', auth);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
