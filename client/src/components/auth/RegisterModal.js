@@ -11,6 +11,7 @@ import {
   NavLink,
   Alert
 } from 'reactstrap';
+import axios from 'axios';
 
 class RegisterModal extends Component {
   state = {
@@ -22,12 +23,14 @@ class RegisterModal extends Component {
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      msg: null
     });
   };
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+    this.setState({ msg: null });
   };
 
   onSubmit = e => {
@@ -35,13 +38,21 @@ class RegisterModal extends Component {
 
     const { email, password } = this.state;
 
-    // Create user object
     const newUser = {
       email,
       password
     };
 
-    console.log(newUser);
+    axios
+      .post('/api/auth/signup', newUser)
+      .then(res => {
+        console.log(res);
+        window.location = `/`;
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ msg: err.response.data.message });
+      });
   };
 
   render() {

@@ -44,15 +44,15 @@ class LoginModal extends Component {
     };
 
     axios
-    .post('/api/auth/login', user)
-    .then(res => {
-      console.log(res);
-      window.location = `/`;
-    })
-    .catch(err => {
-      console.log(err);
-      this.setState({ msg: err.response.data.message });
-    });
+      .post('/api/auth/login', user)
+      .then(res => {
+        console.log(res);
+        window.location = `/`;
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ msg: err.response.data.message });
+      });
   };
 
   render() {
