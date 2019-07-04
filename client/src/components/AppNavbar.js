@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -39,6 +40,9 @@ class AppNavbar extends Component {
           <span className='navbar-text mr-3'>
             <strong>{user ? `Welcome ${user.name}` : ''}</strong>
           </span>
+        </NavItem>
+        <NavItem>
+          <NavLink tag={Link} to="/profile">Profile</NavLink>
         </NavItem>
         <NavItem>
           <Logout />
