@@ -15,40 +15,43 @@ router.post('/', (req, res) => {
   }
 
   // Check for existing user
-  User.getOneByEmail({ email })
+  User.getOneByEmail(email)
     .then(user => {
       if(user) return res.status(400).json({ msg: 'User already exists' });
 
       const newUser = {
         name,
         email,
-        password
+        password,
+        date: new Date()
       };
 
       // Create salt & hash
       bcrypt
-        .hash(req.body.password, 10)
+        .hash(password, 10)
         .then((hash) => {
           newUser.name = req.body.name;
           newUser.email = req.body.email;
           newUser.password = hash;
 
-          jwt.sign(
-            { id: newUser.id },
-            config.get('jwtSecret'),
-            { expiresIn: 3600 },
-            (err, token) => {
-            if(err) throw err;
-              res.json({
-                token,
-                user: {
-                  id: newUser.id,
-                  name: newUser.name,
-                  email: newUser.email
-                }
-              });
-            }
-          )
+          User.create(newUser).then(newId => {
+            jwt.sign(
+              { id: newId },
+              config.get('jwtSecret'),
+              { expiresIn: 3600 },
+              (err, token) => {
+              if(err) throw err;
+                res.json({
+                  token,
+                  user: {
+                    id: newId,
+                    name: newUser.name,
+                    email: newUser.email
+                  }
+                });
+              }
+            )
+          });
         });
     })
 });

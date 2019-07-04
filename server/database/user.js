@@ -1,13 +1,13 @@
 const knex = require('./connection');
 
 module.exports = {
-  getOne: function (id) {
+  getOne: id => {
     return knex('user').where('id', id).first();
   },
-  getOneByEmail: function (email) {
+  getOneByEmail: email => {
     return knex('user').where('email', email).first();
   },
-  create: function(user) {
+  create: user => {
     return knex('user').insert(user, 'id').then(ids => {
       return ids[0];
     });

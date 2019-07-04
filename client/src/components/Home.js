@@ -27,7 +27,7 @@ class Home extends Component {
 
     return (
       <div>
-        {isAuthenticated ? homePage : landingPage}
+        {!isAuthenticated ? landingPage : homePage}
       </div>
     );
   }
