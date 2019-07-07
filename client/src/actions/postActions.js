@@ -3,7 +3,7 @@ import { GET_POSTS, ADD_POST, DELETE_POST, POSTS_LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
-export const getPosts = () => dispatch {
+export const getPosts = () => dispatch => {
   dispatch(setPostsLoading());
   axios
     .get('/api/posts')

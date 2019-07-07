@@ -13,9 +13,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/posts', require('./routes/api/posts'));
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/auth', require('./routes/api/auth'));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);

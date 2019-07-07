@@ -9,6 +9,7 @@ import { loadUser } from './actions/authActions';
 
 import Home from './components/Home';
 import Profile from './components/Profile';
+import Post from './components/Post';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -27,6 +28,7 @@ class App extends Component {
             <div>
               <Route exact path="/" component={Home} />
               <Route exact path="/profile" component={Profile} />
+              <Route exact path="/post" component={Post} />
             </div>
           </div>
         </Provider>

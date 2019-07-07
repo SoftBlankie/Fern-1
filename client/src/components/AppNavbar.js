@@ -8,7 +8,9 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container
+  Container,
+  FormGroup,
+  Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -61,13 +63,22 @@ class AppNavbar extends Component {
       </Fragment>
     );
 
+    const search = (
+      <Fragment>
+        <FormGroup className='mt-1 mb-0'>
+          <Input bsSize='sm' style={{width: 300}} type="search" id="search" placeholder="Search" />
+        </FormGroup>
+      </Fragment>
+    );
+
     return (
       <div>
         <Navbar color='dark' dark expand='sm' className='mb-5'>
           <Container>
-            <NavbarBrand href='/'>Fern</NavbarBrand>
+            <NavbarBrand tag={Link} to="/">Fern</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
+              {isAuthenticated ? search : !search}
               <Nav className='ml-auto' navbar>
                 {isAuthenticated ? authLinks : guestLinks}
               </Nav>
