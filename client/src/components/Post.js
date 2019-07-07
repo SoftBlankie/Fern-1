@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Editor } from 'slate-react';
-import { Value } from 'slate';
 import {
   Button,
   Form,
@@ -14,37 +12,13 @@ import {
 import { connect } from 'react-redux';
 import { addPost } from '../actions/postActions';
 import PropTypes from 'prop-types';
-
-const initialEntry = Value.fromJSON({
-  document: {
-    nodes: [
-      {
-        object: 'block',
-        type: 'paragraph',
-        nodes: [
-          {
-            object: 'text',
-            text: 'A line of text in a paragraph.',
-          },
-        ],
-      },
-    ],
-  },
-})
-
-function BoldMark(props) {
-  return <strong>{props.children}</strong>
-}
-
-function ItalicMark(props) {
-  return <i>{props.children}</i>
-}
+import TextEditor from './editor/editor';
 
 class Post extends Component {
   state = {
     user_id: '',
     title: '',
-    entry: initialEntry,
+    entry: '',
     language: ''
   };
 
@@ -56,31 +30,9 @@ class Post extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-	onEdit = ({ value }) => {
-    this.setState({entry: value});
+  onEdit = ({ value }) => {
+    this.setState({ entry: value });
   };
-
-  onKeyDown = (e, editor, next) => {
-    if (!e.ctrlKey) return next();
-
-    switch (e.key) {
-      // When "B" is pressed, add a "bold" mark to the text.
-      case 'b': {
-        e.preventDefault();
-        editor.toggleMark('bold');
-        break;
-      }
-      case 'i': {
-        e.preventDefault();
-        editor.toggleMark('italic');
-        break;
-      }
-      // Otherwise, let other plugins handle it.
-      default: {
-        return next();
-      }
-    }
-  }
 
   onSubmit = e => {
     e.preventDefault();
@@ -113,18 +65,17 @@ class Post extends Component {
                   name='title'
                   id='post'
                   placeholder='Title'
-                  style={{ marginBottom: '2rem' }}
                   onChange={this.onChange}
+                  style={{ marginBottom: '2rem' }}
                 />
                 <Label for="entry">Entry</Label>
-								<Editor
-									name='entry'
-									value={this.state.entry}
-									onChange={this.onEdit}
-                  onKeyDown={this.onKeyDown}
-                  renderMark={this.renderMark}
+                <div
+                  name='entry'
+                  id='post'
 									style={{ marginBottom: '2rem' }}
-								/>
+								>
+                  <TextEditor onChange={this.onEdit} />
+                </div>
                 <Label for="language">Language</Label>
                 <Input
 									type="select"
@@ -144,17 +95,6 @@ class Post extends Component {
         </Row>
       </div>
     );
-  }
-
-  renderMark = (props, editor, next) => {
-    switch (props.mark.type) {
-      case 'bold':
-        return <BoldMark {...props} />
-      case 'italic':
-        return <ItalicMark {...props} />
-      default:
-        return next()
-    }
   }
 }
 
