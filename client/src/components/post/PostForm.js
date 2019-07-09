@@ -10,11 +10,11 @@ import {
   Col
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addPost } from '../actions/postActions';
+import { addPost } from '../../actions/postActions';
 import PropTypes from 'prop-types';
-import TextEditor from './editor/editor';
+import TextEditor from '../editor/editor';
 
-class Post extends Component {
+class PostForm extends Component {
   state = {
 		title_error: false,
 		entry_error: false,
@@ -124,4 +124,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addPost }
-)(Post);
+)(PostForm);

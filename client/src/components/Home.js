@@ -50,7 +50,7 @@ class Home extends Component {
               <Button
                 color='dark'
                 style={{ marginBottom: '2rem' }}
-                tag={Link} to="/post"
+                tag={Link} to="/postform"
               >
                 Add Post
               </Button>
@@ -58,9 +58,9 @@ class Home extends Component {
             <Col xs="9">
               <ListGroup>
                 <TransitionGroup className="posts">
-                  {posts.map(({ _id, title }) => (
-                    <CSSTransition key={_id} timeout={500} classNames="fade">
-                      <ListGroupItem key={_id}>
+                  {posts.map(({ id, title }) => (
+                    <CSSTransition key={id} timeout={500} classNames="fade">
+                      <ListGroupItem tag={Link} to="/postform">
                         {title}
                       </ListGroupItem>
                     </CSSTransition>

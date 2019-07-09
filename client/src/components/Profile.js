@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import classnames from 'classnames';
 import {
+  Container,
   Row,
   Col,
   Nav,
@@ -12,7 +13,7 @@ import {
   ListGroup,
   ListGroupItem
 } from 'reactstrap';
-import { TransitionGroup } from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { getUserPosts } from '../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -58,54 +59,58 @@ class Profile extends Component {
 
     return (
       <div>
-        <Row>
-          <Col xs="3">
-            <h1>Profile</h1>
-          </Col>
-          <Col xs="9">
-            <Nav tabs>
-              <NavItem>
-                <NavLink
-                className={classnames({ active: this.state.activeTab === '1' })}
-                href="#"
-                onClick={() => { this.toggle('1'); }}
-                >
-                  Activity
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: this.state.activeTab === '2' })}
+        <Container>
+          <Row>
+            <Col xs="3">
+              <h1>Profile</h1>
+            </Col>
+            <Col xs="9">
+              <Nav tabs>
+                <NavItem>
+                  <NavLink
+                  className={classnames({ active: this.state.activeTab === '1' })}
                   href="#"
-                  onClick={() => { this.toggle('2'); }}
-                >
-                  Posts
-                </NavLink>
-              </NavItem>
-            </Nav>
-            <TabContent activeTab={this.state.activeTab}>
-              <TabPane tabId="1">
-                <Row>
-                </Row>
-              </TabPane>
-              <TabPane tabId="2">
-                <Row>
-                  <Col sm="12">
-                    <ListGroup>
-                      <TransitionGroup className="userPosts">
-                        {userPosts.map(({ _id, title }) => (
-                          <ListGroupItem key={_id}>
-                            {title}
-                          </ListGroupItem>
-                        ))}
-                      </TransitionGroup>
-                    </ListGroup>
-                  </Col>
-                </Row>
-              </TabPane>
-            </TabContent>
-          </Col>
-        </Row>
+                  onClick={() => { this.toggle('1'); }}
+                  >
+                    Activity
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: this.state.activeTab === '2' })}
+                    href="#"
+                    onClick={() => { this.toggle('2'); }}
+                  >
+                    Posts
+                  </NavLink>
+                </NavItem>
+              </Nav>
+              <TabContent activeTab={this.state.activeTab}>
+                <TabPane tabId="1">
+                  <Row>
+                  </Row>
+                </TabPane>
+                <TabPane tabId="2">
+                  <Row>
+                    <Col sm="12">
+                      <ListGroup>
+                        <TransitionGroup className="userPosts">
+                          {userPosts.map(({ id, title }) => (
+                            <CSSTransition key={id} timeout={500} classNames="fade">
+                              <ListGroupItem tag={Link} to="/postform">
+                                {title}
+                              </ListGroupItem>
+                            </CSSTransition>
+                          ))}
+                        </TransitionGroup>
+                      </ListGroup>
+                    </Col>
+                  </Row>
+                </TabPane>
+              </TabContent>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

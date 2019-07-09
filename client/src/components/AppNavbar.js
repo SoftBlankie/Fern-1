@@ -44,6 +44,9 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
+          <NavLink tag={Link} to="/">Home</NavLink>
+        </NavItem>
+        <NavItem>
           <NavLink tag={Link} to="/profile">Profile</NavLink>
         </NavItem>
         <NavItem>
