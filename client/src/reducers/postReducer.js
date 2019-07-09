@@ -1,5 +1,7 @@
 import {
   GET_POSTS,
+  GET_USER_POSTS,
+  CLEAR_USER_POSTS,
   ADD_POST,
   DELETE_POST,
   POSTS_LOADING
@@ -7,6 +9,7 @@ import {
 
 const initialState = {
   posts: [],
+  userPosts: [],
   loading: false
 };
 
@@ -17,6 +20,17 @@ export default (state = initialState, action) => {
         ...state,
         posts: action.payload,
         loading: false
+      };
+    case GET_USER_POSTS:
+      return {
+        ...state,
+        userPosts: action.payload,
+        loading: false
+      };
+    case CLEAR_USER_POSTS:
+      return {
+        ...state,
+        userPosts: []
       };
     case DELETE_POST:
       return {

@@ -4,11 +4,22 @@ const auth = require('../../middleware/auth');
 
 const Post = require('../../database/post');
 
-// @route   GET api/posts
-// @desc    Get All Posts
-// @access  Public
+// @route   get api/posts
+// @desc    get all posts
+// @access  public
 router.get('/', (req, res) => {
   Post.getAll()
+    .orderBy('date', 'desc')
+    .then(posts => res.json(posts));
+});
+
+// @route   get api/posts/user
+// @desc    get all posts/user
+// @access  public
+router.post('/user', (req, res) => {
+  Post.getAll()
+    .where('user_id', req.body.user_id)
+    .orderBy('date', 'desc')
     .then(posts => res.json(posts));
 });
 

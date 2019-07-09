@@ -16,10 +16,13 @@ import TextEditor from './editor/editor';
 
 class Post extends Component {
   state = {
-    user_id: '',
+		title_error: false,
+		entry_error: false,
+		language_error: false,
+
     title: '',
     entry: '',
-    language: ''
+    language: 'Select'
   };
 
   static propTypes = {
@@ -28,27 +31,41 @@ class Post extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+		this.setState({ [e.target.name+'_error']: false });
   };
 
   onEdit = ({ value }) => {
     this.setState({ entry: value });
   };
 
+	isValid = () => {
+		if (!this.state.title) this.setState({ title_error: true });
+		if (!this.state.entry) this.setState({ entry_error: true });
+		if (this.state.language === 'Select') this.setState({ language_error: true });
+
+		if (!this.state.title || !this.state.entry || (this.state.language_error) === 'Select')
+			return false;
+		return true;
+	};
+
   onSubmit = e => {
     e.preventDefault();
 
     const newPost = {
-      user_id: this.state.user_id,
+      user_id: this.props.auth.user.id,
       title: this.state.title,
       entry: this.state.entry,
       language: this.state.language
     };
-
-    this.props.addPost(newPost);
+		
+		if (this.isValid()) {
+			this.props.addPost(newPost);
+			this.props.history.push("/");
+		}
   };
 
   render() {
-    const { isAuthenticated, user } = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
     
     if (!isAuthenticated)
       return <Redirect to='/'/>
@@ -64,6 +81,7 @@ class Post extends Component {
                   type='text'
                   name='title'
                   id='post'
+                  invalid={this.state.title_error}
                   placeholder='Title'
                   onChange={this.onChange}
                   style={{ marginBottom: '2rem' }}
@@ -80,6 +98,7 @@ class Post extends Component {
                 <Input
 									type="select"
 									name="language"
+                  invalid={this.state.language_error}
 									onChange={this.onChange}
 								>
                   {/* placeholder: Replace with compact list of all available langauges*/}

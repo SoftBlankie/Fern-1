@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_POSTS, ADD_POST, DELETE_POST, POSTS_LOADING } from './types';
+import { GET_POSTS, GET_USER_POSTS, CLEAR_USER_POSTS, ADD_POST, DELETE_POST, POSTS_LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
@@ -17,6 +17,27 @@ export const getPosts = () => dispatch => {
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
+
+export const getUserPosts = post => (dispatch, getState) => {
+  dispatch(setPostsLoading());
+  axios
+    .post('/api/posts/user', post, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: GET_USER_POSTS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const clearUserPosts = () => {
+  return {
+    type: CLEAR_USER_POSTS
+  };
+}
 
 export const addPost = post => (dispatch, getState) => {
   axios

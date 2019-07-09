@@ -17,10 +17,10 @@ import PropTypes from 'prop-types';
 class Home extends Component {
   componentDidMount() {
     this.props.getPosts();
-  }
+  };
 
   static propTypes = {
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
   };
 
   render() {
