@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import {
-  Jumbotron,
   Row,
   Col,
   Container,
@@ -24,33 +23,21 @@ class Home extends Component {
   };
 
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
     const { posts } = this.props.post;
 
-    const landingPage = (
-      <Fragment>
-        <Container fluid className="centered">
-          <Row>
-            <Col>
-              <Jumbotron>
-                <h1 className="display-3">Fern</h1>
-                <p className="lead">Accelerate foreign learning!</p>
-              </Jumbotron>
-            </Col>
-          </Row>
-        </Container>
-      </Fragment>
-    );
+    if (!isAuthenticated)
+      return <Redirect to='/'/>
 
-    const homePage = (
-      <Fragment>
+    return (
+      <div>
         <Container>
           <Row>
             <Col xs="3">
               <Button
                 color='dark'
                 style={{ marginBottom: '2rem' }}
-                tag={Link} to="/postform"
+                tag={Link} to={`/${user.id}/postform`}
               >
                 Add Post
               </Button>
@@ -60,7 +47,7 @@ class Home extends Component {
                 <TransitionGroup className="posts">
                   {posts.map(({ id, title }) => (
                     <CSSTransition key={id} timeout={500} classNames="fade">
-                      <ListGroupItem tag={Link} to="/postform">
+                      <ListGroupItem tag={Link} to={`/${user.id}/post/${id}`}>
                         {title}
                       </ListGroupItem>
                     </CSSTransition>
@@ -70,12 +57,6 @@ class Home extends Component {
             </Col>
           </Row>
         </Container>
-      </Fragment>
-    );
-
-    return (
-      <div>
-        {isAuthenticated ? homePage : landingPage}
       </div>
     );
   }

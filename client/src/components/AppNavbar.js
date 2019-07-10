@@ -47,7 +47,7 @@ class AppNavbar extends Component {
           <NavLink tag={Link} to="/">Home</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to="/profile">Profile</NavLink>
+          <NavLink tag={Link} to={`/${user ? user.id : 0}/profile`}>Profile</NavLink>
         </NavItem>
         <NavItem>
           <Logout />

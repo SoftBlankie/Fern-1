@@ -51,7 +51,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
     const { userPosts } = this.props.post;
 
     if (!isAuthenticated)
@@ -97,7 +97,7 @@ class Profile extends Component {
                         <TransitionGroup className="userPosts">
                           {userPosts.map(({ id, title }) => (
                             <CSSTransition key={id} timeout={500} classNames="fade">
-                              <ListGroupItem tag={Link} to="/postform">
+                              <ListGroupItem tag={Link} to={`/${user.id}/post/${id}`}>
                                 {title}
                               </ListGroupItem>
                             </CSSTransition>
