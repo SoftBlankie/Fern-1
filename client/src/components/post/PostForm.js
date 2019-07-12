@@ -13,6 +13,10 @@ import { connect } from 'react-redux';
 import { addPost } from '../../actions/postActions';
 import PropTypes from 'prop-types';
 import TextEditor from '../editor/editor';
+import Html from 'slate-html-serializer';
+import { rules } from './rules';
+
+const html = new Html({ rules })
 
 class PostForm extends Component {
   state = {
@@ -54,7 +58,7 @@ class PostForm extends Component {
     const newPost = {
       user_id: this.props.auth.user.id,
       title: this.state.title,
-      entry: this.state.entry,
+      entry: html.serialize(this.state.entry),
       language: this.state.language
     };
 		

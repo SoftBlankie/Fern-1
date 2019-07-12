@@ -45,10 +45,14 @@ class Home extends Component {
             <Col xs="9">
               <ListGroup>
                 <TransitionGroup className="posts">
-                  {posts.map(({ id, title }) => (
+                  {posts.map(({ id, title, date, language, comments, edits }) => (
                     <CSSTransition key={id} timeout={500} classNames="fade">
                       <ListGroupItem tag={Link} to={`/${user.id}/post/${id}`}>
                         {title}
+                        {date}
+                        {language}
+                        {comments}
+                        {edits}
                       </ListGroupItem>
                     </CSSTransition>
                   ))}
