@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Html from 'slate-html-serializer';
 import { Redirect } from 'react-router-dom';
 import {
   Button,
@@ -12,8 +13,7 @@ import {
 import { connect } from 'react-redux';
 import { addPost } from '../../actions/postActions';
 import PropTypes from 'prop-types';
-import TextEditor from '../editor/editor';
-import Html from 'slate-html-serializer';
+import TextEditor from '../editor/Editor';
 import { rules } from './rules';
 
 const html = new Html({ rules })

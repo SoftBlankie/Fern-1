@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route } from 'react-router-dom';
-import AppNavbar from './components/AppNavbar';
+import AppNavbar from './components/nav/AppNavbar';
 
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/authActions';
 
 import Landing from './components/Landing';
-import Home from './components/Home';
+import Home from './components/home/Home';
 import Profile from './components/Profile';
 import PostForm from './components/post/PostForm';
 import Post from './components/post/Post';
@@ -29,10 +29,10 @@ class App extends Component {
             <AppNavbar />
             <div>
               <Route exact path="/" component={Landing} />
-              <Route exact path="/:id" component={Home} />
-              <Route exact path="/:id/profile" component={Profile} />
-              <Route exact path="/:id/postform" component={PostForm} />
-              <Route exact path="/:id/post/:id" component={Post} />
+              <Route exact path="/:name" component={Home} />
+              <Route exact path="/:name/profile" component={Profile} />
+              <Route exact path="/:name/postform" component={PostForm} />
+              <Route exact path="/:name/post/:id" component={Post} />
             </div>
           </div>
         </Provider>

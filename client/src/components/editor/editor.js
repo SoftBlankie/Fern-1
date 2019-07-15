@@ -22,7 +22,7 @@ const initialValue = Value.fromJSON({
         nodes: [
           {
             object: 'text',
-            text: 'A line of text in a paragraph.\n\n\n\n\n\n\n',
+            text: '',
           },
         ],
       },
@@ -137,6 +137,7 @@ class TextEditor extends Component {
         <Editor
           plugins={plugins}
           ref={this.ref}
+          placeholder={'Enter an entry'}
           value={this.state.value}
           onChange={this.onChange}
 					renderBlock={this.renderBlock}

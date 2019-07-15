@@ -18,7 +18,7 @@ class Landing extends Component {
     const { isAuthenticated, user } = this.props.auth;
 
     if (isAuthenticated)
-      return <Redirect to={`/${user.id}`}/>
+      return <Redirect to={`/${user.name}`}/>
 
     return( 
       <Container fluid className="centered">

@@ -11,21 +11,22 @@ import {
   TabContent,
   TabPane,
   ListGroup,
-  ListGroupItem
+  ListGroupItem,
+  ListGroupItemHeading,
+  Button
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { getUserPosts } from '../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-class Profile extends Component {
-  constructor(props) {
-    super(props);
+import Comment from '@material-ui/icons/Comment';
+import Edit from '@material-ui/icons/Create';
 
-    this.state = {
-      activeTab: '1'
-    };
-  }
+class Profile extends Component {
+  state = {
+    activeTab: '1'
+  };
 
   componentDidMount() {
     const { user } = this.props.auth;
@@ -54,6 +55,12 @@ class Profile extends Component {
     const { isAuthenticated, user } = this.props.auth;
     const { userPosts } = this.props.post;
 
+    const guestAccess = (
+      <Button color='dark' style={{ marginBottom: '2rem' }} block>
+        Follow
+      </Button>
+    );
+
     if (!isAuthenticated)
       return <Redirect to='/'/>
 
@@ -61,10 +68,9 @@ class Profile extends Component {
       <div>
         <Container>
           <Row>
-            <Col xs="3">
-              <h1>Profile</h1>
-            </Col>
-            <Col xs="9">
+            <Col>
+              <h1>{this.props.match.params.name}</h1>
+              {user.name === this.props.match.params.name ? !guestAccess : guestAccess}
               <Nav tabs>
                 <NavItem>
                   <NavLink
@@ -95,10 +101,29 @@ class Profile extends Component {
                     <Col sm="12">
                       <ListGroup>
                         <TransitionGroup className="userPosts">
-                          {userPosts.map(({ id, title }) => (
+                          {userPosts.map(({ id, title, date, language, comments, edits }) => (
                             <CSSTransition key={id} timeout={500} classNames="fade">
-                              <ListGroupItem tag={Link} to={`/${user.id}/post/${id}`}>
-                                {title}
+                              <ListGroupItem tag={Link} to={`/${this.props.match.name}/post/${id}`}>
+                                <ListGroupItemHeading>{title}</ListGroupItemHeading>
+                                <Container>
+                                  <Row>
+                                    <Col xs="1">
+                                      {user.name}
+                                    </Col>
+                                    <Col xs="6">
+                                      {date}
+                                    </Col>
+                                    <Col xs="2">
+                                      {language}
+                                    </Col>
+                                    <Col xs="1">
+                                      <Comment />{comments}
+                                    </Col>
+                                    <Col xs="2">
+                                      <Edit />{edits}
+                                    </Col>
+                                  </Row>
+                                </Container>
                               </ListGroupItem>
                             </CSSTransition>
                           ))}

@@ -8,15 +8,16 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container,
-  FormGroup,
-  Input
+  Container
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import RegisterModal from './auth/RegisterModal';
-import LoginModal from './auth/LoginModal';
-import Logout from './auth/Logout';
+
+import Searchbar from './Searchbar';
+
+import RegisterModal from '../auth/RegisterModal';
+import LoginModal from '../auth/LoginModal';
+import Logout from '../auth/Logout';
 
 class AppNavbar extends Component {
   state = {
@@ -44,10 +45,10 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to="/">Home</NavLink>
+          <NavLink tag={Link} to={`/${user ? user.name : ''}`}>Home</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to={`/${user ? user.id : 0}/profile`}>Profile</NavLink>
+          <NavLink tag={Link} to={`/${user ? user.name : 0}/profile`}>Profile</NavLink>
         </NavItem>
         <NavItem>
           <Logout />
@@ -66,22 +67,14 @@ class AppNavbar extends Component {
       </Fragment>
     );
 
-    const search = (
-      <Fragment>
-        <FormGroup className='mt-1 mb-0'>
-          <Input bsSize='sm' style={{width: 300}} type="search" id="search" placeholder="Search" />
-        </FormGroup>
-      </Fragment>
-    );
-
     return (
       <div>
         <Navbar color='dark' dark expand='sm' className='mb-5'>
           <Container>
-            <NavbarBrand tag={Link} to="/">Fern</NavbarBrand>
+            <NavbarBrand tag={Link} to={`/${user ? user.name : 0}`}>Fern</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
-              {isAuthenticated ? search : !search}
+              {isAuthenticated ? <Searchbar /> : !<Searchbar />}
               <Nav className='ml-auto' navbar>
                 {isAuthenticated ? authLinks : guestLinks}
               </Nav>

@@ -5,7 +5,7 @@ exports.up = function(knex) {
     table.integer('user_id').notNullable();
     table.text('title').notNullable();
     table.text('entry').notNullable();
-    //table.integer('character_count').notNullable();
+    table.integer('character_count').notNullable();
     table.text('language').notNullable();
     table.integer('comments').notNullable();
     table.integer('edits').notNullable();

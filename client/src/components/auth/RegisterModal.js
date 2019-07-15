@@ -94,12 +94,12 @@ class RegisterModal extends Component {
             ) : null}
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for='name'>Name</Label>
+                <Label for='name'>Public Name</Label>
                 <Input
                   type='text'
                   name='name'
                   id='name'
-                  placeholder='Name'
+                  placeholder='name'
                   className='mb-3'
                   onChange={this.onChange}
                 />

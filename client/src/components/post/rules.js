@@ -6,6 +6,8 @@ const BLOCK_TAGS = {
   pre: 'code',
   h1: 'heading-one',
   h2: 'heading-two',
+  ol: 'numbered-list',
+  li: 'list-item',
 }
 
 const MARK_TAGS = {
@@ -47,6 +49,10 @@ export const rules = [
             return <h1>{children}</h1>
           case 'heading-two':
             return <h2>{children}</h2>
+          case 'numbered-list':
+            return <ol>{children}</ol>
+          case 'list-item':
+            return <li>{children}</li>
           default:
             return
         }
@@ -67,7 +73,7 @@ export const rules = [
     },
     serialize(obj, children) {
       if (obj.object === 'mark') {
-        switch (obj.object) {
+        switch (obj.type) {
           case 'bold':
             return <strong>{children}</strong>
           case 'italic':
