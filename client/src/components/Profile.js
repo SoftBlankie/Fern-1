@@ -30,14 +30,24 @@ class Profile extends Component {
 
   componentDidMount() {
     const { user } = this.props.auth;
+
     if (user) {
       const userPosts = {
-        user_id: user.id
+        name: this.props.match.params.name
       };
-
       this.props.getUserPosts(userPosts);
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.name !== nextProps.match.params.name) {
+      const userPosts = {
+        name: nextProps.match.params.name
+      };
+      this.props.getUserPosts(userPosts);
+      this.setState({ activeTab: '1' });
+    }
+  };
 
   static propTypes = {
     auth: PropTypes.object.isRequired
@@ -45,9 +55,7 @@ class Profile extends Component {
   
   toggle = tab => {
     if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      });
+      this.setState({ activeTab: tab });
     }
   }
 
@@ -101,14 +109,14 @@ class Profile extends Component {
                     <Col sm="12">
                       <ListGroup>
                         <TransitionGroup className="userPosts">
-                          {userPosts.map(({ id, title, date, language, comments, edits }) => (
+                          {userPosts.map(({ id, name, title, date, language, comments, edits }) => (
                             <CSSTransition key={id} timeout={500} classNames="fade">
-                              <ListGroupItem tag={Link} to={`/${this.props.match.name}/post/${id}`}>
+                              <ListGroupItem tag={Link} to={`/${name}/post/${id}`}>
                                 <ListGroupItemHeading>{title}</ListGroupItemHeading>
                                 <Container>
                                   <Row>
                                     <Col xs="1">
-                                      {user.name}
+                                      {name}
                                     </Col>
                                     <Col xs="6">
                                       {date}

@@ -8,7 +8,7 @@ const Post = require('../../database/post');
 // @desc    get all posts
 // @access  public
 router.get('/', (req, res) => {
-  Post.getAll()
+  Post.getJoinUser()
     .orderBy('date', 'desc')
     .then(posts => res.json(posts));
 });
@@ -17,10 +17,10 @@ router.get('/', (req, res) => {
 // @desc    get all posts/user
 // @access  public
 router.post('/user', (req, res) => {
-  Post.getAll()
-    .where('user_id', req.body.user_id)
+  Post.getJoinUser()
+    .where('name', req.body.name)
     .orderBy('date', 'desc')
-    .then(posts => res.json(posts));
+    .then(rows => res.json(rows));
 });
 
 // @route   POST api/posts

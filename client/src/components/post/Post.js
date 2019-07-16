@@ -3,11 +3,14 @@ import { Redirect } from 'react-router-dom';
 import { Editor } from 'slate-react';
 import {
   Container,
+  Row,
+  Col,
   Button,
   Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deletePost } from '../../actions/postActions';
 import Html from 'slate-html-serializer';
 import { rules } from './rules';
 
@@ -26,40 +29,70 @@ class Post extends Component {
     this.setState({ [e.target.name]: e.target.value});
   };
 
+  onDeleteClick = id => {
+    this.props.deleteItem(id);
+  }
+
   render() {
     const { isAuthenticated } = this.props.auth;
     const { posts } = this.props.post;
-    const post = posts.find(post => Number(post.id) === Number(this.props.match.params.id));
+    const post = posts.find(post => post.id === Number(this.props.match.params.id));
 
     if (!isAuthenticated)
       return <Redirect to='/'/>
 
     return (
       <div>
+        {/* When user click, transform editor to edit mode (same as postform) has additional delete post button */}
+        {/* When guest click, transform editor where highlight adds edits */}
+        <Button color='dark' style={{ marginTop: '2rem', marginBottom: '2rem' }} block>
+          Edit
+        </Button>
         {/* Increase side margins */}
         <Container>
-          <h1>{post.title}</h1>
-          <Editor
-            defaultValue={html.deserialize(post.entry)}
-            renderBlock={this.renderNode}
-            renderMark={this.renderMark}
-            readOnly />
-          {/* When user click, transform editor to edit mode (same as postform) has additional delete post button */}
-          {/* When guest click, transform editor where highlight adds edits */}
-          <Button color='dark' style={{ marginTop: '2rem', marginBottom: '2rem' }} block>
-            Edit
-          </Button>
-          {/* Change input to comment box */}
-          <Input
-            type='text'
-            name='comment'
-            id='comment'
-            placeholder='Comment'
-            onChange={this.onChange}
-          />
-          <Button color='dark' style={{ marginBottom: '2rem' }} block>
-            Comment
-          </Button>
+          <Row>
+            <Col sm="12" md={{ size: 8, offset: 2 }}>
+              <h1>{post.title}</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm="12" md={{ size: 8, offset: 2 }}>
+              <Col>
+                {post.name}
+              </Col>
+              <Col>
+                {post.date}
+              </Col>
+              <hr />
+            </Col>
+          </Row>
+          <Row className='my-2'>
+            <Col sm="12" md={{ size: 8, offset: 2 }}>
+              <Editor
+                defaultValue={html.deserialize(post.entry)}
+                renderBlock={this.renderNode}
+                renderMark={this.renderMark}
+                readOnly />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm="12" md={{ size: 8, offset: 2 }}>
+              <Input
+                type='textarea'
+                name='comment'
+                id='comment'
+                placeholder='Comment'
+                onChange={this.onChange}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={{ size: 2, order: 2, offset: 8 }}>
+              <Button color='dark' size='sm' style={{ marginTop: '1rem', marginBottom: '2rem' }} block>
+                Comment
+              </Button>
+            </Col>
+          </Row>
         </Container>
       </div>
     );
@@ -95,6 +128,8 @@ class Post extends Component {
         return <em {...attributes}>{props.children}</em>
       case 'underline':
         return <u {...attributes}>{props.children}</u>
+      case 'strikethrough':
+        return <del {...attributes}>{props.children}</del>
       default:
         return next()
     }
@@ -108,5 +143,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  null
+  { deletePost }
 )(Post);

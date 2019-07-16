@@ -80,14 +80,14 @@ class Home extends Component {
                 <Add />
               </Fab>
                 <TransitionGroup className="posts">
-                  {posts.map(({ id, title, date, language, comments, edits }) => (
+                  {posts.map(({ id, name, title, date, language, comments, edits }) => (
                     <CSSTransition key={id} timeout={500} classNames="fade">
-                      <ListGroupItem tag={Link} to={`/${user.name}/post/${id}`}>
+                      <ListGroupItem tag={Link} to={`/${name}/post/${id}`}>
                         <ListGroupItemHeading>{title}</ListGroupItemHeading>
                         <Container>
                           <Row>
                             <Col xs="1">
-                              {user.name}
+                              {name}
                             </Col>
                             <Col xs="6">
                               {date}

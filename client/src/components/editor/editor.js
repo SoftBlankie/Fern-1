@@ -6,6 +6,8 @@ import { Button, Toolbar } from './component'
 import Bold from '@material-ui/icons/FormatBold';
 import Italic from '@material-ui/icons/FormatItalic';
 import Underline from '@material-ui/icons/FormatUnderlined';
+import Strikethrough from '@material-ui/icons/StrikethroughS';
+
 import LooksOne from '@material-ui/icons/LooksOne';
 import LooksTwo from '@material-ui/icons/LooksTwo';
 import Numbered from '@material-ui/icons/FormatListNumbered';
@@ -129,6 +131,7 @@ class TextEditor extends Component {
           {this.renderMarkButton('bold')}
           {this.renderMarkButton('italic')}
           {this.renderMarkButton('underline')}
+          {this.renderMarkButton('strikethrough')}
           {this.renderBlockButton('heading-one')}
           {this.renderBlockButton('heading-two')}
           {this.renderBlockButton('numbered-list')}
@@ -157,6 +160,8 @@ class TextEditor extends Component {
       icon = <Italic />
     } else if (type === 'underline') {
       icon = <Underline />
+    } else if (type === 'strikethrough') {
+      icon = <Strikethrough />
     }
 
     return (

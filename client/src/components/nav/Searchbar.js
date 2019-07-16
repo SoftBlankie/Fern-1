@@ -24,7 +24,8 @@ class Searchbar extends Component {
     e.preventDefault();
    
     // TODO if user exists
-    this.props.history.push(`/${this.state.search}/profile`);
+    if (this.state.search)
+      this.props.history.push(`/${this.state.search}/profile`);
   }
 
   render() {

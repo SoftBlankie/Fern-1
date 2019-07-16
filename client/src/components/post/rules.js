@@ -14,6 +14,7 @@ const MARK_TAGS = {
   em: 'italic',
   strong: 'bold',
   u: 'underline',
+  del: 'strikethrough',
 }
 
 export const rules = [
@@ -80,6 +81,8 @@ export const rules = [
             return <em>{children}</em>
           case 'underline':
             return <u>{children}</u>
+          case 'strikethrough':
+            return <del>{children}</del>
           default:
             return
         }
