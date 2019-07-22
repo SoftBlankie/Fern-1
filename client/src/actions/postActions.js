@@ -62,13 +62,14 @@ export const addPost = post => (dispatch, getState) => {
 
 export const updatePost = (id, post) => (dispatch, getState) => {
   axios
-    .post(`/api/posts/${id}`, tokenConfig(getState))
+    .post(`/api/posts/${id}`, post, tokenConfig(getState))
     .then(res => 
       dispatch({
         type: UPDATE_POST,
         payload: res.data
       })
-    ).catch(err =>
+    )
+    .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };

@@ -175,6 +175,7 @@ class Post extends Component {
                 id='comment'
                 placeholder='Comment'
                 onChange={this.onChange}
+                style={{ marginTop: '1rem' }}
               />
             </Col>
           </Row>

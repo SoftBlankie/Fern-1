@@ -24,9 +24,9 @@ class PostForm extends Component {
 		entry_error: false,
 		language_error: false,
 
-    title: '',
-    entry: '',
-    language: 'Select'
+    title: this.props.initialTitle ? this.props.initialTitle : '',
+    entry: this.props.initialEntry ? this.props.initialEntry : '',
+    language: this.props.initialLanguage ? this.props.initialLanguage : 'Select'
   };
 
   static propTypes = {
@@ -47,7 +47,7 @@ class PostForm extends Component {
 		if (!this.state.entry) this.setState({ entry_error: true });
 		if (this.state.language === 'Select') this.setState({ language_error: true });
 
-		if (!this.state.title || !this.state.entry || (this.state.language_error) === 'Select')
+		if (!this.state.title || !this.state.entry || (this.state.language === 'Select'))
 			return false;
 		return true;
 	};
@@ -56,22 +56,26 @@ class PostForm extends Component {
     e.preventDefault();
 
     if (this.props.postId) {
-      const newPost = {
-        title: this.props.initialTitle,
-        entry: this.props.initialEntry,
-        language: this.props.initialLanguage
-      };
-      this.props.updatePost(this.props.postId, newPost);
-      this.props.toggle();
-    } else {
-      const newPost = {
-        user_id: this.props.auth.user.id,
-        title: this.state.title,
-        entry: html.serialize(this.state.entry),
-        language: this.state.language
-      };
-      
       if (this.isValid()) {
+        const newPost = {
+          title: this.state.title,
+          entry: html.serialize(this.state.entry),
+          language: this.state.language
+        };
+
+        this.props.updatePost(this.props.postId, newPost);
+        // timeout to allow redux to load
+        setTimeout(function() {this.props.toggle();}.bind(this),100);
+      }
+    } else {
+      if (this.isValid()) {
+        const newPost = {
+          user_id: this.props.auth.user.id,
+          title: this.state.title,
+          entry: html.serialize(this.state.entry),
+          language: this.state.language
+        };
+        
         this.props.addPost(newPost);
         this.props.history.push('/');
       }
@@ -109,7 +113,7 @@ class PostForm extends Component {
                   id='post'
                   invalid={this.state.title_error}
                   placeholder='Title'
-                  defaultValue={this.props.initialTitle}
+                  defaultValue={this.state.title}
                   onChange={this.onChange}
                   style={{ marginBottom: '2rem' }}
                 />
@@ -119,14 +123,14 @@ class PostForm extends Component {
                   id='post'
 									style={{ marginBottom: '2rem' }}
 								>
-                  <TextEditor initialValue={this.props.initialEntry} onChange={this.onEdit} />
+                  <TextEditor initialValue={this.state.entry} onChange={this.onEdit} />
                 </div>
                 <Label for="language">Language</Label>
                 <Input
 									type="select"
 									name="language"
                   invalid={this.state.language_error}
-                  defaultValue={this.props.initialLanguage}
+                  defaultValue={this.state.language}
 									onChange={this.onChange}
 								>
                   {/* placeholder: Replace with compact list of all available langauges*/}
