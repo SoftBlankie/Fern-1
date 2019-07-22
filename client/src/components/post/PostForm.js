@@ -11,9 +11,9 @@ import {
   Col
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addPost } from '../../actions/postActions';
+import { addPost, updatePost } from '../../actions/postActions';
 import PropTypes from 'prop-types';
-import TextEditor from '../editor/Editor';
+import TextEditor from '../editor/TextEditor';
 import { rules } from './rules';
 
 const html = new Html({ rules })
@@ -55,17 +55,27 @@ class PostForm extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const newPost = {
-      user_id: this.props.auth.user.id,
-      title: this.state.title,
-      entry: html.serialize(this.state.entry),
-      language: this.state.language
-    };
-		
-		if (this.isValid()) {
-			this.props.addPost(newPost);
-			this.props.history.push("/");
-		}
+    if (this.props.postId) {
+      const newPost = {
+        title: this.props.initialTitle,
+        entry: this.props.initialEntry,
+        language: this.props.initialLanguage
+      };
+      this.props.updatePost(this.props.postId, newPost);
+      this.props.toggle();
+    } else {
+      const newPost = {
+        user_id: this.props.auth.user.id,
+        title: this.state.title,
+        entry: html.serialize(this.state.entry),
+        language: this.state.language
+      };
+      
+      if (this.isValid()) {
+        this.props.addPost(newPost);
+        this.props.history.push('/');
+      }
+    }
   };
 
   render() {
@@ -73,6 +83,18 @@ class PostForm extends Component {
     
     if (!isAuthenticated)
       return <Redirect to='/'/>
+
+    const addButton = (
+      <Button color='dark' style={{ marginTop: '2rem' }} block>
+        Add Post
+      </Button>
+    );
+
+    const editButton = (
+      <Button color='dark' style={{ marginTop: '2rem' }} block>
+        Edit Post
+      </Button>
+    );
 
     return(
       <div>
@@ -87,6 +109,7 @@ class PostForm extends Component {
                   id='post'
                   invalid={this.state.title_error}
                   placeholder='Title'
+                  defaultValue={this.props.initialTitle}
                   onChange={this.onChange}
                   style={{ marginBottom: '2rem' }}
                 />
@@ -96,22 +119,21 @@ class PostForm extends Component {
                   id='post'
 									style={{ marginBottom: '2rem' }}
 								>
-                  <TextEditor onChange={this.onEdit} />
+                  <TextEditor initialValue={this.props.initialEntry} onChange={this.onEdit} />
                 </div>
                 <Label for="language">Language</Label>
                 <Input
 									type="select"
 									name="language"
                   invalid={this.state.language_error}
+                  defaultValue={this.props.initialLanguage}
 									onChange={this.onChange}
 								>
                   {/* placeholder: Replace with compact list of all available langauges*/}
                   <option>Select</option>
                   <option>Japanese</option>
                 </Input>
-                <Button color='dark' style={{ marginTop: '2rem' }} block>
-                  Add Post
-                </Button>
+                {this.props.postId ? editButton : addButton}
               </FormGroup>
             </Form>
           </Col>
@@ -127,5 +149,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addPost }
+  { addPost, updatePost }
 )(PostForm);

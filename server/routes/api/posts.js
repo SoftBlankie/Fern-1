@@ -4,8 +4,8 @@ const auth = require('../../middleware/auth');
 
 const Post = require('../../database/post');
 
-// @route   get api/posts
-// @desc    get all posts
+// @route   GET api/posts
+// @desc    Get all posts
 // @access  public
 router.get('/', (req, res) => {
   Post.getJoinUser()
@@ -13,8 +13,8 @@ router.get('/', (req, res) => {
     .then(posts => res.json(posts));
 });
 
-// @route   get api/posts/user
-// @desc    get all posts/user
+// @route   GET api/posts/user
+// @desc    Get all posts/user
 // @access  public
 router.post('/user', (req, res) => {
   Post.getJoinUser()
@@ -39,7 +39,20 @@ router.post('/', auth, (req, res) => {
   Post.create(newPost).then(post => res.json(post));
 });
 
-// @route   DELETE api/items:id
+// @route   POST api/posts/:id
+// @desc    Update a Post
+// @access  Private
+router.post('/:id', auth, (req, res) => {
+  const newPost = {
+    title: req.body.title,
+    entry: req.body.entry,
+    language: req.body.language,
+    date: new Date()
+  };
+  Post.update(req.params.id, newPost).then(post => res.json(post));
+});
+
+// @route   DELETE api/posts/:id
 // @desc    Delete a Post
 // @access  Private
 router.delete('/:id', auth, (req, res) => {

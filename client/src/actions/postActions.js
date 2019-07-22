@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { GET_POSTS, GET_USER_POSTS, CLEAR_USER_POSTS, ADD_POST, DELETE_POST, POSTS_LOADING } from './types';
+import {
+  GET_POSTS,
+  GET_USER_POSTS,
+  CLEAR_USER_POSTS,
+  ADD_POST,
+  UPDATE_POST,
+  DELETE_POST,
+  POSTS_LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
@@ -53,9 +60,22 @@ export const addPost = post => (dispatch, getState) => {
     );
 };
 
+export const updatePost = (id, post) => (dispatch, getState) => {
+  axios
+    .post(`/api/posts/${id}`, tokenConfig(getState))
+    .then(res => 
+      dispatch({
+        type: UPDATE_POST,
+        payload: res.data
+      })
+    ).catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
 export const deletePost = id => (dispatch, getState) => {
   axios
-    .delete(`/api/items/${id}`, tokenConfig(getState))
+    .delete(`/api/posts/${id}`, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: DELETE_POST,

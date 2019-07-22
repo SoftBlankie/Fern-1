@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
 import Add from "@material-ui/icons/Add";
 import Comment from '@material-ui/icons/Comment';
-import Edit from '@material-ui/icons/Create';
+import Edit from '@material-ui/icons/Edit';
 
 class Home extends Component {
   state = {

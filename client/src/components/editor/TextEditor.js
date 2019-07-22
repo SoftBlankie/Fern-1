@@ -53,7 +53,7 @@ function MarkHotkey(options) {
 
 class TextEditor extends Component {
   state = {
-    value: initialValue
+    value: this.props.initialValue ? this.props.initialValue : initialValue
   }
 
   ref = editor => {

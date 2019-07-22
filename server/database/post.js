@@ -21,6 +21,16 @@ module.exports = {
       return knex('post').where('id', ids[0]).first();
     });
   },
+  update: (id, post) => {
+    return knex('post').where('id', id).first().update({
+      title: post.title,
+      entry: post.entry,
+      language: post.language,
+      date: post.date
+    }).then(() => {
+      return knex('post').where('id', id).first();
+    });
+  },
   remove: id => {
     return knex('post').where('id', id).del();
   }

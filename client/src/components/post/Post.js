@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Editor } from 'slate-react';
 import {
@@ -6,50 +6,146 @@ import {
   Row,
   Col,
   Button,
-  Input
+  Input,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	ModalFooter
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deletePost } from '../../actions/postActions';
+import { getPosts, deletePost } from '../../actions/postActions';
+import PostForm from './PostForm';
+import GuestEditor from '../editor/GuestEditor';
 import Html from 'slate-html-serializer';
 import { rules } from './rules';
+
+import Fab from '@material-ui/core/Fab';
+import Edit from '@material-ui/icons/Edit';
+import Delete from '@material-ui/icons/Delete';
+import Back from '@material-ui/icons/ArrowBack';
 
 const html = new Html({ rules })
 
 class Post extends Component {
   state = {
-    comment: ''
+    isOpen: false,
+		deleteModal: false,
+		comment: ''
   };
 
   static propTypes = {
     auth: PropTypes.object.isRequired
   };
 
+  toggle = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  };
+	
+	toggleDeleteModal = () => {
+		this.setState({
+			deleteModal: !this.state.deleteModal
+		});
+	}
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value});
   };
 
   onDeleteClick = id => {
-    this.props.deleteItem(id);
+    this.props.deletePost(id);
+    this.props.getPosts();
+		this.props.history.push('/');
   }
 
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
     const { posts } = this.props.post;
     const post = posts.find(post => post.id === Number(this.props.match.params.id));
+    const isUser = (user ? user.name : '') === this.props.match.params.name;
 
     if (!isAuthenticated)
       return <Redirect to='/'/>
 
-    return (
-      <div>
-        {/* When user click, transform editor to edit mode (same as postform) has additional delete post button */}
-        {/* When guest click, transform editor where highlight adds edits */}
-        <Button color='dark' style={{ marginTop: '2rem', marginBottom: '2rem' }} block>
-          Edit
-        </Button>
-        {/* Increase side margins */}
+		const fabStyle = {
+			margin: 0,
+			top: 'auto',
+			right: 50,
+			bottom: 50,
+			left: 'auto',
+			position: 'fixed',
+			zIndex: 99,
+		}
+		
+		const deleteStyle = {
+			margin: 0,
+			top: 'auto',
+			right: 50,
+			bottom: 120,
+			left: 'auto',
+			position: 'fixed',
+			zIndex: 99,
+		}
+
+		const editButton = (
+			<Fab
+				size='large'
+				onClick={this.toggle}
+				style={fabStyle}
+			>
+				<Edit />
+			</Fab>
+		);
+
+    const userAccess = (
+      <Fragment>
+        <PostForm
+          toggle={this.toggle}
+          postId={this.props.match.params.id}
+          initialTitle={post.title}
+          initialEntry={html.deserialize(post.entry)}
+          initialLanguage={post.language}
+        />
+				<Modal isOpen={this.state.deleteModal} toggle={this.toggleDeleteModal}>
+					<ModalHeader toggle={this.toggleDeleteModal}>Delete</ModalHeader>
+					<ModalBody>Are you sure you want to delete?</ModalBody>
+					<ModalFooter>
+						<Button
+							color="primary"
+							onClick={this.onDeleteClick.bind(this, post.id)}
+						>
+							Delete</Button>
+            <Button
+							color="secondary"
+							onClick={this.toggleDeleteModal}
+						>
+							Cancel
+						</Button>
+					</ModalFooter>
+				</Modal>
+				<Fab
+					size='large'
+					onClick={this.toggleDeleteModal}
+					style={deleteStyle}
+				>
+					<Delete />
+				</Fab>
+				<Fab
+					size='large'
+					onClick={this.toggle}
+					style={fabStyle}
+				>
+					<Back />
+				</Fab>
+      </Fragment>
+    );
+
+    const defaultAccess = (
+      <Fragment>
         <Container>
+					{isUser ? editButton : !editButton}
           <Row>
             <Col sm="12" md={{ size: 8, offset: 2 }}>
               <h1>{post.title}</h1>
@@ -68,11 +164,7 @@ class Post extends Component {
           </Row>
           <Row className='my-2'>
             <Col sm="12" md={{ size: 8, offset: 2 }}>
-              <Editor
-                defaultValue={html.deserialize(post.entry)}
-                renderBlock={this.renderNode}
-                renderMark={this.renderMark}
-                readOnly />
+							<GuestEditor initialValue={html.deserialize(post.entry)}/>
             </Col>
           </Row>
           <Row>
@@ -88,52 +180,30 @@ class Post extends Component {
           </Row>
           <Row>
             <Col sm={{ size: 2, order: 2, offset: 8 }}>
-              <Button color='dark' size='sm' style={{ marginTop: '1rem', marginBottom: '2rem' }} block>
+              <Button
+								color='dark'
+								size='sm'
+								style={{ marginTop: '1rem', marginBottom: '2rem' }} block
+							>
                 Comment
               </Button>
             </Col>
           </Row>
         </Container>
+      </Fragment>
+    );
+
+    return (
+      <div>
+        {this.state.isOpen ? (isUser ? userAccess : defaultAccess) : defaultAccess}
       </div>
     );
   }
+}
 
-  renderNode = (props, editor, next) => {
-    switch (props.node.type) {
-      case 'paragraph':
-        return (
-          <p {...props.attributes} className={props.node.data.get('className')}>
-            {props.children}
-          </p>
-        )
-      case 'heading-one':
-        return <h1 {...props.attributes}>{props.children}</h1>
-      case 'heading-two':
-        return <h2 {...props.attributes}>{props.children}</h2>
-      case 'numbered-list':
-        return <ol {...props.attributes}>{props.children}</ol>
-      case 'list-item':
-        return <li {...props.attributes}>{props.children}</li>
-      default:
-        return next()
-    }
-  }
-
-  renderMark = (props, editor, next) => {
-    const { mark, attributes } = props
-    switch (mark.type) {
-      case 'bold':
-        return <strong {...attributes}>{props.children}</strong>
-      case 'italic':
-        return <em {...attributes}>{props.children}</em>
-      case 'underline':
-        return <u {...attributes}>{props.children}</u>
-      case 'strikethrough':
-        return <del {...attributes}>{props.children}</del>
-      default:
-        return next()
-    }
-  }
+Post.propTypes = {
+  getPosts: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -143,5 +213,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deletePost }
+  { getPosts, deletePost }
 )(Post);
