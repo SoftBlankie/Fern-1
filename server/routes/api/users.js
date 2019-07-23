@@ -6,13 +6,23 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../../database/user');
 
+// @route   GET /api/users
+// @desc    Get all users
+// @access  Public
+router.get('/', (req, res) => {
+  User
+    .getAll()
+    .select('id', 'name', 'email', 'date', 'is_active')
+    .then(user => res.json(user));
+});
+
 // @route   GET /api/users/:name
 // @desc    Get specific user
 // @access  Public
 router.get('/:name', (req, res) => {
   User
     .getOneByName(req.params.name)
-    .select('id', 'name', 'email', 'date', 'isActive')
+    .select('id', 'name', 'email', 'date', 'is_active')
     .then(user => res.json(user));
 });
 

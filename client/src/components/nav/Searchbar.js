@@ -1,49 +1,106 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import {
   Form,
-  FormGroup,
-  Input
+  FormGroup
 } from 'reactstrap';
+
+import MenuItem from '@material-ui/core/MenuItem';
+import theme from './themes/searchbar.css';
+
+import Autosuggest from 'react-autosuggest';
+import deburr from 'lodash/deburr';
+import match from 'autosuggest-highlight/match';
+import parse from 'autosuggest-highlight/parse';
+
+var suggestions;
+
+axios.get('/api/users')
+  .then(res => {
+    suggestions = res.data;
+  });
+
+const getSuggestions = value => {
+  const inputValue = deburr(value.trim()).toLowerCase();
+  const inputLength = inputValue.length;
+  let count = 0;
+
+  return inputLength === 0
+    ? []
+    : suggestions.filter(suggestion => {
+        const keep =
+          count < 5 && suggestion.name.slice(0, inputLength).toLowerCase() === inputValue;
+
+        if (keep) {
+          count += 1;
+        }
+
+        return keep;
+      });
+}
+
+const getSuggestionValue = suggestion => suggestion.name;
+
+const renderSuggestion = suggestion => {
+  return (
+    <span>{suggestion.name}</span>
+  );
+}
 
 class Searchbar extends Component {
   state = {
-    search: ''
+    value: '',
+    suggestions: []
   };
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  onKeyDown = e => {
-    if (e.key === 13) this.onSubmit();
+  onChange = (e, { newValue, method }) => {
+    this.setState({ value: newValue });
   };
 
   onSubmit = e => {
     e.preventDefault();
 
-    axios.get(`/api/users/${this.state.search}`)
+    axios.get(`/api/users/${this.state.value}`)
       .then(res => {
-        if (this.state.search && res.data)
-          this.props.history.push(`/${this.state.search}/profile`);
+        if (this.state.value && res.data)
+          this.props.history.push(`/${this.state.value}/profile`);
       });
   }
 
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: getSuggestions(value)
+    });
+  };
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
+
   render() {
+    const { value, suggestions } = this.state;
+
+    const inputProps = {
+      placeholder: 'Search',
+      value,
+      onChange: this.onChange,
+    };
+
     return(
       <div>
         <Form onSubmit={this.onSubmit}>
-          <FormGroup className='mt-1 mb-0'>
-            <Input
-              bsSize='sm'
-              style={{ width: 300 }}
-              type='search'
-              id='search'
-              name='search'
-              placeholder='Search'
-              onChange={this.onChange}
-              onKeyDown={this.onKeyDown}
+          <FormGroup className='mt-2 mb-1'>
+            <Autosuggest
+              className={theme}
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderSuggestion}
+              inputProps={inputProps}
             />
           </FormGroup>
         </Form>
