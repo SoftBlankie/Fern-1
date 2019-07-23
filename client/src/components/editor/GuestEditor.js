@@ -2,10 +2,7 @@ import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { css } from 'emotion';
 import { Editor } from 'slate-react';
-import { Value } from 'slate';
-import { Button, Menu } from './component'
-
-const DEFAULT_NODE = 'paragraph'
+import { Menu } from './component'
 
 const HoverMenu = React.forwardRef(({ editor }, ref) => {
   const root = window.document.getElementById('root')

@@ -6,6 +6,19 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../../database/user');
 
+// @route   GET /api/users/:name
+// @desc    Get specific user
+// @access  Public
+router.get('/:name', (req, res) => {
+  User
+    .getOneByName(req.params.name)
+    .select('id', 'name', 'email', 'date', 'isActive')
+    .then(user => res.json(user));
+});
+
+// @route   POST /api/users
+// @desc    Create a user
+// @access  Public
 router.post('/', (req, res) => {
   const { name, email, password } = req.body;
 

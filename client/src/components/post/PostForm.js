@@ -7,6 +7,7 @@ import {
   FormGroup,
   Label,
   Input,
+  Container,
   Row,
   Col
 } from 'reactstrap';
@@ -102,46 +103,48 @@ class PostForm extends Component {
 
     return(
       <div>
-        <Row>
-          <Col sm="12" md={{ size: 6, offset: 3 }}>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for="title">Title</Label>
-                <Input
-                  type='text'
-                  name='title'
-                  id='post'
-                  invalid={this.state.title_error}
-                  placeholder='Title'
-                  defaultValue={this.state.title}
-                  onChange={this.onChange}
-                  style={{ marginBottom: '2rem' }}
-                />
-                <Label for="entry">Entry</Label>
-                <div
-                  name='entry'
-                  id='post'
-									style={{ marginBottom: '2rem' }}
-								>
-                  <TextEditor initialValue={this.state.entry} onChange={this.onEdit} />
-                </div>
-                <Label for="language">Language</Label>
-                <Input
-									type="select"
-									name="language"
-                  invalid={this.state.language_error}
-                  defaultValue={this.state.language}
-									onChange={this.onChange}
-								>
-                  {/* placeholder: Replace with compact list of all available langauges*/}
-                  <option>Select</option>
-                  <option>Japanese</option>
-                </Input>
-                {this.props.postId ? editButton : addButton}
-              </FormGroup>
-            </Form>
-          </Col>
-        </Row>
+        <Container>
+          <Row>
+            <Col sm="12" md={{ size: 8, offset: 2 }}>
+              <Form onSubmit={this.onSubmit}>
+                <FormGroup>
+                  <Label for="title">Title</Label>
+                  <Input
+                    type='text'
+                    name='title'
+                    id='post'
+                    invalid={this.state.title_error}
+                    placeholder='Title'
+                    defaultValue={this.state.title}
+                    onChange={this.onChange}
+                    style={{ marginBottom: '2rem' }}
+                  />
+                  <Label for="entry">Entry</Label>
+                  <div
+                    name='entry'
+                    id='post'
+                    style={{ marginBottom: '2rem' }}
+                  >
+                    <TextEditor initialValue={this.state.entry} onChange={this.onEdit} />
+                  </div>
+                  <Label for="language">Language</Label>
+                  <Input
+                    type="select"
+                    name="language"
+                    invalid={this.state.language_error}
+                    defaultValue={this.state.language}
+                    onChange={this.onChange}
+                  >
+                    {/* placeholder: Replace with compact list of all available langauges*/}
+                    <option>Select</option>
+                    <option>Japanese</option>
+                  </Input>
+                  {this.props.postId ? editButton : addButton}
+                </FormGroup>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

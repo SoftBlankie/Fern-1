@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Editor } from 'slate-react';
 import {
   Container,
   Row,
@@ -54,11 +53,15 @@ class Post extends Component {
     this.setState({ [e.target.name]: e.target.value});
   };
 
+  onCommentClick = () => {
+    console.log('TODO');
+  };
+
   onDeleteClick = id => {
     this.props.deletePost(id);
     this.props.getPosts();
 		this.props.history.push('/');
-  }
+  };
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
@@ -184,6 +187,7 @@ class Post extends Component {
               <Button
 								color='dark'
 								size='sm'
+                onClick={this.onCommentClick}
 								style={{ marginTop: '1rem', marginBottom: '2rem' }} block
 							>
                 Comment

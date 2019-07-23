@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import Autosuggest from 'react-autosuggest';
 import {
   Form,
   FormGroup,
@@ -22,10 +22,12 @@ class Searchbar extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-   
-    // TODO if user exists
-    if (this.state.search)
-      this.props.history.push(`/${this.state.search}/profile`);
+
+    axios.get(`/api/users/${this.state.search}`)
+      .then(res => {
+        if (this.state.search && res.data)
+          this.props.history.push(`/${this.state.search}/profile`);
+      });
   }
 
   render() {
