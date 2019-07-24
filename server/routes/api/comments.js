@@ -40,7 +40,7 @@ router.post('/:post_id/comments/:comment_id', auth, (req, res) => {
 // @route   DELETE api/posts/:post_id/comments/:comment_id
 // @desc    Delete a Comment
 // @access  Private
-router.delete('/:post_id/comments/:comment_id', (req, res) => {
+router.delete('/:post_id/comments/:comment_id', auth, (req, res) => {
   Comment.remove(req.params.comment_id)
     .then(() => res.json({success: true}))
     .catch(err => res.status(404).json({success: false}));
