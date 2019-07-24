@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.increments();
     table.integer('user_id').notNullable();
     table.integer('post_id').notNullable();
+    table.text('selection').notNullable();
     table.text('edit').notNullable();
     table.datetime('date').notNullable();
 

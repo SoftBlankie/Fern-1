@@ -17,7 +17,7 @@ module.exports = {
     'post.edits', 'post.date');
   },
   create: post => {
-    return knex('post').insert(post,'id').then(ids => {
+    return knex('post').insert(post, 'id').then(ids => {
       return knex('post').where('id', ids[0]).first();
     });
   },

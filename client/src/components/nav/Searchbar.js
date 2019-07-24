@@ -5,14 +5,10 @@ import {
   Form,
   FormGroup
 } from 'reactstrap';
-
-import MenuItem from '@material-ui/core/MenuItem';
 import theme from './themes/searchbar.css';
 
 import Autosuggest from 'react-autosuggest';
 import deburr from 'lodash/deburr';
-import match from 'autosuggest-highlight/match';
-import parse from 'autosuggest-highlight/parse';
 
 var suggestions;
 

@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/posts', require('./routes/api/posts'));
+app.use('/api/posts', require('./routes/api/comments'));
 app.use('/api/users', require('./routes/api/users'));
 
 app.listen(PORT, () => {
