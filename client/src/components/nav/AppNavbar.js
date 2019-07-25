@@ -29,9 +29,11 @@ class AppNavbar extends Component {
   };
 
   toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+    if (window.innerWidth <= 760) {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
+    }
   };
 
   render() {
@@ -44,13 +46,13 @@ class AppNavbar extends Component {
             <strong>{user ? `Welcome ${user.name}` : ''}</strong>
           </span>
         </NavItem>
-        <NavItem>
+        <NavItem onClick={this.toggle}>
           <NavLink tag={Link} to={`/${user ? user.name : ''}`}>Home</NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem onClick={this.toggle}>
           <NavLink tag={Link} to={`/${user ? user.name : 0}/profile`}>Profile</NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem onClick={this.toggle}>
           <Logout />
         </NavItem>
       </Fragment>
@@ -58,10 +60,10 @@ class AppNavbar extends Component {
 
     const guestLinks = (
       <Fragment>
-        <NavItem>
+        <NavItem onClick={this.toggle}>
           <RegisterModal />
         </NavItem>
-        <NavItem>
+        <NavItem onClick={this.toggle}>
           <LoginModal />
         </NavItem>
       </Fragment>

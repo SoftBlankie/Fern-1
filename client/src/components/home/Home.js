@@ -4,23 +4,19 @@ import {
   Row,
   Col,
   Container,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { getPosts } from '../../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Post from './Post';
+
 import Fab from '@material-ui/core/Fab';
 import Add from "@material-ui/icons/Add";
-import Comment from '@material-ui/icons/Comment';
-import Edit from '@material-ui/icons/Edit';
 
 class Home extends Component {
   state = {
@@ -60,10 +56,16 @@ class Home extends Component {
 
     return (
       <div>
+        <Fab
+          size="large"
+          component={Link} to={`/${user.name}/postform`}
+          style={addStyle}
+        >
+          <Add />
+        </Fab>
         <Container>
           <Row>
             <Col>
-              <ListGroup>
               <Dropdown className="list-unstyled" nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle nav caret>
                   Filter
@@ -72,42 +74,7 @@ class Home extends Component {
                   <DropdownItem>Japanese</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              <Fab
-                size="large"
-                component={Link} to={`/${user.name}/postform`}
-                style={addStyle}
-              >
-                <Add />
-              </Fab>
-                <TransitionGroup className="posts">
-                  {posts.map(({ id, name, title, date, language, comments, edits }) => (
-                    <CSSTransition key={id} timeout={500} classNames="fade">
-                      <ListGroupItem tag={Link} to={`/${name}/post/${id}`}>
-                        <ListGroupItemHeading>{title}</ListGroupItemHeading>
-                        <Container>
-                          <Row>
-                            <Col xs="1">
-                              {name}
-                            </Col>
-                            <Col xs="6">
-                              {date}
-                            </Col>
-                            <Col xs="2">
-                              {language}
-                            </Col>
-                            <Col xs="1">
-                              <Comment />{comments}
-                            </Col>
-                            <Col xs="2">
-                              <Edit />{edits}
-                            </Col>
-                          </Row>
-                        </Container>
-                      </ListGroupItem>
-                    </CSSTransition>
-                  ))}
-                </TransitionGroup>
-              </ListGroup>
+              <Post posts={posts}/>
             </Col>
           </Row>
         </Container>

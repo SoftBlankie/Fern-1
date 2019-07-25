@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import classnames from 'classnames';
 import {
   Container,
@@ -10,18 +10,13 @@ import {
   NavLink,
   TabContent,
   TabPane,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
   Button
 } from 'reactstrap';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { getUserPosts } from '../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Comment from '@material-ui/icons/Comment';
-import Edit from '@material-ui/icons/Create';
+import Post from './home/Post';
 
 class Profile extends Component {
   state = {
@@ -107,36 +102,7 @@ class Profile extends Component {
                 <TabPane tabId="2">
                   <Row>
                     <Col sm="12">
-                      <ListGroup>
-                        <TransitionGroup className="userPosts">
-                          {userPosts.map(({ id, name, title, date, language, comments, edits }) => (
-                            <CSSTransition key={id} timeout={500} classNames="fade">
-                              <ListGroupItem tag={Link} to={`/${name}/post/${id}`}>
-                                <ListGroupItemHeading>{title}</ListGroupItemHeading>
-                                <Container>
-                                  <Row>
-                                    <Col xs="1">
-                                      {name}
-                                    </Col>
-                                    <Col xs="6">
-                                      {date}
-                                    </Col>
-                                    <Col xs="2">
-                                      {language}
-                                    </Col>
-                                    <Col xs="1">
-                                      <Comment />{comments}
-                                    </Col>
-                                    <Col xs="2">
-                                      <Edit />{edits}
-                                    </Col>
-                                  </Row>
-                                </Container>
-                              </ListGroupItem>
-                            </CSSTransition>
-                          ))}
-                        </TransitionGroup>
-                      </ListGroup>
+                      <Post posts={userPosts}/>
                     </Col>
                   </Row>
                 </TabPane>
