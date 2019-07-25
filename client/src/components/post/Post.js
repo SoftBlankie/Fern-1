@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 import {
   Container,
   Row,
@@ -14,10 +15,12 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPosts, deletePost } from '../../actions/postActions';
-import PostForm from './PostForm';
-import GuestEditor from '../editor/GuestEditor';
 import Html from 'slate-html-serializer';
 import { rules } from './rules';
+
+import PostForm from './PostForm';
+import GuestEditor from '../editor/GuestEditor';
+import CommentList from './CommentList';
 
 import Fab from '@material-ui/core/Fab';
 import Edit from '@material-ui/icons/Edit';
@@ -53,8 +56,13 @@ class Post extends Component {
     this.setState({ [e.target.name]: e.target.value});
   };
 
-  onCommentClick = () => {
-    console.log('TODO');
+  onCommentClick = user_id => {
+    const newComment = {
+      user_id: user_id,
+      post_id: this.props.match.params.id,
+      comment: this.state.comment
+    };
+    axios.post(`/api/posts/${this.props.match.params.id}/comments`, newComment);
   };
 
   onDeleteClick = id => {
@@ -187,11 +195,16 @@ class Post extends Component {
               <Button
 								color='dark'
 								size='sm'
-                onClick={this.onCommentClick}
+                onClick={this.onCommentClick(user.id)}
 								style={{ marginTop: '1rem', marginBottom: '2rem' }} block
 							>
                 Comment
               </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={{ size: 8, offset: 2 }}>
+              <CommentList post_id={post.id}/>
             </Col>
           </Row>
         </Container>

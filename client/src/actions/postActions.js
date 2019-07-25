@@ -44,7 +44,7 @@ export const clearUserPosts = () => {
   return {
     type: CLEAR_USER_POSTS
   };
-}
+};
 
 export const addPost = post => (dispatch, getState) => {
   axios
