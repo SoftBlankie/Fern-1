@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
 import {
   Container,
   Row,
   Col,
   Button,
-  Input,
 	Modal,
 	ModalHeader,
 	ModalBody,
@@ -15,12 +13,13 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPosts, deletePost } from '../../actions/postActions';
+
 import Html from 'slate-html-serializer';
 import { rules } from './rules';
 
 import PostForm from './PostForm';
 import GuestEditor from '../editor/GuestEditor';
-import CommentList from './CommentList';
+import Comment from './Comment';
 
 import Fab from '@material-ui/core/Fab';
 import Edit from '@material-ui/icons/Edit';
@@ -33,7 +32,6 @@ class Post extends Component {
   state = {
     isOpen: false,
 		deleteModal: false,
-		comment: ''
   };
 
   static propTypes = {
@@ -51,19 +49,6 @@ class Post extends Component {
 			deleteModal: !this.state.deleteModal
 		});
 	}
-
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value});
-  };
-
-  onCommentClick = user_id => {
-    const newComment = {
-      user_id: user_id,
-      post_id: this.props.match.params.id,
-      comment: this.state.comment
-    };
-    axios.post(`/api/posts/${this.props.match.params.id}/comments`, newComment);
-  };
 
   onDeleteClick = id => {
     this.props.deletePost(id);
@@ -178,35 +163,7 @@ class Post extends Component {
 							<GuestEditor initialValue={html.deserialize(post.entry)}/>
             </Col>
           </Row>
-          <Row>
-            <Col sm="12" md={{ size: 8, offset: 2 }}>
-              <Input
-                type='textarea'
-                name='comment'
-                id='comment'
-                placeholder='Comment'
-                onChange={this.onChange}
-                style={{ marginTop: '1rem' }}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col sm={{ size: 2, order: 2, offset: 8 }}>
-              <Button
-								color='dark'
-								size='sm'
-                onClick={this.onCommentClick(user.id)}
-								style={{ marginTop: '1rem', marginBottom: '2rem' }} block
-							>
-                Comment
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col sm={{ size: 8, offset: 2 }}>
-              <CommentList post_id={post.id}/>
-            </Col>
-          </Row>
+            <Comment post_id={post.id} user_id={user.id}/>
         </Container>
       </Fragment>
     );

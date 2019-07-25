@@ -28,12 +28,12 @@ export default (state = initialState, action) => {
     case ADD_COMMENT:
       return {
         ...state,
-        comments: [action.payload, state.comments]
+        comments: [action.payload, ...state.comments]
       };
     case UPDATE_COMMENT:
       return {
         ...state,
-        comments: [action.payload, state.posts]
+        comments: [action.payload, ...state.comments]
       };
     case DELETE_COMMENT:
       return {

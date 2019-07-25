@@ -65,7 +65,7 @@ export const deleteComment = (post_id, comment_id) => (dispatch, getState) => {
     .then(res =>
       dispatch({
         type: DELETE_COMMENT,
-        payload: id
+        payload: comment_id
       })
     )
     .catch(err => 
