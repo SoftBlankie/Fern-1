@@ -163,7 +163,11 @@ class Post extends Component {
 							<GuestEditor initialValue={html.deserialize(post.entry)}/>
             </Col>
           </Row>
-            <Comment post_id={post.id} user_id={user.id}/>
+            <Comment
+              post_id={post.id}
+              user_id={user.id}
+              post_comments={post.comments}
+            />
         </Container>
       </Fragment>
     );

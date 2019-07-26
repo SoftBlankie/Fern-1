@@ -2,7 +2,26 @@ import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { css } from 'emotion';
 import { Editor } from 'slate-react';
-import { Menu } from './component'
+import { Button, Menu } from './component';
+
+import Edit from '@material-ui/icons/Edit';
+
+// might want to add versions for precision edits
+
+const EditButton = () => {
+  return (
+    <Button
+      reversed
+      onMouseDown={e => {
+        e.preventDefault()
+        // create edit box to either the left or right (tbd) with a textfield and 2 buttons
+        // edit and cancel
+      }}
+    >
+      <Edit />
+    </Button>
+  )
+}
 
 const HoverMenu = React.forwardRef(({ editor }, ref) => {
   const root = window.document.getElementById('root')
@@ -22,7 +41,7 @@ const HoverMenu = React.forwardRef(({ editor }, ref) => {
         transition: opacity 0.75s;
       `}
     >
-      <h1>Hello</h1>
+      <EditButton />
     </Menu>,
     root
   )
@@ -83,6 +102,9 @@ class GuestEditor extends Component {
 
   onChange = ({ value }) => {
     this.setState({ value });
+    if (this.state.value.document !== this.props.initialValue.document) {
+      this.setState({ value: this.props.initialValue });
+    }
   }
 
   render() {
@@ -95,7 +117,6 @@ class GuestEditor extends Component {
           renderEditor={this.renderEditor}
 					renderBlock={this.renderBlock}
           renderMark={this.renderMark}
-          readOnly
         />
       </Fragment>
     );

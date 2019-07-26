@@ -26,6 +26,8 @@ module.exports = {
       title: post.title,
       entry: post.entry,
       language: post.language,
+      comments: post.comments,
+      edits: post.edits,
       date: post.date
     }).then(() => {
       return knex('post').where('id', id).first();

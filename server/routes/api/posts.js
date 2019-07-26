@@ -47,6 +47,8 @@ router.post('/:id', auth, (req, res) => {
     title: req.body.title,
     entry: req.body.entry,
     language: req.body.language,
+    comments: req.body.comments,
+    edits: req.body.edits,
     date: new Date()
   };
   Post.update(req.params.id, newPost).then(post => res.json(post));

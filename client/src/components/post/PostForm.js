@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Html from 'slate-html-serializer';
 import { Redirect } from 'react-router-dom';
+import languages from '../languages';
 import {
   Button,
   Form,
@@ -135,9 +136,10 @@ class PostForm extends Component {
                     defaultValue={this.state.language}
                     onChange={this.onChange}
                   >
-                    {/* placeholder: Replace with compact list of all available langauges*/}
                     <option>Select</option>
-                    <option>Japanese</option>
+                    {languages.map((language, id) => (
+                      <option key={id}>{language}</option>
+                    ))}
                   </Input>
                   {this.props.postId ? editButton : addButton}
                 </FormGroup>

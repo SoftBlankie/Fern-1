@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import languages from '../languages';
 import {
   Row,
   Col,
@@ -71,7 +72,9 @@ class Home extends Component {
                   Filter
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>Japanese</DropdownItem>
+                  {languages.map((language, id) => (
+                    <DropdownItem key={id}>{language}</DropdownItem>
+                  ))}
                 </DropdownMenu>
               </Dropdown>
               <Post posts={posts}/>

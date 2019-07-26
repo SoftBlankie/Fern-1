@@ -14,6 +14,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getComments, clearComments, addComment } from '../../actions/commentActions';
+import { updatePost } from '../../actions/postActions';
 
 class Comment extends Component {
   state = {
@@ -44,7 +45,13 @@ class Comment extends Component {
       post_id: this.props.post_id,
       comment: this.state.comment
     };
+
+    const newPost = {
+      comments: this.props.post_comments+1
+    };
+
     this.props.addComment(this.props.post_id, newComment);
+    this.props.updatePost(this.props.post_id, newPost);
     this.setState({ comment: '' });
   };
 
@@ -111,5 +118,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getComments, clearComments, addComment }
+  { getComments, clearComments, addComment, updatePost }
 )(Comment);
