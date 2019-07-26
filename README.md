@@ -3,6 +3,8 @@
 Full Stack Website with PERN
 PostgreSQL, Express, React, NodeJS
 
+CURRENTLY WORKING ON
+
 ### Goal
 
 The goal of this site is to provide a hub for language learners to edit and find language partners.
