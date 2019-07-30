@@ -8,45 +8,6 @@ import Edit from '@material-ui/icons/Edit';
 
 // might want to add versions for precision edits
 
-const EditButton = () => {
-  return (
-    <Button
-      reversed
-      onMouseDown={e => {
-        e.preventDefault()
-        // create edit box to either the left or right (tbd) with a textfield and 2 buttons
-        // edit and cancel
-      }}
-    >
-      <Edit />
-    </Button>
-  )
-}
-
-const HoverMenu = React.forwardRef(({ editor }, ref) => {
-  const root = window.document.getElementById('root')
-  return ReactDOM.createPortal(
-    <Menu
-      ref={ref}
-      className={css`
-        padding: 8px 7px 6px;
-        position: absolute;
-        z-index: 1;
-        top: -10000px;
-        left: -10000px;
-        margin-top: -6px;
-        opacity: 0;
-        background-color: #222;
-        border-radius: 4px;
-        transition: opacity 0.75s;
-      `}
-    >
-      <EditButton />
-    </Menu>,
-    root
-  )
-})
-
 class GuestEditor extends Component {
   state = {
     value: this.props.initialValue
@@ -65,6 +26,46 @@ class GuestEditor extends Component {
   componentDidUpdate = () => {
     this.updateMenu()
   }
+
+  EditButton = () => {
+    return (
+      <Button
+        reversed
+        onMouseDown={e => {
+          e.preventDefault()
+          // create edit box to right with a textfield and 2 buttons
+          // edit and cancel
+          this.props.createEdit();
+        }}
+      >
+        <Edit />
+      </Button>
+    )
+  }
+
+  HoverMenu = React.forwardRef(({ editor }, ref) => {
+    const root = window.document.getElementById('root')
+    return ReactDOM.createPortal(
+      <Menu
+        ref={ref}
+        className={css`
+          padding: 8px 7px 6px;
+          position: absolute;
+          z-index: 1;
+          top: -10000px;
+          left: -10000px;
+          margin-top: -6px;
+          opacity: 0;
+          background-color: #222;
+          border-radius: 4px;
+          transition: opacity 0.75s;
+        `}
+      >
+        <this.EditButton />
+      </Menu>,
+      root
+    )
+  })
 
   updateMenu = () => {
     const menu = this.menuRef.current
@@ -108,6 +109,7 @@ class GuestEditor extends Component {
   }
 
   render() {
+
     return (
       <Fragment>
         <Editor
@@ -127,7 +129,7 @@ class GuestEditor extends Component {
     return (
       <Fragment>
         {children}
-        <HoverMenu ref={this.menuRef} editor={editor} />
+        <this.HoverMenu ref={this.menuRef} editor={editor} />
       </Fragment>
     )
   }

@@ -62,7 +62,7 @@ class Comment extends Component {
       <Form onSubmit={this.onSubmit}>
         <FormGroup>
           <Row>
-            <Col sm='12' md={{ size: 8, offset: 2 }}>
+            <Col>
               <Input
                 type='textarea'
                 name='comment'
@@ -75,7 +75,7 @@ class Comment extends Component {
             </Col>
           </Row>
           <Row>
-            <Col sm={{ size: 2, order: 2, offset: 8 }}>
+            <Col sm={{ size: 2, order: 2, offset: 10 }}>
               <Button
                 color='dark'
                 size='sm'
@@ -86,7 +86,7 @@ class Comment extends Component {
             </Col>
           </Row>
           <Row>
-            <Col sm='12' md={{ size: 8, offset: 2 }}>
+            <Col>
               <ListGroup>
                 <TransitionGroup className='comments'>
                   {comments.map(({ id, name, comment }) => (

@@ -65,7 +65,7 @@ export const deleteEdit = (post_id, edit_id) => (dispatch, getState) => {
     .then(res =>
       dispatch({
         type: DELETE_EDIT,
-        payload: id
+        payload: edit_id
       })
     )
     .catch(err => 
