@@ -18,14 +18,13 @@ import Html from 'slate-html-serializer';
 import { rules } from './rules';
 
 import PostForm from './PostForm';
-import GuestEditor from '../editor/GuestEditor';
-import EditCard from './EditCard';
+import Edit from './Edit';
 import Comment from './Comment';
 
 import Fab from '@material-ui/core/Fab';
-import Edit from '@material-ui/icons/Edit';
-import Delete from '@material-ui/icons/Delete';
-import Back from '@material-ui/icons/ArrowBack';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import BackIcon from '@material-ui/icons/ArrowBack';
 
 const html = new Html({ rules })
 
@@ -34,7 +33,6 @@ class Post extends Component {
     isOpen: false,
     isEdit: false,
 		deleteModal: false,
-    edits: []
   };
 
   static propTypes = {
@@ -47,12 +45,6 @@ class Post extends Component {
     });
   };
 
-  toggleEdit = () => {
-    this.setState({
-      isEdit: !this.state.isEdit
-    });
-  };
-	
 	toggleDeleteModal = () => {
 		this.setState({
 			deleteModal: !this.state.deleteModal
@@ -65,41 +57,10 @@ class Post extends Component {
 		this.props.history.push('/');
   };
 
-  createEditList = () => {
-    let { edits } = this.state;
-
-    edits.pop();
-    edits.push(
-      <span>Created new edit</span>
-    );
-
-    this.setState({ edits });
-    this.toggleEdit();
-  };
-
-  createEdit = () => {
-    const post = this.props.post.posts
-      .find(post => post.id === Number(this.props.match.params.id));
-    let { edits } = this.state;
-
-    if (this.state.isEdit) return;
-
-    edits.push(
-      <EditCard
-        post_id={post.id}
-        post_edits={post.edits}
-        createEditList={this.createEditList}
-      />
-    );
-    this.setState({ edits });
-    this.toggleEdit();
-  };
-
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { posts } = this.props.post;
     const post = posts.find(post => post.id === Number(this.props.match.params.id));
-    const edits = this.state.edits.map(editCard => { return editCard });
     const isUser = (user ? user.name : '') === this.props.match.params.name;
 
     if (!isAuthenticated)
@@ -131,7 +92,7 @@ class Post extends Component {
 				onClick={this.toggle}
 				style={fabStyle}
 			>
-				<Edit />
+				<EditIcon />
 			</Fab>
 		);
 
@@ -166,14 +127,14 @@ class Post extends Component {
 					onClick={this.toggleDeleteModal}
 					style={deleteStyle}
 				>
-					<Delete />
+					<DeleteIcon />
 				</Fab>
 				<Fab
 					size='large'
 					onClick={this.toggle}
 					style={fabStyle}
 				>
-					<Back />
+					<BackIcon />
 				</Fab>
       </Fragment>
     );
@@ -182,32 +143,22 @@ class Post extends Component {
       <Fragment>
 				{isUser ? editButton : !editButton}
         <Row style={{ margin: 0 }}>
-          <Col md={{ size: 7, offset: 1 }}>
+          <Col md={{ size: 10, offset: 1 }}>
             <Container>
-                  <h1>{post.title}</h1>
-                    {post.name}
-                    {post.date}
-                  <hr />
-                  <GuestEditor
-                    initialValue={html.deserialize(post.entry)}
-                    post_id={post.id}
-                    createEdit={this.createEdit}
-                  />
+              <h1>{post.title}</h1>
+                {post.name}
+                {post.date}
+              <hr />
+              <Edit
+                post_entry={html.deserialize(post.entry)}
+                post_id={post.id}
+              />
               <Comment
                 post_id={post.id}
                 user_id={user.id}
                 post_comments={post.comments}
               />
             </Container>
-          </Col>
-          <Col md="3">
-            <h3>Edits</h3>
-            <div style={{
-              height: 650,
-              overflow: 'auto'
-            }}>
-              {edits}
-            </div>
           </Col>
         </Row>
       </Fragment>

@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import {
+import React, { Component, Fragment } from 'react';
+import RequestEdit from './RequestEdit';
+import EditBar from './EditBar';
+import GuestEditor from '../editor/GuestEditor';
 
-} from 'reactstrap';
+import TestDrawer from './testDrawer';
 
-class EditDrawer extends Component {
+class Edit extends Component {
   state = {
     isEdit: false,
     edits: []
@@ -40,14 +42,21 @@ class EditDrawer extends Component {
     );
 
     this.setState({ edits });
-    this.toggle();
   };
 
   render() {
-    const edits = this.state.edits.map(editCard => { return editCard });
-
-    return (
-      {edits}
+    return(
+      <Fragment>
+        <EditBar edits={this.state.edits}/>
+        <TestDrawer />
+        <GuestEditor
+          initialValue={this.props.post_entry}
+          post_id={this.props.post_id}
+          requestEdit={this.requestEdit}
+        />
+      </Fragment>
     );
   }
 }
+
+export default Edit;

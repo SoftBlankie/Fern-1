@@ -33,9 +33,7 @@ class GuestEditor extends Component {
         reversed
         onMouseDown={e => {
           e.preventDefault()
-          // create edit box to right with a textfield and 2 buttons
-          // edit and cancel
-          this.props.createEdit();
+          this.props.requestEdit();
         }}
       >
         <Edit />
@@ -102,25 +100,22 @@ class GuestEditor extends Component {
   }
 
   onChange = ({ value }) => {
-    this.setState({ value });
-    if (this.state.value.document !== this.props.initialValue.document) {
-      this.setState({ value: this.props.initialValue });
+    if (value.document.text !== this.state.value.document.text) {
+      return;
     }
+    this.setState({ value });
   }
 
   render() {
-
     return (
-      <Fragment>
-        <Editor
-          ref={this.ref}
-          value={this.state.value}
-          onChange={this.onChange}
-          renderEditor={this.renderEditor}
-					renderBlock={this.renderBlock}
-          renderMark={this.renderMark}
-        />
-      </Fragment>
+      <Editor
+        ref={this.ref}
+        value={this.state.value}
+        onChange={this.onChange}
+        renderEditor={this.renderEditor}
+        renderBlock={this.renderBlock}
+        renderMark={this.renderMark}
+      />
     );
   }
 
