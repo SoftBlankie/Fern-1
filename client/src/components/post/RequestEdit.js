@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { updatePost } from '../../actions/postActions';
 import { addEdit } from '../../actions/editActions';
 
-class EditCard extends Component {
+class RequestEdit extends Component {
   state = {
     edit: ''
   };
@@ -41,10 +41,11 @@ class EditCard extends Component {
     const newPost = {
       edits: this.props.post_edits+1
     };
+    console.log(this.props.post_edits)
 
     this.props.addEdit(this.props.post_id, newEdit);
     this.props.updatePost(this.props.post_id, newPost);
-    this.props.createEditList();
+    this.props.responseEdit();
   }
 
   render() {
@@ -101,5 +102,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addEdit, updatePost }
-)(EditCard);
-
+)(RequestEdit);

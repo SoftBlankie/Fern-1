@@ -31,7 +31,6 @@ const html = new Html({ rules })
 class Post extends Component {
   state = {
     isOpen: false,
-    isEdit: false,
 		deleteModal: false,
   };
 
@@ -143,8 +142,8 @@ class Post extends Component {
       <Fragment>
 				{isUser ? editButton : !editButton}
         <Row style={{ margin: 0 }}>
-          <Col md={{ size: 10, offset: 1 }}>
-            <Container>
+          <Col md={{ size: 7, offset: 1 }}>
+            <Container style={{ zIndex: 1 }}>
               <h1>{post.title}</h1>
                 {post.name}
                 {post.date}
@@ -152,6 +151,8 @@ class Post extends Component {
               <Edit
                 post_entry={html.deserialize(post.entry)}
                 post_id={post.id}
+                post_edits={post.edits}
+                isUser={isUser}
               />
               <Comment
                 post_id={post.id}

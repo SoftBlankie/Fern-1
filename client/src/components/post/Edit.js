@@ -1,14 +1,33 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getEdits, clearEdits } from '../../actions/editActions';
+
 import RequestEdit from './RequestEdit';
 import EditBar from './EditBar';
 import GuestEditor from '../editor/GuestEditor';
-
-import TestDrawer from './testDrawer';
 
 class Edit extends Component {
   state = {
     isEdit: false,
     edits: []
+  };
+
+  componentDidMount() {
+    let { edits } = this.state;
+
+    this.props.getEdits(this.props.post_id);
+    this.props.edit.edits.map(edit => {
+      edits.push(
+        <span>Created</span>
+      );
+    });
+
+    console.log(edits);
+  };
+
+  componentWillUnmount() {
+    this.props.clearEdits();
   };
 
   toggle = () => {
@@ -47,8 +66,10 @@ class Edit extends Component {
   render() {
     return(
       <Fragment>
-        <EditBar edits={this.state.edits}/>
-        <TestDrawer />
+        <EditBar
+          isUser={this.props.isUser}
+          edits={this.state.edits}
+        />
         <GuestEditor
           initialValue={this.props.post_entry}
           post_id={this.props.post_id}
@@ -59,4 +80,16 @@ class Edit extends Component {
   }
 }
 
-export default Edit;
+Edit.propTypes = {
+  getEdits: PropTypes.func.isRequired,
+  edit: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  edit: state.edit
+});
+
+export default connect(
+  mapStateToProps,
+  { getEdits, clearEdits }
+)(Edit);

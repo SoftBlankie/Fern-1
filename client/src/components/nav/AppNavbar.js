@@ -71,7 +71,7 @@ class AppNavbar extends Component {
 
     return (
       <div>
-        <Navbar color='dark' dark expand='sm' className='mb-5'>
+        <Navbar color='dark' dark expand='sm' className='mb-5' style={{ zIndex: 99 }}>
           <Container>
             <NavbarBrand tag={Link} to={`/${user ? user.name : 0}`}>Fern</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />

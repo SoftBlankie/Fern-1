@@ -75,7 +75,7 @@ class Comment extends Component {
             </Col>
           </Row>
           <Row>
-            <Col sm={{ size: 2, order: 2, offset: 10 }}>
+            <Col sm={{ size: 3, order: 2, offset: 9 }}>
               <Button
                 color='dark'
                 size='sm'

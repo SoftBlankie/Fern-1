@@ -101,6 +101,7 @@ class GuestEditor extends Component {
 
   onChange = ({ value }) => {
     if (value.document.text !== this.state.value.document.text) {
+      this.setState({ value: this.props.initialValue });
       return;
     }
     this.setState({ value });
