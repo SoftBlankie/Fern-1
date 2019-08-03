@@ -28,12 +28,12 @@ export default (state = initialState, action) => {
     case ADD_EDIT:
       return {
         ...state,
-        edits: [action.payload, state.edits]
+        edits: [action.payload, ...state.edits]
       };
     case UPDATE_EDIT:
       return {
         ...state,
-        edits: [action.payload, state.posts]
+        edits: [action.payload, ...state.edits]
       };
     case DELETE_EDIT:
       return {

@@ -10,20 +10,11 @@ import GuestEditor from '../editor/GuestEditor';
 class Edit extends Component {
   state = {
     isEdit: false,
-    edits: []
+    requestEdit: []
   };
 
   componentDidMount() {
-    let { edits } = this.state;
-
     this.props.getEdits(this.props.post_id);
-    this.props.edit.edits.map(edit => {
-      edits.push(
-        <span>Created</span>
-      );
-    });
-
-    console.log(edits);
   };
 
   componentWillUnmount() {
@@ -37,38 +28,32 @@ class Edit extends Component {
   };
 
   requestEdit = () => {
-    let { edits } = this.state;
+    let { requestEdit } = this.state;
 
     if (this.state.isEdit) return;
 
-    edits.push(
-      <RequestEdit
-        post_id={this.props.post_id}
-        post_edits={this.props.post_edits}
-        responseEdit={this.responseEdit}
-      />
-    );
-    this.setState({ edits });
+    if (requestEdit.length === 0)
+      requestEdit.push(
+        <RequestEdit key={this.props.post_id}
+          post_id={this.props.post_id}
+          post_edits={this.props.post_edits}
+          toggle={this.toggle}
+        />
+      );
+    this.setState({ requestEdit });
     this.toggle();
   };
 
-  responseEdit = () => {
-    let { edits } = this.state;
-
-    edits.pop();
-    edits.push(
-      <span>Created new edit</span>
-    );
-
-    this.setState({ edits });
-  };
-
   render() {
+    const { edits } = this.props.edit;
+
     return(
       <Fragment>
         <EditBar
           isUser={this.props.isUser}
-          edits={this.state.edits}
+          isEdit={this.state.isEdit}
+          edits={edits}
+          requestEdit={this.state.requestEdit}
         />
         <GuestEditor
           initialValue={this.props.post_entry}

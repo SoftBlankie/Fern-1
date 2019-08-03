@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Row,
   Col,
-  Form,
   Input,
   Button,
   Card,
@@ -41,12 +40,15 @@ class RequestEdit extends Component {
     const newPost = {
       edits: this.props.post_edits+1
     };
-    console.log(this.props.post_edits)
 
     this.props.addEdit(this.props.post_id, newEdit);
     this.props.updatePost(this.props.post_id, newPost);
-    this.props.responseEdit();
-  }
+    this.props.toggle();
+  };
+
+  onCancel = () => {
+    this.props.toggle();
+  };
 
   render() {
     const { user } = this.props.auth;
@@ -55,39 +57,39 @@ class RequestEdit extends Component {
       <Card>
         <CardBody>
           <CardTitle>{user.name}</CardTitle>
-          <Form onSubmit={this.onSubmit}>
-            <Row>
-              <Col>
-                <Input
-                  type='textarea'
-                  name='edit'
-                  id='edit'
-                  value={this.state.edit}
-                  placeholder='Edit'
-                  onChange={this.onChange}
-                />
-              </Col>
-            </Row>
-            <Row style={{ marginTop: '1rem' }}>
-              <Col>
-                <Button
-                  color='dark'
-                  size='sm'
-                  block
-                >
-                  Edit
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  size='sm'
-                  block
-                >
-                  Cancel
-                </Button>
-              </Col>
-            </Row>
-          </Form>
+          <Row>
+            <Col>
+              <Input
+                type='textarea'
+                name='edit'
+                id='edit'
+                value={this.state.edit}
+                placeholder='Edit'
+                onChange={this.onChange}
+              />
+            </Col>
+          </Row>
+          <Row style={{ marginTop: '1rem' }}>
+            <Col>
+              <Button
+                color='dark'
+                size='sm'
+                onClick={this.onSubmit}
+                block
+              >
+                Edit
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                size='sm'
+                onClick={this.onCancel}
+                block
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
         </CardBody>
       </Card>
     );

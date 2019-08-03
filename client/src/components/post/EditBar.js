@@ -4,6 +4,9 @@ import {
   Row,
   Col
 } from 'reactstrap';
+
+import ResponseEdit from './ResponseEdit';
+
 import Drawer from '@material-ui/core/Drawer';
 import Fab from '@material-ui/core/Fab';
 import ListIcon from '@material-ui/icons/List';
@@ -11,11 +14,13 @@ import ListIcon from '@material-ui/icons/List';
 class EditBar extends Component {
   state = {
     isOpen: window.innerWidth > 1080 ? true : false,
-    edits: []
+    edits: [],
+    requestEdit: []
   };
 
   componentWillReceiveProps(nextProps) {
     this.setState({ edits: nextProps.edits });  
+    this.setState({ requestEdit: nextProps.requestEdit });
   }
 
   toggle = () => {
@@ -23,7 +28,8 @@ class EditBar extends Component {
   };
 
   render() {
-    const edits = this.state.edits.map(editCard => { return editCard });
+    const { edits } = this.state;
+    const requestEdit = this.state.requestEdit.map(editCard => { return editCard });
 
     const userStyle = {
       margin: 0,
@@ -74,7 +80,20 @@ class EditBar extends Component {
             </Row>
             <Row>
               <Col>
-                {edits}
+                {edits ? edits.map(({ id, name, edit, date }) => (
+                  <Container key={id} style={{ marginBottom: '1rem' }}>
+                    <Row>
+                      <Col>
+                        <ResponseEdit
+                          name={name}
+                          edit={edit}
+                          date={date}
+                        />
+                      </Col>
+                    </Row>
+                  </Container>
+                )) : null}
+                {this.props.isEdit ? requestEdit : null}
               </Col>
             </Row>
           </Container>
