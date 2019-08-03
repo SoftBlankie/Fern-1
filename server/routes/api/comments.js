@@ -8,7 +8,8 @@ const Comment = require('../../database/comment');
 // @desc    Get all post comments
 // @access  Public
 router.get('/:id/comments', (req, res) => {
-  Comment.getAllByPost(req.params.id)
+  Comment.getJoinUser()
+    .where('post_id', req.params.id)
     .orderBy('date', 'desc')
     .then(comments => res.json(comments));
 });

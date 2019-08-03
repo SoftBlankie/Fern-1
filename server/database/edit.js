@@ -10,6 +10,11 @@ module.exports = {
   getAllByPost: id => {
     return knex('edit').where('post_id', id);
   },
+  getJoinUser: () => {
+    return knex('edit')
+      .join('user', 'user.id', 'edit.user_id')
+      .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.edit', 'edit.date');
+  },
   create: edit => {
     return knex('edit').insert(edit, 'id').then(ids => {
       return knex('edit').where('id', ids[0]).first();

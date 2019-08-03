@@ -8,7 +8,8 @@ const Edit = require('../../database/edit');
 // @desc    Get all post Edits
 // @access  Public
 router.get('/:id/edits', (req, res) => {
-  Edit.getAllByPost(req.params.id)
+  Edit.getJoinUser()
+    .where('post_id', req.params.id)
     .orderBy('date', 'desc')
     .then(edits => res.json(edits));
 });
