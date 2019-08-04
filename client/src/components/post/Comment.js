@@ -6,15 +6,15 @@ import {
   FormGroup,
   Input,
   Button,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading
+  ListGroup
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getComments, clearComments, addComment } from '../../actions/commentActions';
 import { updatePost } from '../../actions/postActions';
+
+import ResponseComment from './ResponseComment';
 
 class Comment extends Component {
   state = {
@@ -45,7 +45,8 @@ class Comment extends Component {
     };
 
     const newPost = {
-      comments: this.props.post_comments+1
+      comments: this.props.post_comments+1,
+      date: 'current'
     };
 
     this.props.addComment(this.props.post_id, newComment);
@@ -73,7 +74,7 @@ class Comment extends Component {
             </Col>
           </Row>
           <Row>
-            <Col sm={{ size: 3, order: 2, offset: 9 }}>
+            <Col>
               <Button
                 color='dark'
                 size='sm'
@@ -89,15 +90,11 @@ class Comment extends Component {
                 <TransitionGroup className='comments'>
                   {comments.map(({ id, name, comment, date }) => (
                     <CSSTransition key={id} timeout={500} classNames='fade'>
-                      <ListGroupItem>
-                        <Row>
-                          <ListGroupItemHeading style={{ marginRight: '1rem' }}>
-                            {name}
-                          </ListGroupItemHeading>
-                          {date}
-                        </Row>
-                        {comment}
-                      </ListGroupItem>
+                      <ResponseComment
+                        name={name}
+                        comment={comment}
+                        date={date}
+                      />
                     </CSSTransition>
                   ))}
                 </TransitionGroup>

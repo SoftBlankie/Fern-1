@@ -43,14 +43,25 @@ router.post('/', auth, (req, res) => {
 // @desc    Update a Post
 // @access  Private
 router.post('/:id', auth, (req, res) => {
-  const newPost = {
-    title: req.body.title,
-    entry: req.body.entry,
-    language: req.body.language,
-    comments: req.body.comments,
-    edits: req.body.edits,
-    date: new Date()
-  };
+  var newPost;
+  if (req.body.date) {
+    newPost = {
+      title: req.body.title,
+      entry: req.body.entry,
+      language: req.body.language,
+      comments: req.body.comments,
+      edits: req.body.edits
+    };
+  } else {
+    newPost = {
+      title: req.body.title,
+      entry: req.body.entry,
+      language: req.body.language,
+      comments: req.body.comments,
+      edits: req.body.edits,
+      date: new Date()
+    };
+  }
   Post.update(req.params.id, newPost).then(post => res.json(post));
 });
 

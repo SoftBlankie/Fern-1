@@ -38,7 +38,8 @@ class RequestEdit extends Component {
     };
 
     const newPost = {
-      edits: this.props.post_edits+1
+      edits: this.props.post_edits+1,
+      date: 'current'
     };
 
     this.props.addEdit(this.props.post_id, newEdit);
