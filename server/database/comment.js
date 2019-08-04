@@ -14,7 +14,10 @@ module.exports = {
   },
   create: comment => {
     return knex('comment').insert(comment, 'id').then(ids => {
-      return knex('comment').where('id', ids[0]).first();
+      return knex('comment')
+        .join('user', 'user.id', 'comment.user_id')
+        .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.date')
+        .where('comment.id', ids[0]).first();
     });
   },
   update: (id, comment) => {

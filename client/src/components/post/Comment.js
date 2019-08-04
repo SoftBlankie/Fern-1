@@ -36,9 +36,7 @@ class Comment extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    if (!this.state.comment) {
-      return;
-    }
+    if (!this.state.comment) return;
 
     const newComment = {
       user_id: this.props.user_id,
@@ -89,10 +87,15 @@ class Comment extends Component {
             <Col>
               <ListGroup>
                 <TransitionGroup className='comments'>
-                  {comments.map(({ id, name, comment }) => (
+                  {comments.map(({ id, name, comment, date }) => (
                     <CSSTransition key={id} timeout={500} classNames='fade'>
                       <ListGroupItem>
-                        <ListGroupItemHeading>{name}</ListGroupItemHeading>
+                        <Row>
+                          <ListGroupItemHeading style={{ marginRight: '1rem' }}>
+                            {name}
+                          </ListGroupItemHeading>
+                          {date}
+                        </Row>
                         {comment}
                       </ListGroupItem>
                     </CSSTransition>

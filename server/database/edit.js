@@ -17,7 +17,10 @@ module.exports = {
   },
   create: edit => {
     return knex('edit').insert(edit, 'id').then(ids => {
-      return knex('edit').where('id', ids[0]).first();
+      return knex('edit')
+        .join('user', 'user.id', 'edit.user_id')
+        .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.edit', 'edit.date')
+        .where('edit.id', ids[0]).first();
     });
   },
   update: (id, edit) => {
