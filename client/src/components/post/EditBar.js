@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import {
   Container,
   Row,
-  Col
+  Col,
+  Tooltip
 } from 'reactstrap';
 
 import ResponseEdit from './ResponseEdit';
@@ -10,10 +11,12 @@ import ResponseEdit from './ResponseEdit';
 import Drawer from '@material-ui/core/Drawer';
 import Fab from '@material-ui/core/Fab';
 import ListIcon from '@material-ui/icons/List';
+import InfoIcon from '@material-ui/icons/Info';
 
 class EditBar extends Component {
   state = {
     isOpen: window.innerWidth > 1080 ? true : false,
+    tooltipOpen: false,
     edits: [],
     requestEdit: []
   };
@@ -21,10 +24,14 @@ class EditBar extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({ edits: nextProps.edits });  
     this.setState({ requestEdit: nextProps.requestEdit });
-  }
+  };
 
   toggle = () => {
     this.setState({ isOpen: !this.state.isOpen });
+  };
+
+  toggleTooltip = () => {
+    this.setState({ tooltipOpen: !this.state.tooltipOpen });
   };
 
   render() {
@@ -73,11 +80,22 @@ class EditBar extends Component {
             marginRight: 50 }}
           >
             <Row>
-              <Col>
+              <Col md='10' xs='10'>
                 <h3>Edits</h3>
-                <hr />
+              </Col>
+              <Col md='2' xs='2'>
+                <InfoIcon id='info'/>
+                <Tooltip
+                  placement='right'
+                  isOpen={this.state.tooltipOpen}
+                  target='info'
+                  toggle={this.toggleTooltip}
+                >
+                  Create an edit by selecting the text
+                </Tooltip>
               </Col>
             </Row>
+            <hr style={{ marginTop: 0 }}/>
             <Row>
               <Col>
                 {edits ? edits.map(({ id, name, edit, date }) => (
@@ -85,9 +103,12 @@ class EditBar extends Component {
                     <Row>
                       <Col>
                         <ResponseEdit
+                          edit_id={id}
                           name={name}
                           edit={edit}
                           date={date}
+                          onUpdate={this.props.onUpdate}
+                          onDelete={this.props.onDelete}
                         />
                       </Col>
                     </Row>

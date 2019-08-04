@@ -11,7 +11,13 @@ import {
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getComments, clearComments, addComment } from '../../actions/commentActions';
+import {
+  getComments,
+  clearComments,
+  addComment,
+  updateComment,
+  deleteComment
+} from '../../actions/commentActions';
 import { updatePost } from '../../actions/postActions';
 
 import ResponseComment from './ResponseComment';
@@ -54,6 +60,20 @@ class Comment extends Component {
     this.setState({ comment: '' });
   };
 
+  onUpdate = comment_id => {
+    // Open modal / make responseComment directly editable
+  };
+
+  onDelete = comment_id => {
+    const newPost = {
+      comments: this.props.post_comments-1,
+      date: 'current'
+    };
+
+    this.props.deleteComment(this.props.post_id, comment_id);
+    this.props.updatePost(this.props.post_id, newPost);
+  };
+
   render() {
     const { comments } = this.props.comment;
 
@@ -91,9 +111,12 @@ class Comment extends Component {
                   {comments.map(({ id, name, comment, date }) => (
                     <CSSTransition key={id} timeout={500} classNames='fade'>
                       <ResponseComment
+                        comment_id={id}
                         name={name}
                         comment={comment}
                         date={date}
+                        onUpdate={this.onUpdate}
+                        onDelete={this.onDelete}
                       />
                     </CSSTransition>
                   ))}
@@ -118,5 +141,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getComments, clearComments, addComment, updatePost }
+  { getComments, clearComments, addComment, updateComment, deleteComment, updatePost }
 )(Comment);

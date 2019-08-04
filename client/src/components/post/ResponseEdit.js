@@ -39,8 +39,12 @@ class ResponseEdit extends Component {
                   <MoreVert />
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
+                  <DropdownItem onClick={this.props.onUpdate(this.props.edit_id)}>
+                    Edit
+                  </DropdownItem>
+                  <DropdownItem onClick={this.props.onDelete.bind(this, this.props.edit_id)}>
+                    Delete
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </Col>

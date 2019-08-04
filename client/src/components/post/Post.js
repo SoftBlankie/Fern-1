@@ -151,8 +151,10 @@ class Post extends Component {
               <Edit
                 post_entry={html.deserialize(post.entry)}
                 post_id={post.id}
-                post_edits={post.edits}
+                user_id={user.id}
+                name={user.name}
                 isUser={isUser}
+                post_edits={post.edits}
               />
               <Comment
                 post_id={post.id}

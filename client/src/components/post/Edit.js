@@ -1,7 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getEdits, clearEdits } from '../../actions/editActions';
+import {
+  getEdits,
+  clearEdits,
+  addEdit,
+  updateEdit,
+  deleteEdit
+} from '../../actions/editActions';
+import { updatePost } from '../../actions/postActions';
 
 import RequestEdit from './RequestEdit';
 import EditBar from './EditBar';
@@ -35,13 +42,43 @@ class Edit extends Component {
     if (requestEdit.length === 0)
       requestEdit.push(
         <RequestEdit key={this.props.post_id}
-          post_id={this.props.post_id}
-          post_edits={this.props.post_edits}
+          name={this.props.name}
+          onAddEdit={this.onAddEdit}
           toggle={this.toggle}
         />
       );
     this.setState({ requestEdit });
     this.toggle();
+  };
+
+  onAddEdit = edit => {
+    const newEdit = {
+      user_id: this.props.user_id,
+      post_id: this.props.post_id,
+      edit: edit
+    };
+
+    const newPost = {
+      edits: this.props.post_edits+1,
+      date: 'current'
+    };
+
+    this.props.addEdit(this.props.post_id, newEdit);
+    this.props.updatePost(this.props.post_id, newPost);
+  };
+
+  onUpdate = edit_id => {
+    // make modal or directly edit
+  };
+
+  onDelete = edit_id => {
+    const newPost = {
+      edits: this.props.post_edits-1,
+      date: 'current'
+    };
+
+    this.props.deleteEdit(this.props.post_id, edit_id);
+    this.props.updatePost(this.props.post_id, newPost);
   };
 
   render() {
@@ -54,6 +91,8 @@ class Edit extends Component {
           isEdit={this.state.isEdit}
           edits={edits}
           requestEdit={this.state.requestEdit}
+          onUpdate={this.onUpdate}
+          onDelete={this.onDelete}
         />
         <GuestEditor
           initialValue={this.props.post_entry}
@@ -76,5 +115,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getEdits, clearEdits }
+  { getEdits, clearEdits, addEdit, updateEdit, deleteEdit, updatePost }
 )(Edit);

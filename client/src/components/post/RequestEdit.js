@@ -30,20 +30,7 @@ class RequestEdit extends Component {
     e.preventDefault();
 
     if (!this.state.edit) return;
-
-    const newEdit = {
-      user_id: this.props.auth.user.id,
-      post_id: this.props.post_id,
-      edit: this.state.edit
-    };
-
-    const newPost = {
-      edits: this.props.post_edits+1,
-      date: 'current'
-    };
-
-    this.props.addEdit(this.props.post_id, newEdit);
-    this.props.updatePost(this.props.post_id, newPost);
+    this.props.onAddEdit(this.state.edit);
     this.props.toggle();
   };
 
@@ -52,12 +39,10 @@ class RequestEdit extends Component {
   };
 
   render() {
-    const { user } = this.props.auth;
-
     return(
       <Card>
         <CardBody>
-          <CardTitle>{user.name}</CardTitle>
+          <CardTitle>{this.props.name}</CardTitle>
           <Row>
             <Col>
               <Input
@@ -97,12 +82,4 @@ class RequestEdit extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-  edits: state.edit
-});
-
-export default connect(
-  mapStateToProps,
-  { addEdit, updatePost }
-)(RequestEdit);
+export default RequestEdit;
