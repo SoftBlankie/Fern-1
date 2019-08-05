@@ -28,7 +28,10 @@ module.exports = {
       edit: edit.edit,
       date: edit.date
     }).then(() => {
-      return knex('edit').where('id', id).first();
+      return knex('edit')
+        .join('user', 'user.id', 'edit.user_id')
+        .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.edit', 'edit.date')
+        .where('id', id).first();
     });
   },
   remove: id => {

@@ -18,8 +18,8 @@ import Html from 'slate-html-serializer';
 import { rules } from './rules';
 
 import PostForm from './PostForm';
-import Edit from './Edit';
-import Comment from './Comment';
+import Edit from './edit/Edit';
+import Comment from './comment/Comment';
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -145,8 +145,14 @@ class Post extends Component {
           <Col md={{ size: 7, offset: 1 }}>
             <Container style={{ zIndex: 1 }}>
               <h1>{post.title}</h1>
-                {post.name}
-                {post.date}
+                <Row>
+                  <Col md='auto' xs='auto'>
+                    {post.name}
+                  </Col>
+                  <Col>
+                    <small className='text-muted'>{post.date}</small>
+                  </Col>
+                </Row>
               <hr />
               <Edit
                 post_entry={html.deserialize(post.entry)}

@@ -17,8 +17,8 @@ import {
   addComment,
   updateComment,
   deleteComment
-} from '../../actions/commentActions';
-import { updatePost } from '../../actions/postActions';
+} from '../../../actions/commentActions';
+import { updatePost } from '../../../actions/postActions';
 
 import ResponseComment from './ResponseComment';
 
@@ -60,8 +60,12 @@ class Comment extends Component {
     this.setState({ comment: '' });
   };
 
-  onUpdate = comment_id => {
-    // Open modal / make responseComment directly editable
+  onUpdate = (comment_id, comment) => {
+    const newComment = {
+      comment: comment
+    };
+
+    this.props.updateComment(this.props.post_id, comment_id, newComment);
   };
 
   onDelete = comment_id => {

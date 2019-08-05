@@ -8,18 +8,10 @@ import {
   CardBody,
   CardTitle
 } from 'reactstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { updatePost } from '../../actions/postActions';
-import { addEdit } from '../../actions/editActions';
 
 class RequestEdit extends Component {
   state = {
     edit: ''
-  };
-
-  static propTypes = {
-    auth: PropTypes.object.isRequired
   };
 
   onChange = e => {

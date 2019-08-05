@@ -7,12 +7,12 @@ import {
   addEdit,
   updateEdit,
   deleteEdit
-} from '../../actions/editActions';
-import { updatePost } from '../../actions/postActions';
+} from '../../../actions/editActions';
+import { updatePost } from '../../../actions/postActions';
 
 import RequestEdit from './RequestEdit';
 import EditBar from './EditBar';
-import GuestEditor from '../editor/GuestEditor';
+import GuestEditor from '../../editor/GuestEditor';
 
 class Edit extends Component {
   state = {
@@ -67,8 +67,12 @@ class Edit extends Component {
     this.props.updatePost(this.props.post_id, newPost);
   };
 
-  onUpdate = edit_id => {
-    // make modal or directly edit
+  onUpdate = (edit_id, edit) => {
+    const newEdit = {
+      edit: edit
+    };
+
+    this.props.updateEdit(this.props.post_id, edit_id, newEdit);
   };
 
   onDelete = edit_id => {

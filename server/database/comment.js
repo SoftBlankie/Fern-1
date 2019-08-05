@@ -25,7 +25,10 @@ module.exports = {
       comment: comment.comment,
       date: comment.date
     }).then(() => {
-      return knex('comment').where('id', id).first();
+      return knex('comment')
+        .join('user', 'user.id', 'comment.user_id')
+        .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.date')
+        .where('id', id).first();
     });
   },
   remove: id => {
