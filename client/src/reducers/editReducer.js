@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
     case UPDATE_EDIT:
       return {
         ...state,
-        edits: [action.payload, ...state.edits]
+        edits: [action.payload, ...state.edits.filter(edit => edit.id !== action.payload.id)]
       };
     case DELETE_EDIT:
       return {

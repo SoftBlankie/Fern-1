@@ -33,7 +33,8 @@ export default (state = initialState, action) => {
     case UPDATE_COMMENT:
       return {
         ...state,
-        comments: [action.payload, ...state.comments]
+        comments: [action.payload,
+          ...state.comments.filter(comment => comment.id !== action.payload.id)]
       };
     case DELETE_COMMENT:
       return {

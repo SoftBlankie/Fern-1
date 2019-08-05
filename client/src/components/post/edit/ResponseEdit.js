@@ -64,7 +64,7 @@ class ResponseEdit extends Component {
             <Col md='2' xs='2'>
               <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>
                 <DropdownToggle tag='span'>
-                  <MoreVert />
+                  <MoreVert style={{ cursor: 'pointer' }}/>
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem onClick={this.toggleReadOnly}>

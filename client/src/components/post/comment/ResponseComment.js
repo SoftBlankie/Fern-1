@@ -38,7 +38,6 @@ class ResponseComment extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-	// new props not loading
   onSubmit = () => {
     if (!this.state.comment) return;
 
@@ -64,7 +63,7 @@ class ResponseComment extends Component {
           <Col className='text-md-right' md='1' xs='2'>
             <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>
               <DropdownToggle tag='span'>
-                <MoreVert />
+                <MoreVert style={{ cursor: 'pointer' }}/>
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem onClick={this.toggleReadOnly}>

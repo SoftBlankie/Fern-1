@@ -28,7 +28,7 @@ module.exports = {
       return knex('comment')
         .join('user', 'user.id', 'comment.user_id')
         .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.date')
-        .where('id', id).first();
+        .where('comment.id', id).first();
     });
   },
   remove: id => {
