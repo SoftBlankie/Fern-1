@@ -40,7 +40,6 @@ class ResponseEdit extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  // new props not loading
   onSubmit = () => {
     if (!this.state.edit) return;
 
