@@ -11,7 +11,6 @@ import {
   PaginationItem,
   PaginationLink
 } from 'reactstrap';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import Comment from '@material-ui/icons/Comment';
 import Edit from '@material-ui/icons/Edit';
@@ -20,6 +19,7 @@ class Post extends Component {
   state = {
     currentPage: 0,
     pageSize: 20,
+    maxPageCount: 10,
     pageCount: 0
   };
 
@@ -32,9 +32,23 @@ class Post extends Component {
   };
 
   onClick = index => {
+    let { pagination } = this.state;
+
     this.setState({
-      currentPage: index
+      currentPage: index,
+      pagination: pagination
     });
+  };
+
+  getPagination = () => {
+    const { currentPage, pageCount } = this.state;
+    var startPage = (currentPage < 5) ? 0 : currentPage - 5;
+    var endPage = 10 + startPage;
+    endPage = (pageCount < endPage) ? pageCount : endPage;
+    var diff = startPage - endPage + 10;
+    startPage -= (startPage - diff > 0) ? diff : 0;
+
+    return [...Array(pageCount).keys()].slice(startPage, endPage);
   };
 
   render() {
@@ -42,12 +56,12 @@ class Post extends Component {
     const posts  = this.props.posts;
 
     return(
-      <div>
-        <ListGroup>
-          <TransitionGroup className="posts">
-            {posts.slice(currentPage*pageSize, (currentPage+1)*pageSize).map(({ id, name, title, date, language, comments, edits }) => (
-              <CSSTransition key={id} timeout={100} classNames="fade">
-                <ListGroupItem key={id} tag={Link} to={`/${name}/post/${id}`}>
+      <Container>
+        <Row>
+          <Col>
+            <ListGroup>
+              {posts.slice(currentPage*pageSize, (currentPage+1)*pageSize).map(({ id, name, title, date, language, comments, edits }) => (
+                <ListGroupItem tag={Link} to={`/${name}/post/${id}`}>
                   <ListGroupItemHeading>{title}</ListGroupItemHeading>
                   <Container>
                     <Row>
@@ -66,35 +80,39 @@ class Post extends Component {
                       <Col md="1" xs="1">
                         <Edit />{edits}
                       </Col>
-                      </Row>
+                    </Row>
                   </Container>
                 </ListGroupItem>
-              </CSSTransition>
-            ))}
-          </TransitionGroup>
-        </ListGroup>
-        <Pagination className='text-center'>
-          <PaginationItem disabled={currentPage <= 0}>
-            <PaginationLink first onClick={this.onClick.bind(this, 0)} href='' />
-          </PaginationItem>
-          <PaginationItem disabled={currentPage <= 0}>
-            <PaginationLink previous onClick={this.onClick.bind(this, currentPage-1)} href='' />
-          </PaginationItem>
-          {[...Array(pageCount)].map((page, id) => 
-            <PaginationItem active={id === currentPage} key={id}>
-              <PaginationLink onClick={this.onClick.bind(this, id)} href=''>
-                {id+1}
-              </PaginationLink>
-            </PaginationItem>
-          )}
-          <PaginationItem disabled={currentPage >= pageCount-1}>
-            <PaginationLink next onClick={this.onClick.bind(this, currentPage+1)} href='' />
-          </PaginationItem>
-          <PaginationItem disabled={currentPage >= pageCount-1}>
-            <PaginationLink last onClick={this.onClick.bind(this, pageCount-1)} href='' />
-          </PaginationItem>
-        </Pagination>
-      </div>
+              ))}
+            </ListGroup>
+          </Col>
+        </Row>
+        <Row style={{ marginTop: '1rem' }}>
+          <Col>
+            <Pagination>
+              <PaginationItem disabled={currentPage <= 0}>
+                <PaginationLink first onClick={this.onClick.bind(this, 0)} href='' />
+              </PaginationItem>
+              <PaginationItem disabled={currentPage <= 0}>
+                <PaginationLink previous onClick={this.onClick.bind(this, currentPage-1)} href='' />
+              </PaginationItem>
+              {this.getPagination().map((page, id) => 
+                <PaginationItem active={page === currentPage} key={id}>
+                  <PaginationLink onClick={this.onClick.bind(this, page)} href=''>
+                    {page+1}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+              <PaginationItem disabled={currentPage >= pageCount-1}>
+                <PaginationLink next onClick={this.onClick.bind(this, currentPage+1)} href='' />
+              </PaginationItem>
+              <PaginationItem disabled={currentPage >= pageCount-1}>
+                <PaginationLink last onClick={this.onClick.bind(this, pageCount-1)} href='' />
+              </PaginationItem>
+            </Pagination>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
