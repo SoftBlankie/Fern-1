@@ -3,10 +3,6 @@ import {
   Container,
   Row,
   Col,
-  Form,
-  FormGroup,
-  Input,
-  Button,
   ListGroup
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -24,14 +20,38 @@ import { updatePost } from '../../../actions/postActions';
 import CommentForm from './CommentForm';
 import ResponseComment from './ResponseComment';
 
-// implement lazy loading
 class Comment extends Component {
+  state = {
+    currentPage: 0,
+    pageSize: 20,
+    prevY: 0
+  };
+
   componentDidMount() {
     this.props.getComments(this.props.post_id);
+
+    var options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0
+    };
+    this.observer = new IntersectionObserver(
+      this.onObserver.bind(this),
+      options
+    );
+    this.observer.observe(this.loadingRef);
   };
 
   componentWillUnmount() {
     this.props.clearComments();
+  };
+
+  onObserver(entities, observer) {
+    const y = entities[0].boundingClientRect.y;
+    if (this.state.prevY > y) {
+      this.setState({ currentPage: this.state.currentPage+1 });
+    }
+    this.setState({ prevY: y });
   };
 
   onComment = comment => {
@@ -70,6 +90,7 @@ class Comment extends Component {
 
   render() {
     const { comments } = this.props.comment;
+    const { currentPage, pageSize } = this.state;
 
     return(
       <Container>
@@ -78,7 +99,7 @@ class Comment extends Component {
           <Col>
             <ListGroup>
               <TransitionGroup className='comments'>
-                {comments.map(({ id, name, comment, date }) => (
+                {comments.slice(0, (currentPage+1)*pageSize).map(({ id, name, comment, date }) => (
                   <CSSTransition key={id} timeout={500} classNames='fade'>
                     <ResponseComment
                       comment_id={id}
@@ -94,6 +115,7 @@ class Comment extends Component {
             </ListGroup>
           </Col>
         </Row>
+        <div ref={loadingRef => (this.loadingRef = loadingRef)}></div>
       </Container>
     );
   }
