@@ -15,6 +15,8 @@ import {
 import Comment from '@material-ui/icons/Comment';
 import Edit from '@material-ui/icons/Edit';
 
+// might change list items to cards for more emphasis on individual cards
+// list items make it really easy to just surf over posts which is a no no
 class Post extends Component {
   state = {
     currentPage: 0,
@@ -61,7 +63,7 @@ class Post extends Component {
           <Col>
             <ListGroup>
               {posts.slice(currentPage*pageSize, (currentPage+1)*pageSize).map(({ id, name, title, date, language, comments, edits }) => (
-                <ListGroupItem tag={Link} to={`/${name}/post/${id}`}>
+                <ListGroupItem key={id} tag={Link} to={`/${name}/post/${id}`}>
                   <ListGroupItemHeading>{title}</ListGroupItemHeading>
                   <Container>
                     <Row>

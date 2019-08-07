@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Container,
   Row,
   Col,
   Form,
@@ -20,13 +21,11 @@ import {
 } from '../../../actions/commentActions';
 import { updatePost } from '../../../actions/postActions';
 
+import CommentForm from './CommentForm';
 import ResponseComment from './ResponseComment';
 
+// implement lazy loading
 class Comment extends Component {
-  state = {
-    comment: ''
-  };
-
   componentDidMount() {
     this.props.getComments(this.props.post_id);
   };
@@ -35,19 +34,11 @@ class Comment extends Component {
     this.props.clearComments();
   };
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value});
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    if (!this.state.comment) return;
-
+  onComment = comment => {
     const newComment = {
       user_id: this.props.user_id,
       post_id: this.props.post_id,
-      comment: this.state.comment
+      comment: comment
     };
 
     const newPost = {
@@ -57,7 +48,6 @@ class Comment extends Component {
 
     this.props.addComment(this.props.post_id, newComment);
     this.props.updatePost(this.props.post_id, newPost);
-    this.setState({ comment: '' });
   };
 
   onUpdate = (comment_id, comment) => {
@@ -82,54 +72,29 @@ class Comment extends Component {
     const { comments } = this.props.comment;
 
     return(
-      <Form onSubmit={this.onSubmit}>
-        <FormGroup>
-          <Row>
-            <Col>
-              <Input
-                type='textarea'
-                name='comment'
-                id='comment'
-                value={this.state.comment}
-                placeholder='Comment'
-                onChange={this.onChange}
-                style={{ marginTop: '1rem' }}
-               />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Button
-                color='dark'
-                size='sm'
-                style={{ marginTop: '1rem', marginBottom: '1rem' }} block
-              >
-                Comment
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <ListGroup>
-                <TransitionGroup className='comments'>
-                  {comments.map(({ id, name, comment, date }) => (
-                    <CSSTransition key={id} timeout={500} classNames='fade'>
-                      <ResponseComment
-                        comment_id={id}
-                        name={name}
-                        comment={comment}
-                        date={date}
-                        onUpdate={this.onUpdate}
-                        onDelete={this.onDelete}
-                      />
-                    </CSSTransition>
-                  ))}
-                </TransitionGroup>
-              </ListGroup>
-            </Col>
-          </Row>
-        </FormGroup>
-      </Form>
+      <Container>
+        <CommentForm onComment={this.onComment}/>
+        <Row>
+          <Col>
+            <ListGroup>
+              <TransitionGroup className='comments'>
+                {comments.map(({ id, name, comment, date }) => (
+                  <CSSTransition key={id} timeout={500} classNames='fade'>
+                    <ResponseComment
+                      comment_id={id}
+                      name={name}
+                      comment={comment}
+                      date={date}
+                      onUpdate={this.onUpdate}
+                      onDelete={this.onDelete}
+                    />
+                  </CSSTransition>
+                ))}
+              </TransitionGroup>
+            </ListGroup>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
