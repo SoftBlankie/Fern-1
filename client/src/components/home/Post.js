@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {
+  Container,
   Row,
   Col,
-  Container,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
   Pagination,
   PaginationItem,
   PaginationLink
 } from 'reactstrap';
+import ResponsePost from './ResponsePost';
 
-import Comment from '@material-ui/icons/Comment';
-import Edit from '@material-ui/icons/Edit';
-
-// might change list items to cards for more emphasis on individual cards
-// list items make it really easy to just surf over posts which is a no no
 class Post extends Component {
   state = {
     currentPage: 0,
@@ -61,35 +53,22 @@ class Post extends Component {
       <Container>
         <Row>
           <Col>
-            <ListGroup>
-              {posts.slice(currentPage*pageSize, (currentPage+1)*pageSize).map(({ id, name, title, date, language, comments, edits }) => (
-                <ListGroupItem key={id} tag={Link} to={`/${name}/post/${id}`}>
-                  <ListGroupItemHeading>{title}</ListGroupItemHeading>
-                  <Container>
-                    <Row>
-                      <Col md="1" xs="2">
-                        {name}
-                      </Col>
-                      <Col md="6" xs="4">
-                        {date}
-                      </Col>
-                        <Col md="2" xs="3">
-                      {language}
-                      </Col>
-                      <Col md="1" xs="1">
-                        <Comment />{comments}
-                      </Col>
-                      <Col md="1" xs="1">
-                        <Edit />{edits}
-                      </Col>
-                    </Row>
-                  </Container>
-                </ListGroupItem>
-              ))}
-            </ListGroup>
+            {posts.slice(currentPage*pageSize, (currentPage+1)*pageSize).map(({ id, name, title,  date, language, comments, edits }) => (
+              <div key={id} style={{ marginBottom: '1rem' }}>
+                <ResponsePost
+                  id={id}
+                  name={name}
+                  title={title}
+                  date={date}
+                  language={language}
+                  comments={comments}
+                  edits={edits}
+                />
+              </div>
+            ))}
           </Col>
         </Row>
-        <Row style={{ marginTop: '1rem' }}>
+        <Row>
           <Col>
             <Pagination>
               <PaginationItem disabled={currentPage <= 0}>

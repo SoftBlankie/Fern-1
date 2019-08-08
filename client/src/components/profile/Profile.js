@@ -9,8 +9,7 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane,
-  Button
+  TabPane
 } from 'reactstrap';
 import { getUserPosts } from '../../actions/postActions';
 import { connect } from 'react-redux';
@@ -59,15 +58,9 @@ class Profile extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { userPosts } = this.props.post;
+    const isUser = (user ? user.name : '') === this.props.match.params.name;
 
-    const guestAccess = (
-      <Button color='dark' style={{ marginBottom: '2rem' }} block>
-        Follow
-      </Button>
-    );
-
-    if (!isAuthenticated)
-      return <Redirect to='/'/>
+    if (!isAuthenticated) return <Redirect to='/'/>
 
     return (
       <div>
@@ -75,12 +68,12 @@ class Profile extends Component {
           <Row>
             <Col md='3'>
               <ProfileCard
+                isUser={isUser}
                 name={user.name}
                 date={user.date}
               />
             </Col>
             <Col md='9'>
-              {user.name === this.props.match.params.name ? !guestAccess : guestAccess}
               <Nav tabs>
                 <NavItem>
                   <NavLink

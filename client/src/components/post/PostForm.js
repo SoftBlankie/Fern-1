@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { addPost, updatePost } from '../../actions/postActions';
 import PropTypes from 'prop-types';
 import TextEditor from '../editor/TextEditor';
-import { rules } from './rules';
+import { rules } from '../editor/rules';
 
 const html = new Html({ rules })
 

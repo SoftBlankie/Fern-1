@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { getPosts, deletePost } from '../../actions/postActions';
 
 import Html from 'slate-html-serializer';
-import { rules } from './rules';
+import { rules } from '../editor/rules';
 
 import PostForm from './PostForm';
 import Edit from './edit/Edit';

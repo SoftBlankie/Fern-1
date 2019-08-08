@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Button,
   Card,
   CardImg,
   CardBody,
@@ -12,9 +13,16 @@ import Person from '@material-ui/icons/Person';
 
 class ProfileCard extends Component {
   render() {
+    const guestAccess = (
+      <Button color='dark' block>
+        Follow
+      </Button>
+    );
+
     return(
       <Card>
         <CardImg top width="100%" src="https://semantic-ui.com/images/avatar2/large/kristy.png" alt="Card image cap" />
+        {this.props.isUser ? !guestAccess : guestAccess}
         <CardBody>
           <CardTitle style={{ margin: 0 }}>
             <h5 style={{ margin: 0 }}>{this.props.name}</h5>

@@ -69,6 +69,7 @@ class Home extends Component {
           <Row>
             <Col md='3'>
               <ProfileCard
+                isUser={true}
                 name={user.name}
                 date={user.date}
               />
