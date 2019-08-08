@@ -67,7 +67,7 @@ class PostForm extends Component {
 
         this.props.updatePost(this.props.postId, newPost);
         // timeout to allow redux to load
-        setTimeout(function() {this.props.toggle();}.bind(this),100);
+        setTimeout(function() {this.props.toggle();}.bind(this),200);
       }
     } else {
       if (this.isValid()) {

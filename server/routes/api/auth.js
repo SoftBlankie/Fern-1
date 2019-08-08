@@ -53,7 +53,7 @@ router.post('/', (req, res) => {
 // @access  Private
 router.get('/user', auth, (req, res) => {
   User.getOne(req.user.id)
-    .select('id', 'name', 'email')
+    .select('id', 'name', 'email', 'date')
     .then(user => res.json(user));
 });
 

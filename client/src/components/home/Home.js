@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import languages from '../languages';
 import {
+  Container,
   Row,
   Col,
-  Container,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Post from './Post';
+import ProfileCard from '../profile/ProfileCard';
 
 import Fab from '@material-ui/core/Fab';
-import Add from "@material-ui/icons/Add";
+import Add from '@material-ui/icons/Add';
 
 class Home extends Component {
   state = {
@@ -66,8 +67,14 @@ class Home extends Component {
         </Fab>
         <Container>
           <Row>
-            <Col>
-              <Dropdown className="list-unstyled" nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+            <Col md='3'>
+              <ProfileCard
+                name={user.name}
+                date={user.date}
+              />
+            </Col>
+            <Col md='9'>
+              <Dropdown className='list-unstyled' nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle nav caret>
                   Filter
                 </DropdownToggle>

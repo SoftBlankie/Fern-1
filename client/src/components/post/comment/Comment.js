@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Container,
   Row,
   Col,
   ListGroup
@@ -20,6 +19,7 @@ import { updatePost } from '../../../actions/postActions';
 import CommentForm from './CommentForm';
 import ResponseComment from './ResponseComment';
 
+// create onReport
 class Comment extends Component {
   state = {
     currentPage: 0,
@@ -88,12 +88,16 @@ class Comment extends Component {
     this.props.updatePost(this.props.post_id, newPost);
   };
 
+  onReport = comment_id => {
+
+  };
+
   render() {
     const { comments } = this.props.comment;
     const { currentPage, pageSize } = this.state;
 
     return(
-      <Container>
+      <div>
         <CommentForm onComment={this.onComment}/>
         <Row>
           <Col>
@@ -102,12 +106,14 @@ class Comment extends Component {
                 {comments.slice(0, (currentPage+1)*pageSize).map(({ id, name, comment, date }) => (
                   <CSSTransition key={id} timeout={500} classNames='fade'>
                     <ResponseComment
+                      user_name={this.props.user_name}
                       comment_id={id}
                       name={name}
                       comment={comment}
                       date={date}
                       onUpdate={this.onUpdate}
                       onDelete={this.onDelete}
+                      onReport={this.onReport}
                     />
                   </CSSTransition>
                 ))}
@@ -116,7 +122,7 @@ class Comment extends Component {
           </Col>
         </Row>
         <div ref={loadingRef => (this.loadingRef = loadingRef)}></div>
-      </Container>
+      </div>
     );
   }
 }

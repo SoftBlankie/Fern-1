@@ -165,6 +165,7 @@ class Post extends Component {
               <Comment
                 post_id={post.id}
                 user_id={user.id}
+                user_name={user.name}
                 post_comments={post.comments}
               />
             </Container>

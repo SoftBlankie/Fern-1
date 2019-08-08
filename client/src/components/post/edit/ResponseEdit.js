@@ -115,7 +115,7 @@ class ResponseEdit extends Component {
             </Container>
           }
           <CardText>
-            <small className="text-muted">{this.props.date}</small>
+            <small className='text-muted'>{this.props.date}</small>
           </CardText>
         </CardBody>
       </Card>

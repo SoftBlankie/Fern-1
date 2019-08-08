@@ -9,7 +9,7 @@ import { loadUser } from './actions/authActions';
 
 import Landing from './components/Landing';
 import Home from './components/home/Home';
-import Profile from './components/Profile';
+import Profile from './components/profile/Profile';
 import PostForm from './components/post/PostForm';
 import Post from './components/post/Post';
 

@@ -12,12 +12,14 @@ import {
   TabPane,
   Button
 } from 'reactstrap';
-import { getUserPosts } from '../actions/postActions';
+import { getUserPosts } from '../../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Post from './home/Post';
+import ProfileCard from './ProfileCard';
+import Post from '../home/Post';
 
+// card props need to encompass other user profiles
 class Profile extends Component {
   state = {
     activeTab: '1'
@@ -71,8 +73,13 @@ class Profile extends Component {
       <div>
         <Container>
           <Row>
-            <Col>
-              <h1>{this.props.match.params.name}</h1>
+            <Col md='3'>
+              <ProfileCard
+                name={user.name}
+                date={user.date}
+              />
+            </Col>
+            <Col md='9'>
               {user.name === this.props.match.params.name ? !guestAccess : guestAccess}
               <Nav tabs>
                 <NavItem>
@@ -81,7 +88,7 @@ class Profile extends Component {
                   href="#"
                   onClick={() => { this.toggle('1'); }}
                   >
-                    Activity
+                    Profile
                   </NavLink>
                 </NavItem>
                 <NavItem>

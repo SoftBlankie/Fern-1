@@ -7,6 +7,7 @@ import {
   Button,
   ListGroupItem,
   ListGroupItemHeading,
+  ListGroupItemText,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -51,6 +52,8 @@ class ResponseComment extends Component {
   };
 
   render() {
+    const { comment_id } = this.props;
+
     return(
       <ListGroupItem>
         <Row>
@@ -65,18 +68,28 @@ class ResponseComment extends Component {
               <DropdownToggle tag='span'>
                 <MoreVert style={{ cursor: 'pointer' }}/>
               </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem onClick={this.toggleReadOnly}>
-                  Edit
-                </DropdownItem>
-                <DropdownItem onClick={this.props.onDelete.bind(this, this.props.comment_id)}>
-                  Delete
-                </DropdownItem>
-              </DropdownMenu>
+              {this.props.name === this.props.user_name ?
+                <DropdownMenu>
+                  <DropdownItem onClick={this.toggleReadOnly}>
+                    Edit
+                  </DropdownItem>
+                  <DropdownItem onClick={this.props.onDelete.bind(this, comment_id)}>
+                    Delete
+                  </DropdownItem>
+                </DropdownMenu> :
+                <DropdownMenu>
+                  <DropdownItem onClick={this.props.onReport.bind(this, comment_id)}>
+                    Report
+                  </DropdownItem>
+                </DropdownMenu>
+              }
             </Dropdown>
           </Col>
         </Row>
-        {this.state.readOnly ? this.props.comment :
+        {this.state.readOnly ? 
+          <ListGroupItemText style={{ wordBreak: 'break-all' }}>
+            {this.props.comment}
+          </ListGroupItemText> :
           <Container>
             <Row>
               <Col>
