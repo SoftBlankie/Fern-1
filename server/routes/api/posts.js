@@ -14,13 +14,13 @@ router.get('/', (req, res) => {
 });
 
 // @route   GET api/posts/user
-// @desc    Get all posts/user
+// @desc    Get all posts from user
 // @access  public
 router.post('/user', (req, res) => {
   Post.getJoinUser()
     .where('name', req.body.name)
     .orderBy('date', 'desc')
-    .then(rows => res.json(rows));
+    .then(posts => res.json(posts));
 });
 
 // @route   POST api/posts
@@ -32,8 +32,6 @@ router.post('/', auth, (req, res) => {
     title: req.body.title,
     entry: req.body.entry,
     language: req.body.language,
-    comments: 0,
-    edits: 0,
     date: new Date()
   };
   Post.create(newPost).then(post => res.json(post));

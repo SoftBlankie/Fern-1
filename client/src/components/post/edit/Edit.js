@@ -34,7 +34,7 @@ class Edit extends Component {
     });
   };
 
-  requestEdit = () => {
+  requestEdit = selection => {
     let { requestEdit } = this.state;
 
     if (this.state.isEdit) return;
@@ -43,6 +43,7 @@ class Edit extends Component {
       requestEdit.push(
         <RequestEdit key={this.props.post_id}
           name={this.props.name}
+          selection={selection}
           onAddEdit={this.onAddEdit}
           toggle={this.toggle}
         />
@@ -51,10 +52,11 @@ class Edit extends Component {
     this.toggle();
   };
 
-  onAddEdit = edit => {
+  onAddEdit = (selection, edit) => {
     const newEdit = {
       user_id: this.props.user_id,
       post_id: this.props.post_id,
+      selection: selection,
       edit: edit
     };
 

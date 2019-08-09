@@ -5,6 +5,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 
 const User = require('../../database/user');
+const Profile = require('../../database/profile');
 
 // @route   GET /api/users
 // @desc    Get all users
@@ -70,6 +71,7 @@ router.post('/', (req, res) => {
               newUser.email = req.body.email;
               newUser.password = hash;
 
+              // Create user
               User.create(newUser).then(newId => {
                 jwt.sign(
                   { id: newId },
@@ -87,6 +89,13 @@ router.post('/', (req, res) => {
                     });
                   }
                 )
+
+                const newProfile = {
+                  user_id: newId
+                };
+
+                // Create profile
+                Profile.create(newProfile);
               });
             });
         })

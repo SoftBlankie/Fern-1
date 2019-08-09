@@ -20,6 +20,7 @@ import CommentForm from './CommentForm';
 import ResponseComment from './ResponseComment';
 
 // create onReport
+// make onCreate also update post simultaneously
 class Comment extends Component {
   state = {
     currentPage: 0,

@@ -22,7 +22,7 @@ class RequestEdit extends Component {
     e.preventDefault();
 
     if (!this.state.edit) return;
-    this.props.onAddEdit(this.state.edit);
+    this.props.onAddEdit(this.props.selection, this.state.edit);
     this.props.toggle();
   };
 

@@ -18,6 +18,7 @@ app.use('/api/posts', require('./routes/api/posts'));
 app.use('/api/posts', require('./routes/api/edits'));
 app.use('/api/posts', require('./routes/api/comments'));
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/profiles', require('./routes/api/profiles'));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);

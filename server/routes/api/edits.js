@@ -21,6 +21,7 @@ router.post('/:id/edits', auth, (req, res) => {
   const newEdit = {
     user_id: req.body.user_id,
     post_id: req.params.id,
+    selection: req.body.selection,
     edit: req.body.edit,
     date: new Date()
   };

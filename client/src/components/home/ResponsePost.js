@@ -19,7 +19,7 @@ class ResponsePost extends Component {
         <CardBody>
           <CardTitle style={{ margin: 0 }}>
             <span>{name}</span>
-            <span style={{ marginLeft: '1rem' }}>{title}</span>
+            <b style={{ marginLeft: '1rem' }}>{title}</b>
             <span className='float-right'>{language}</span>
           </CardTitle>
           <CardText>

@@ -7,9 +7,10 @@ import { Button, Menu } from './component';
 import Edit from '@material-ui/icons/Edit';
 
 // might want to add versions for precision edits
-
+// add selection finder and annotation
 class GuestEditor extends Component {
   state = {
+    selection: '',
     value: this.props.initialValue
   }
 
@@ -33,7 +34,7 @@ class GuestEditor extends Component {
         reversed
         onMouseDown={e => {
           e.preventDefault()
-          this.props.requestEdit();
+          this.props.requestEdit(this.state.selection);
         }}
       >
         <Edit />
@@ -104,6 +105,7 @@ class GuestEditor extends Component {
       this.setState({ value: this.props.initialValue });
       return;
     }
+    this.setState({ selection: 'placeholder'});
     this.setState({ value });
   }
 
@@ -114,6 +116,7 @@ class GuestEditor extends Component {
         value={this.state.value}
         onChange={this.onChange}
         renderEditor={this.renderEditor}
+        renderAnnotation={this.renderAnnotation}
         renderBlock={this.renderBlock}
         renderMark={this.renderMark}
       />
@@ -128,6 +131,21 @@ class GuestEditor extends Component {
         <this.HoverMenu ref={this.menuRef} editor={editor} />
       </Fragment>
     )
+  }
+
+  renderAnnotation = (props, editor, next) => {
+    const { children, annotation, attributes } = props
+
+    switch (annotation.type) {
+      case 'highlight':
+        return (
+          <span {...attributes} style={{ backgroundColor: '#ffeeba' }}>
+            {children}
+          </span>
+        )
+      default:
+        return next()
+    }
   }
 
   renderBlock = (props, editor, next) => {
