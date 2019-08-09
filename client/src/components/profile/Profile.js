@@ -12,6 +12,7 @@ import {
   TabPane
 } from 'reactstrap';
 import { getUserPosts } from '../../actions/postActions';
+import { getProfile, clearProfile, updateProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -19,6 +20,7 @@ import ProfileCard from './ProfileCard';
 import Post from '../home/Post';
 
 // card props need to encompass other user profiles
+// onEdit and onFollow needs to be made
 class Profile extends Component {
   state = {
     activeTab: '1'
@@ -53,7 +55,22 @@ class Profile extends Component {
     if (this.state.activeTab !== tab) {
       this.setState({ activeTab: tab });
     }
-  }
+  };
+
+  onEdit = (age, location, learning, native) => {
+    const newProfile = {
+      age: age,
+      location: location,
+      learning: learning,
+      native: native
+    };
+
+    this.props.updateProfile(newProfile);
+  };
+
+  onFollow = () => {
+
+  };
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
@@ -69,8 +86,11 @@ class Profile extends Component {
             <Col md='3'>
               <ProfileCard
                 isUser={isUser}
+                isProfile={true}
                 name={user.name}
                 date={user.date}
+                onEdit={this.onEdit}
+                onFollow={this.onFollow}
               />
             </Col>
             <Col md='9'>
@@ -117,15 +137,17 @@ class Profile extends Component {
 
 Profile.propTypes = {
   getUserPosts: PropTypes.func.isRequired,
+  getProfile: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  post: state.post
+  post: state.post,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  { getUserPosts }
+  { getUserPosts, getProfile, clearProfile, updateProfile }
 )(Profile);

@@ -3,12 +3,7 @@ import { Redirect } from 'react-router-dom';
 import {
   Container,
   Row,
-  Col,
-  Button,
-	Modal,
-	ModalHeader,
-	ModalBody,
-	ModalFooter
+  Col
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,12 +13,12 @@ import Html from 'slate-html-serializer';
 import { rules } from '../editor/rules';
 
 import PostForm from './PostForm';
+import DeleteModal from './DeleteModal';
 import Edit from './edit/Edit';
 import Comment from './comment/Comment';
 
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BackIcon from '@material-ui/icons/ArrowBack';
 
 const html = new Html({ rules })
@@ -42,18 +37,6 @@ class Post extends Component {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  };
-
-	toggleDeleteModal = () => {
-		this.setState({
-			deleteModal: !this.state.deleteModal
-		});
-	}
-
-  onDeleteClick = id => {
-    this.props.deletePost(id);
-    this.props.getPosts();
-		this.props.history.push('/');
   };
 
   render() {
@@ -75,16 +58,6 @@ class Post extends Component {
 			zIndex: 99,
 		}
 		
-		const deleteStyle = {
-			margin: 0,
-			top: 'auto',
-			right: 50,
-			bottom: 120,
-			left: 'auto',
-			position: 'fixed',
-			zIndex: 99,
-		}
-
 		const editButton = (
 			<Fab
 				size='large'
@@ -104,30 +77,11 @@ class Post extends Component {
           initialEntry={html.deserialize(post.entry)}
           initialLanguage={post.language}
         />
-				<Modal isOpen={this.state.deleteModal} toggle={this.toggleDeleteModal}>
-					<ModalHeader toggle={this.toggleDeleteModal}>Delete</ModalHeader>
-					<ModalBody>Are you sure you want to delete?</ModalBody>
-					<ModalFooter>
-						<Button
-							color="primary"
-							onClick={this.onDeleteClick.bind(this, post.id)}
-						>
-							Delete</Button>
-            <Button
-							color="secondary"
-							onClick={this.toggleDeleteModal}
-						>
-							Cancel
-						</Button>
-					</ModalFooter>
-				</Modal>
-				<Fab
-					size='large'
-					onClick={this.toggleDeleteModal}
-					style={deleteStyle}
-				>
-					<DeleteIcon />
-				</Fab>
+        <DeleteModal
+          post_id={post.id} 
+          history={this.props.history}
+          deletePost={this.props.deletePost}
+        />
 				<Fab
 					size='large'
 					onClick={this.toggle}

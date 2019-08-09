@@ -45,6 +45,7 @@ class Comment extends Component {
 
   componentWillUnmount() {
     this.props.clearComments();
+    this.observer.disconnect();
   };
 
   onObserver(entities, observer) {

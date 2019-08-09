@@ -7,8 +7,8 @@ exports.up = function(knex) {
     table.text('location');
     table.text('learning');
     table.text('native');
-    table.integer('followers').notNullable().defaultTo(0);
-    table.integer('followings').notNullable().defaultTo(0);
+    table.specificType('followers', 'integer ARRAY');
+    table.specificType('followings', 'integer ARRAY');
 
     table.foreign('user_id').references('user.id');;
   });

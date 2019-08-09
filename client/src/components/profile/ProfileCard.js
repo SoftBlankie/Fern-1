@@ -8,13 +8,26 @@ import {
   CardText,
   CardFooter
 } from 'reactstrap';
-
 import Person from '@material-ui/icons/Person';
 
 class ProfileCard extends Component {
+  onEdit = () => {
+    // create a update profile modal
+  };
+
+  onFollow = () => {
+    this.props.onFollow();
+  };
+
   render() {
+    const userAccess = (
+      <Button color='dark' onClick={this.onEdit} block>
+        Edit
+      </Button>
+    );
+
     const guestAccess = (
-      <Button color='dark' block>
+      <Button color='dark' onClick={this.onFollow} block>
         Follow
       </Button>
     );
@@ -22,7 +35,7 @@ class ProfileCard extends Component {
     return(
       <Card>
         <CardImg top width="100%" src="https://semantic-ui.com/images/avatar2/large/kristy.png" alt="Card image cap" />
-        {this.props.isUser ? !guestAccess : guestAccess}
+        {this.props.isUser ? (this.props.isProfile ? userAccess : null) : guestAccess}
         <CardBody>
           <CardTitle style={{ margin: 0 }}>
             <h5 style={{ margin: 0 }}>{this.props.name}</h5>

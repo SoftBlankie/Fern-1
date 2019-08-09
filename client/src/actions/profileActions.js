@@ -23,7 +23,7 @@ export const getProfile = () => dispatch => {
     );
 };
 
-export const clearProfile = () =< {
+export const clearProfile = () => {
   return {
     type: CLEAR_PROFILE
   };
