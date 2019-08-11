@@ -57,7 +57,7 @@ class Profile extends Component {
     }
   };
 
-  onEdit = (age, location, learning, native) => {
+  onUpdate = (age, location, learning, native) => {
     const newProfile = {
       age: age,
       location: location,
@@ -89,7 +89,7 @@ class Profile extends Component {
                 isProfile={true}
                 name={user.name}
                 date={user.date}
-                onEdit={this.onEdit}
+                onUpdate={this.onUpdate}
                 onFollow={this.onFollow}
               />
             </Col>

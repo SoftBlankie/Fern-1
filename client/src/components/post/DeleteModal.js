@@ -23,7 +23,7 @@ class DeleteModal extends Component {
   onClick = () => {
     this.props.deletePost(this.props.post_id);
     this.props.history.push('/');
-  }
+  };
 
   render() {
     return(

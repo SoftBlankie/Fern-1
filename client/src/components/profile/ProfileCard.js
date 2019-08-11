@@ -8,26 +8,17 @@ import {
   CardText,
   CardFooter
 } from 'reactstrap';
+import UpdateModal from './UpdateModal';
 import Person from '@material-ui/icons/Person';
 
 class ProfileCard extends Component {
-  onEdit = () => {
-    // create a update profile modal
-  };
-
-  onFollow = () => {
-    this.props.onFollow();
-  };
-
   render() {
     const userAccess = (
-      <Button color='dark' onClick={this.onEdit} block>
-        Edit
-      </Button>
+      <UpdateModal />
     );
 
     const guestAccess = (
-      <Button color='dark' onClick={this.onFollow} block>
+      <Button color='dark' onClick={this.props.onFollow} block>
         Follow
       </Button>
     );
