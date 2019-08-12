@@ -130,8 +130,8 @@ class PostForm extends Component {
                   </div>
                   <Label for="language">Language</Label>
                   <Input
-                    type="select"
-                    name="language"
+                    type='select'
+                    name='language'
                     invalid={this.state.language_error}
                     defaultValue={this.state.language}
                     onChange={this.onChange}

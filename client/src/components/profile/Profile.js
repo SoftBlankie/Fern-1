@@ -28,6 +28,7 @@ class Profile extends Component {
 
   componentDidMount() {
     const { user } = this.props.auth;
+    this.props.getProfile();
 
     if (user) {
       const userPosts = {
@@ -65,7 +66,7 @@ class Profile extends Component {
       native: native
     };
 
-    this.props.updateProfile(newProfile);
+    this.props.updateProfile(this.props.auth.user.id, newProfile);
   };
 
   onFollow = () => {
@@ -75,6 +76,7 @@ class Profile extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { userPosts } = this.props.post;
+    const { profile } = this.props.profile;
     const isUser = (user ? user.name : '') === this.props.match.params.name;
 
     if (!isAuthenticated) return <Redirect to='/'/>
@@ -89,6 +91,7 @@ class Profile extends Component {
                 isProfile={true}
                 name={user.name}
                 date={user.date}
+                followings={profile.followings ? profile.followings.length() : 0 }
                 onUpdate={this.onUpdate}
                 onFollow={this.onFollow}
               />
@@ -138,7 +141,8 @@ class Profile extends Component {
 Profile.propTypes = {
   getUserPosts: PropTypes.func.isRequired,
   getProfile: PropTypes.func.isRequired,
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

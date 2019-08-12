@@ -22,7 +22,12 @@ module.exports = {
   },
   update: (id, profile) => {
     return knex('profile').where('id', id).first().update({
-
+      age: profile.age,
+      location: profile.location,
+      learning: profile.learning,
+      native: profile.native,
+      followers: profile.followers,
+      followings: profile.followings
     }).then(() => {
       return knex('profile')
         .join('user', 'user.id', 'profile.user_id')

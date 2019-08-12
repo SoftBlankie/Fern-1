@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Autosuggest from 'react-autosuggest';
 import deburr from 'lodash/deburr';
-import suggestions from '../countries';
+import suggestions from '../languages';
 import theme from './themes/inputSuggest.css';
 
 const getSuggestions = value => {
@@ -13,7 +13,7 @@ const getSuggestions = value => {
     ? []
     : suggestions.filter(suggestion => {
         const keep =
-          count < 5 && suggestion.name.slice(0, inputLength).toLowerCase() === inputValue;
+          count < 5 && suggestion.slice(0, inputLength).toLowerCase() === inputValue;
         
         if (keep) {
           count += 1;
@@ -23,15 +23,15 @@ const getSuggestions = value => {
     });
 }
 
-const getSuggestionValue = suggestion => suggestion.name;
+const getSuggestionValue = suggestion => suggestion;
 
 const renderSuggestion = suggestion => {
   return (
-    <span>{suggestion.name}</span>
+    <span>{suggestion}</span>
   );
 }
 
-class LocationSuggest extends Component {
+class LanguageSuggest extends Component {
   state = {
     value: '',
     suggestions: []
@@ -39,7 +39,7 @@ class LocationSuggest extends Component {
 
   onChange = (e, { newValue, method }) => {
     this.setState({ value: newValue });
-    this.props.onLocation(newValue);
+    this.props.onLanguage(newValue);
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
@@ -58,7 +58,7 @@ class LocationSuggest extends Component {
     const { value, suggestions } = this.state;
 
     const inputProps = {
-      placeholder: 'location',
+      placeholder: 'language',
       value,
       onChange: this.onChange,
     };
@@ -79,4 +79,4 @@ class LocationSuggest extends Component {
   }
 }
 
-export default LocationSuggest;
+export default LanguageSuggest;

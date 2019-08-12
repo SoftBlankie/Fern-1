@@ -14,7 +14,9 @@ import Person from '@material-ui/icons/Person';
 class ProfileCard extends Component {
   render() {
     const userAccess = (
-      <UpdateModal />
+      <UpdateModal
+        onUpdate={this.props.onUpdate}
+      />
     );
 
     const guestAccess = (
@@ -39,7 +41,7 @@ class ProfileCard extends Component {
           </CardText>
         </CardBody>
         <CardFooter style={{ backgroundColor: 'white' }}>
-          <Person />
+          <Person />{this.props.followings} Following
         </CardFooter>
       </Card>
     );

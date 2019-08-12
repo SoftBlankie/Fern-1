@@ -91,7 +91,9 @@ router.post('/', (req, res) => {
                 )
 
                 const newProfile = {
-                  user_id: newId
+                  user_id: newId,
+                  followings: [],
+                  followers: []
                 };
 
                 // Create profile

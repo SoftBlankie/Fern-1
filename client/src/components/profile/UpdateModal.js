@@ -10,6 +10,8 @@ import {
   ModalBody,
   ModalFooter
 } from 'reactstrap';
+import LocationSuggest from './LocationSuggest';
+import LanguageSuggest from './LanguageSuggest';
 
 class UpdateModal extends Component {
   state = {
@@ -30,8 +32,22 @@ class UpdateModal extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  onLocation = value => {
+    this.setState({ location: value });
+  };
+  
+  onLearning = value => {
+    this.setState({ learning: value });
+  };
+
+  onNative = value => {
+    this.setState({ native: value });
+  };
+
   onClick = () => {
-    this.props.updatePost();
+    const { age, location, learning, native } = this.state;
+
+    this.props.onUpdate(age, location, learning, native);
     this.toggle();
   };
 
@@ -58,35 +74,20 @@ class UpdateModal extends Component {
               </FormGroup>
               <FormGroup>
                 <Label for='location'>Location</Label>
-                <Input
-                  type='text'
-                  name='location'
-                  id='location'
-                  placeholder='location'
-                  className='mb-3'
-                  onChange={this.onChange}
+                <LocationSuggest 
+                  onLocation={this.onLocation}
                 />
               </FormGroup>
               <FormGroup>
                 <Label for='learning'>Learning</Label>
-                <Input
-                  type='text'
-                  name='learning'
-                  id='learning'
-                  placeholder='learning'
-                  className='mb-3'
-                  onChange={this.onChange}
+                <LanguageSuggest
+                  onLanguage={this.onLearning}
                 />
               </FormGroup>
               <FormGroup>
                 <Label for='native'>Native</Label>
-                <Input
-                  type='text'
-                  name='native'
-                  id='native'
-                  placeholder='native'
-                  className='mb-3'
-                  onChange={this.onChange}
+                <LanguageSuggest
+                  onLanguage={this.onNative}
                 />
               </FormGroup>
             </Form>
