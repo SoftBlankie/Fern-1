@@ -3,7 +3,7 @@
 Full Stack Website with PERN
 PostgreSQL, Express, React, NodeJS
 
-CURRENTLY WORKING ON
+In-Development
 
 ### Goal
 
@@ -20,6 +20,8 @@ Application Features:
  - Posts
  - Comments
  - Selection-based edits
+ - Optimized loading
+ - Following system
 
 Major libraries include:
  - SlateJS
@@ -38,16 +40,24 @@ A week before starting this project, I had little knowledge for how full-stack s
 
 ### Challenges
 
-Since I was still new to web development, especially in the Full Stack context, the majority of difficulties involved getting over the initial learning curve. Then after, main difficulties involved optimization and design decisions that appeals to user support.
+Since I was still new to web development, especially in the Full Stack context, the majority of difficulties involved getting over the initial learning curve. Then after, main difficulties involved optimization and design decisions that appeals to user immersion.
 
-Each challenge is listed below:
+Aside from the visual aspects, the code architecture for structuring components required a new approach for adding additional features since each feature must be scalable, efficient, and compatible with existing components.
+
+Major technical challenges are listed below:
  - Usage of unique routes
  - Applications of using knex
+ - Usage of redux
+
+Major design challenges are listed below:
+- Usage of paginations vs 'load more' vs infinite scroll/lazy load
+- Layout of buttons vs floating action buttons
+- Usage of collapsible
 
 ### Further Improvements
 
 #### Client-Side
-Improvements involve replacing Material-UI with Semantic-UI's library due to the difficulties experienced when using Material-UI. Due to Semantic-UI's features, a change in libraries would opt for a more user-friendly appearance.
+Improvements involve replacing Material-UI with Semantic-UI's library due to the difficulties experienced when using Material-UI. Although Material-UI has a great visual library, the multitudes of heavy features seem overwhelming for a website of this scale. Due to Semantic-UI's features, a change in libraries would opt for a more user-friendly appearance.
 
 #### Server-Side
 Improvements involve reducing code used in accessing PostgreSQL's database. Reduction allows for a minor improvement in time-complexity.
@@ -58,9 +68,7 @@ Minimal references used to learn and jump-start learning how to web develop
 
 [BradTraversy](https://github.com/bradtraversy)
 Learned basics of MEAN and MERN stack
-
 [BryceStPierre](https://github.com/BryceStPierre)
 Learned applications of React
-
 [w3cj](https://github.com/w3cj)
 Learned how to apply PostgreSQL
