@@ -8,14 +8,18 @@ import {
   CardText,
   CardFooter
 } from 'reactstrap';
-import { getProfile, clearProfile, updateProfile } from '../../actions/profileActions';
+import {
+  getProfile,
+  clearProfile,
+  updateProfile,
+  followProfile
+} from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import UpdateModal from './UpdateModal';
 import Person from '@material-ui/icons/Person';
 
-// FIXME profiles being swapped when following and unfollowing
 class ProfileCard extends Component {
   componentDidMount() {
     if (!this.props.isProfile) this.props.getProfile(this.props.user_id);
@@ -50,8 +54,7 @@ class ProfileCard extends Component {
         followers: followers
       };
 
-      this.props.updateProfile(this.props.user_id, newFollowing);
-      this.props.updateProfile(profile.id, newFollower);
+      this.props.followProfile(this.props.user_id, profile.id, newFollowing, newFollower);
     }
   };
 
@@ -76,8 +79,7 @@ class ProfileCard extends Component {
         followers: followers
       };
       
-      this.props.updateProfile(this.props.user_id, newFollowing);
-      this.props.updateProfile(profile.id, newFollower);
+      this.props.followProfile(this.props.user_id, profile.id, newFollowing, newFollower);
     }
   };
 
@@ -143,5 +145,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProfile, clearProfile, updateProfile }
+  { getProfile, clearProfile, updateProfile, followProfile }
 )(ProfileCard);
