@@ -8,21 +8,105 @@ import {
   CardText,
   CardFooter
 } from 'reactstrap';
+import { getProfile, clearProfile, updateProfile } from '../../actions/profileActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import UpdateModal from './UpdateModal';
 import Person from '@material-ui/icons/Person';
 
+// FIXME profiles being swapped when following and unfollowing
 class ProfileCard extends Component {
+  componentDidMount() {
+    if (!this.props.isProfile) this.props.getProfile(this.props.user_id);
+  };
+
+  onUpdate = (age, location, learning, native) => {
+    const newProfile = {
+      age: age,
+      location: location,
+      learning: learning,
+      native: native
+    };
+
+    this.props.updateProfile(this.props.user_id, newProfile);
+  };
+
+  onFollow = () => {
+    const { profile } = this.props.profile;
+
+    if (profile) {
+      let { followings } = profile;
+      followings.push(profile.id);
+
+      let { followers } = profile;
+      followers.push(this.props.user_id);
+
+      const newFollowing = {
+        followings: followings
+      };
+
+      const newFollower = {
+        followers: followers
+      };
+
+      this.props.updateProfile(this.props.user_id, newFollowing);
+      this.props.updateProfile(profile.id, newFollower);
+    }
+  };
+
+  onUnfollow = () => {
+    const { profile } = this.props.profile;
+    var index;
+
+    if (profile) {
+      let { followings } = profile;
+      index = followings.indexOf(profile.id);
+      if (index !== -1) followings.splice(index, 1);
+
+      let { followers } = profile;
+      index = followers.indexOf(this.props.user_id);
+      if (index !== -1) followers.splice(index, 1);
+
+      const newFollowing = {
+        followings: followings
+      };
+
+      const newFollower = {
+        followers: followers
+      };
+      
+      this.props.updateProfile(this.props.user_id, newFollowing);
+      this.props.updateProfile(profile.id, newFollower);
+    }
+  };
+
   render() {
+    const { profile } = this.props.profile;
+
     const userAccess = (
-      <UpdateModal
-        onUpdate={this.props.onUpdate}
-      />
+      profile ? (
+        <UpdateModal
+          age={profile.age}
+          location={profile.location}
+          learning={profile.learning}
+          native={profile.native}
+          onUpdate={this.onUpdate}
+        />
+      ) : null
     );
 
     const guestAccess = (
-      <Button color='dark' onClick={this.props.onFollow} block>
+      profile ? (!profile.followers.includes(this.props.user_id) ?
+      (
+      <Button color='dark' onClick={this.onFollow} block>
         Follow
       </Button>
+      ) : (
+      <Button color='dark' onClick={this.onUnfollow} block>
+        Unfollow
+      </Button>
+      )) : null
     );
 
     return(
@@ -41,11 +125,23 @@ class ProfileCard extends Component {
           </CardText>
         </CardBody>
         <CardFooter style={{ backgroundColor: 'white' }}>
-          <Person />{this.props.followings} Following
+          <Person />{profile ? profile.followings.length : null} Following
         </CardFooter>
       </Card>
     );
   }
 }
 
-export default ProfileCard;
+ProfileCard.propTypes = {
+  getProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  { getProfile, clearProfile, updateProfile }
+)(ProfileCard);

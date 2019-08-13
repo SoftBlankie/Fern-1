@@ -11,7 +11,6 @@ import {
   DropdownItem
 } from 'reactstrap';
 import { getPosts } from '../../actions/postActions';
-import { getProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -28,7 +27,6 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.getPosts();
-    this.props.getProfile();
   };
 
   static propTypes = {
@@ -44,7 +42,6 @@ class Home extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { posts } = this.props.post;
-    const { profile } = this.props.profile;
 
     const addStyle = {
       margin: 0,
@@ -72,11 +69,11 @@ class Home extends Component {
           <Row>
             <Col md='3'>
               <ProfileCard
+                user_id={user.id}
                 isUser={true}
                 isProfile={false}
                 name={user.name}
                 date={user.date}
-                followings={profile.followings ? profile.followings.length() : 0}
               />
             </Col>
             <Col md='9'>
@@ -102,16 +99,14 @@ class Home extends Component {
 Home.propTypes = {
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  post: state.post,
-  profile: state.profile
+  post: state.post
 });
 
 export default connect(
   mapStateToProps,
-  { getPosts, getProfile }
+  { getPosts }
 )(Home);

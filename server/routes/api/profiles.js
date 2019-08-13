@@ -13,11 +13,19 @@ router.get('/', (req, res) => {
 });
 
 // @route   GET api/profiles/:id
-// @desc    Get specific Profile
+// @desc    Get specific Profile by Id
 // @access  Public
 router.get('/:id', (req, res) => {
   Profile.getOne(req.params.id)
-    .then(profile => res.json(posts));
+    .then(profile => res.json(profile));
+});
+
+// @route   GET api/profiles/name/:name
+// @desc    Get specific Profile by Name
+// @access  Public
+router.get('/name/:name', (req, res) => {
+  Profile.getOneByName(req.params.name)
+    .then(profile => res.json(profile));
 });
 
 // @route   POST api/profiles

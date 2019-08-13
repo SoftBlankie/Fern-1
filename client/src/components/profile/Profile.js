@@ -8,19 +8,23 @@ import {
   Nav,
   NavItem,
   NavLink,
+  ListGroup,
+  ListGroupItem,
   TabContent,
   TabPane
 } from 'reactstrap';
 import { getUserPosts } from '../../actions/postActions';
-import { getProfile, clearProfile, updateProfile } from '../../actions/profileActions';
+import {
+  getProfileByName,
+  clearProfile,
+  updateProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import ProfileCard from './ProfileCard';
 import Post from '../home/Post';
 
-// card props need to encompass other user profiles
-// onEdit and onFollow needs to be made
+// onFollow needs to be made
 class Profile extends Component {
   state = {
     activeTab: '1'
@@ -28,15 +32,15 @@ class Profile extends Component {
 
   componentDidMount() {
     const { user } = this.props.auth;
-    this.props.getProfile();
 
     if (user) {
       const userPosts = {
         name: this.props.match.params.name
       };
       this.props.getUserPosts(userPosts);
+      this.props.getProfileByName(this.props.match.params.name);
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.name !== nextProps.match.params.name) {
@@ -44,6 +48,7 @@ class Profile extends Component {
         name: nextProps.match.params.name
       };
       this.props.getUserPosts(userPosts);
+      this.props.getProfileByName(nextProps.match.params.name);
       this.setState({ activeTab: '1' });
     }
   };
@@ -56,21 +61,6 @@ class Profile extends Component {
     if (this.state.activeTab !== tab) {
       this.setState({ activeTab: tab });
     }
-  };
-
-  onUpdate = (age, location, learning, native) => {
-    const newProfile = {
-      age: age,
-      location: location,
-      learning: learning,
-      native: native
-    };
-
-    this.props.updateProfile(this.props.auth.user.id, newProfile);
-  };
-
-  onFollow = () => {
-
   };
 
   render() {
@@ -87,13 +77,11 @@ class Profile extends Component {
           <Row>
             <Col md='3'>
               <ProfileCard
+                user_id={user.id}
                 isUser={isUser}
                 isProfile={true}
-                name={user.name}
-                date={user.date}
-                followings={profile.followings ? profile.followings.length() : 0 }
-                onUpdate={this.onUpdate}
-                onFollow={this.onFollow}
+                name={profile.name}
+                date={profile.date}
               />
             </Col>
             <Col md='9'>
@@ -120,6 +108,19 @@ class Profile extends Component {
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
                   <Row>
+                    <Col>
+                      <ListGroup>
+                        <ListGroupItem>Public Name: {profile.name}</ListGroupItem>
+                        <ListGroupItem>Age: {profile.age !== 0 ? profile.age : null}</ListGroupItem>
+                        <ListGroupItem>Location: {profile.location}</ListGroupItem>
+                        <ListGroupItem>Learning: {profile.learning}</ListGroupItem>
+                        <ListGroupItem>Native: {profile.native}</ListGroupItem>
+                        <ListGroupItem>Posts: {userPosts.length}</ListGroupItem>
+                        <ListGroupItem>Following: {profile.followings.length}</ListGroupItem>
+                        <ListGroupItem>Followers: {profile.followers.length}</ListGroupItem>
+                        <ListGroupItem>Date Created: {profile.date}</ListGroupItem>
+                      </ListGroup>
+                    </Col>
                   </Row>
                 </TabPane>
                 <TabPane tabId="2">
@@ -140,7 +141,7 @@ class Profile extends Component {
 
 Profile.propTypes = {
   getUserPosts: PropTypes.func.isRequired,
-  getProfile: PropTypes.func.isRequired,
+  getProfileByName: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
 }
@@ -153,5 +154,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getUserPosts, getProfile, clearProfile, updateProfile }
+  { getUserPosts, getProfileByName, clearProfile, updateProfile }
 )(Profile);

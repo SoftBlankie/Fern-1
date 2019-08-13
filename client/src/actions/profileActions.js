@@ -8,10 +8,25 @@ import {
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
-export const getProfile = () => dispatch => {
+export const getProfile = id => dispatch => {
   dispatch(setProfileLoading());
   axios
-    .get('/api/profiles')
+    .get(`/api/profiles/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const getProfileByName = name => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/profiles/name/${name}`)
     .then(res =>
       dispatch({
         type: GET_PROFILE,

@@ -33,7 +33,7 @@ const renderSuggestion = suggestion => {
 
 class LocationSuggest extends Component {
   state = {
-    value: '',
+    value: this.props.value,
     suggestions: []
   };
 

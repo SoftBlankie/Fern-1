@@ -33,7 +33,7 @@ const renderSuggestion = suggestion => {
 
 class LanguageSuggest extends Component {
   state = {
-    value: '',
+    value: this.props.value,
     suggestions: []
   };
 

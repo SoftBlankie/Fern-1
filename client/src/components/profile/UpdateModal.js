@@ -19,7 +19,14 @@ class UpdateModal extends Component {
     age: '',
     location: '',
     learning: '',
-    native: ''
+    native: '' 
+  };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ age: nextProps.age });
+    this.setState({ location: nextProps.location });
+    this.setState({ learning: nextProps.learning });
+    this.setState({ native: nextProps.native });
   };
 
   toggle = () => {
@@ -51,6 +58,14 @@ class UpdateModal extends Component {
     this.toggle();
   };
 
+  onCancel = () => {
+    this.setState({ age: this.props.age });
+    this.setState({ location: this.props.location });
+    this.setState({ learning: this.props.learning });
+    this.setState({ native: this.props.native });
+    this.toggle();
+  };
+
   render() {
     return(
       <div>
@@ -68,25 +83,29 @@ class UpdateModal extends Component {
                   name='age'
                   id='age'
                   placeholder='age'
+                  value={this.state.age}
                   className='mb-3'
                   onChange={this.onChange}
                 />
               </FormGroup>
               <FormGroup>
                 <Label for='location'>Location</Label>
-                <LocationSuggest 
+                <LocationSuggest
+                  value={this.state.location}
                   onLocation={this.onLocation}
                 />
               </FormGroup>
               <FormGroup>
                 <Label for='learning'>Learning</Label>
                 <LanguageSuggest
+                  value={this.state.learning}
                   onLanguage={this.onLearning}
                 />
               </FormGroup>
               <FormGroup>
                 <Label for='native'>Native</Label>
                 <LanguageSuggest
+                  value={this.state.native}
                   onLanguage={this.onNative}
                 />
               </FormGroup>
@@ -101,7 +120,7 @@ class UpdateModal extends Component {
             </Button>
             <Button
               color='seconday'
-              onClick={this.toggle}
+              onClick={this.onCancel.bind(this)}
             >
               Cancel
             </Button>
