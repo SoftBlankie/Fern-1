@@ -1,9 +1,8 @@
-
 # Fern
 Full Stack Website with PERN
 PostgreSQL, Express, React, NodeJS
 
-In-Development
+In-development
 
 ### Goal
 
@@ -67,8 +66,8 @@ Improvements involve reducing code used in accessing PostgreSQL's database. Redu
 Minimal references used to learn and jump-start learning how to web develop
 
 [BradTraversy](https://github.com/bradtraversy)
-Learned basics of MEAN and MERN stack
-[BryceStPierre](https://github.com/BryceStPierre)
-Learned applications of React
+-Learned basics of MEAN and MERN stack
+BryceStPierre](https://github.com/BryceStPierre)
+-Learned applications of React
 [w3cj](https://github.com/w3cj)
-Learned how to apply PostgreSQL
+-Learned how to apply PostgreSQL
