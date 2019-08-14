@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Container,
   Row,
   Col,
   Input,
@@ -32,44 +33,50 @@ class RequestEdit extends Component {
 
   render() {
     return(
-      <Card>
-        <CardBody>
-          <CardTitle>{this.props.name}</CardTitle>
-          <Row>
-            <Col>
-              <Input
-                type='textarea'
-                name='edit'
-                id='edit'
-                value={this.state.edit}
-                placeholder='Edit'
-                onChange={this.onChange}
-              />
-            </Col>
-          </Row>
-          <Row style={{ marginTop: '1rem' }}>
-            <Col>
-              <Button
-                color='dark'
-                size='sm'
-                onClick={this.onSubmit}
-                block
-              >
-                Edit
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                size='sm'
-                onClick={this.onCancel}
-                block
-              >
-                Cancel
-              </Button>
-            </Col>
-          </Row>
-        </CardBody>
-      </Card>
+      <Container>
+        <Row>
+          <Col>
+            <Card>
+              <CardBody>
+                <CardTitle>{this.props.name}</CardTitle>
+                <Row>
+                  <Col>
+                    <Input
+                      type='textarea'
+                      name='edit'
+                      id='edit'
+                      value={this.state.edit}
+                      placeholder='Edit'
+                      onChange={this.onChange}
+                    />
+                  </Col>
+                </Row>
+                <Row style={{ marginTop: '1rem' }}>
+                  <Col>
+                    <Button
+                      color='dark'
+                      size='sm'
+                      onClick={this.onSubmit}
+                      block
+                    >
+                      Edit
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      size='sm'
+                      onClick={this.onCancel}
+                      block
+                    >
+                      Cancel
+                    </Button>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

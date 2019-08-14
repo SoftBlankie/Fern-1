@@ -39,15 +39,14 @@ class Edit extends Component {
 
     if (this.state.isEdit) return;
 
-    if (requestEdit.length === 0)
-      requestEdit.push(
-        <RequestEdit key={this.props.post_id}
-          name={this.props.name}
-          selection={selection}
-          onAddEdit={this.onAddEdit}
-          toggle={this.toggle}
-        />
-      );
+    requestEdit.push(
+      <RequestEdit key={this.props.post_id}
+        name={this.props.name}
+        selection={selection}
+        onAddEdit={this.onAddEdit}
+        toggle={this.toggle}
+      />
+    );
     this.setState({ requestEdit });
     this.toggle();
   };
@@ -67,6 +66,7 @@ class Edit extends Component {
 
     this.props.addEdit(this.props.post_id, newEdit);
     this.props.updatePost(this.props.post_id, newPost);
+    this.setState({ requestEdit: [] });
   };
 
   onUpdate = (edit_id, edit) => {

@@ -8,8 +8,16 @@ import Edit from '@material-ui/icons/Edit';
 
 // might want to add versions for precision edits
 // add selection finder and annotation
+
+let n = 0
+
+function getHighlightKey() {
+  return `highlight_${n++}`
+}
+
 class GuestEditor extends Component {
   state = {
+    isAnnotate: false,
     selection: '',
     value: this.props.initialValue
   }
@@ -72,6 +80,11 @@ class GuestEditor extends Component {
 
     const { value } = this.state
     const { fragment, selection } = value
+    
+    // plan: return plain text, and implement temporary highlight on every editcard's specification
+    // problem: in process of editing, there is no highlight
+    // resolution: make a temporary highlight when in process of editing
+    // path: onrequestedit, must pass selected text to highlight within editor
 
     if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
       menu.removeAttribute('style')
@@ -90,6 +103,56 @@ class GuestEditor extends Component {
       rect.width / 2}px`
   }
 
+  // get list of all editcard selections within array
+  // go through each text and make highlights within editor
+  // Need to find someone to make function togglable
+  annotateText = () => {
+    const editor = this.editor
+    const { value } = editor
+    const { document, annotations } = value
+    const string = 'blah blah' // represents string of one element in array
+
+    editor.withoutSaving(() => {
+      annotations.forEach(ann => {
+        if (ann.type === 'highlight') {
+          editor.removeAnnotation(ann)
+        }
+      })
+
+      for (const [node, path] of document.texts()) {
+        const { key, text } = node
+        const parts = text.split(string)
+        let offset = 0
+
+        parts.forEach((part, i) => {
+          if (i !== 0) {
+            editor.addAnnotation({
+              key: getHighlightKey(),
+              type: 'highlight',
+              anchor: { path, key, offset: offset - string.length },
+              focus: { path, key, offset },
+            })
+          }
+          offset = offset + part.length + string.length
+        })
+      }
+    })
+  }
+
+  removeAnnotate = () => {
+    const editor = this.editor
+    const { value } = editor
+    const { annotations } = value
+
+    editor.withoutSaving(() => {
+      annotations.forEach(ann => {
+        if (ann.type === 'highlight') {
+          editor.removeAnnotation(ann)
+        }
+      })
+    })
+  }
+
 	hasMark = type => {
 		const { value } = this.state
     return value.activeMarks.some(mark => mark.type === type)
@@ -100,31 +163,45 @@ class GuestEditor extends Component {
     return value.blocks.some(node => node.type === type)
   }
 
+  toggle = () => {
+    this.setState({ isAnnotate: !this.state.isAnnotate });
+  }
+
   onChange = ({ value }) => {
+    const { fragment } = value
     if (value.document.text !== this.state.value.document.text) {
       this.setState({ value: this.props.initialValue });
       return;
     }
-    this.setState({ selection: 'placeholder'});
+    this.setState({ selection: fragment.text });
     this.setState({ value });
   }
 
   render() {
     return (
-      <Editor
-        ref={this.ref}
-        value={this.state.value}
-        onChange={this.onChange}
-        renderEditor={this.renderEditor}
-        renderAnnotation={this.renderAnnotation}
-        renderBlock={this.renderBlock}
-        renderMark={this.renderMark}
-      />
+      <Fragment>
+        <Button onClick={!this.state.isAnnotate ? this.annotateText : this.removeAnnotate}>
+          Toggle annotations
+        </Button>
+        <Button onClick={this.removeAnnotate}>
+          Remove annotations
+        </Button>
+        <Editor
+          ref={this.ref}
+          value={this.state.value}
+          onChange={this.onChange}
+          renderEditor={this.renderEditor}
+          renderAnnotation={this.renderAnnotation}
+          renderBlock={this.renderBlock}
+          renderMark={this.renderMark}
+        />
+      </Fragment>
     );
   }
 
   renderEditor = (props, editor, next) => {
     const children = next()
+		
     return (
       <Fragment>
         {children}
