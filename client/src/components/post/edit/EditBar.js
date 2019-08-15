@@ -5,7 +5,6 @@ import {
   Col,
   Tooltip
 } from 'reactstrap';
-
 import ResponseEdit from './ResponseEdit';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -81,7 +80,14 @@ class EditBar extends Component {
           >
             <Row>
               <Col md='10' xs='10'>
-                <h3>Edits</h3>
+                <h3>
+                  <span
+                    onClick={this.props.clearSelectionClick}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Edits
+                  </span>
+                </h3>
               </Col>
               <Col md='2' xs='2'>
                 <InfoIcon id='info'/>
@@ -90,23 +96,29 @@ class EditBar extends Component {
                   isOpen={this.state.tooltipOpen}
                   target='info'
                   toggle={this.toggleTooltip}
+                  style={{ textAlign: 'left' }}
                 >
-                  Create an edit by selecting the text
+                  <p>- Create an edit by selecting the text</p>
+                  <p>- Clicking on the card text shows the edit's selection</p>
+                  <p>- Clear edits by clicking the 'Edits' header to the left</p>
                 </Tooltip>
               </Col>
             </Row>
             <hr style={{ marginTop: 0 }}/>
             <Row>
               <Col>
-                {edits ? edits.map(({ id, name, edit, date }) => (
+                {this.props.isEdit ? requestEdit : null}
+                {edits ? edits.map(({ id, name, selection, edit, date }) => (
                   <Container key={id} style={{ marginBottom: '1rem' }}>
                     <Row>
                       <Col>
                         <ResponseEdit
                           edit_id={id}
                           name={name}
+                          selection={selection}
                           edit={edit}
                           date={date}
+                          getSelectionClick={this.props.getSelectionClick}
                           onUpdate={this.props.onUpdate}
                           onDelete={this.props.onDelete}
                         />
@@ -114,7 +126,6 @@ class EditBar extends Component {
                     </Row>
                   </Container>
                 )) : null}
-                {this.props.isEdit ? requestEdit : null}
               </Col>
             </Row>
           </Container>

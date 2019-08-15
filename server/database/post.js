@@ -39,6 +39,7 @@ module.exports = {
     });
   },
   remove: id => {
+    // does not work on updated posts, possibly because joined
     return knex('post').where('id', id).del();
   }
 }

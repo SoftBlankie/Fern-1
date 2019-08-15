@@ -9,6 +9,8 @@ import {
 } from 'reactstrap';
 import ResponsePost from './ResponsePost';
 
+// Add new post does not rerender
+// delete updated posts not deleting
 class Post extends Component {
   state = {
     currentPage: 0,

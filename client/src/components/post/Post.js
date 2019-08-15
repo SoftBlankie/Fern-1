@@ -58,16 +58,6 @@ class Post extends Component {
 			zIndex: 99,
 		}
 		
-		const editButton = (
-			<Fab
-				size='large'
-				onClick={this.toggle}
-				style={fabStyle}
-			>
-				<EditIcon />
-			</Fab>
-		);
-
     const userAccess = (
       <Fragment>
         <PostForm
@@ -94,7 +84,15 @@ class Post extends Component {
 
     const defaultAccess = (
       <Fragment>
-				{isUser ? editButton : !editButton}
+				{isUser ? (
+          <Fab
+            size='large'
+            onClick={this.toggle}
+            style={fabStyle}
+          >
+            <EditIcon />
+          </Fab>
+        ) : null}
         <Row style={{ margin: 0 }}>
           <Col md={{ size: 7, offset: 1 }}>
             <Container style={{ zIndex: 1 }}>

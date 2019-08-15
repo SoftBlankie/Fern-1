@@ -46,4 +46,7 @@ module.exports = {
         .where('profile.id', id).first();
     });
   },
+  remove: id => {
+    return knex('profile').where('id', id).del();
+  }
 }

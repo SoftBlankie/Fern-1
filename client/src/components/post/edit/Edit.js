@@ -17,6 +17,8 @@ import GuestEditor from '../../editor/GuestEditor';
 class Edit extends Component {
   state = {
     isEdit: false,
+    isAnnotate: false,
+    selection: '',
     requestEdit: []
   };
 
@@ -44,7 +46,7 @@ class Edit extends Component {
         name={this.props.name}
         selection={selection}
         onAddEdit={this.onAddEdit}
-        toggle={this.toggle}
+        onCancelEdit={this.onCancelEdit}
       />
     );
     this.setState({ requestEdit });
@@ -67,6 +69,28 @@ class Edit extends Component {
     this.props.addEdit(this.props.post_id, newEdit);
     this.props.updatePost(this.props.post_id, newPost);
     this.setState({ requestEdit: [] });
+    this.toggle();
+  };
+
+  onCancelEdit = () => {
+    this.setState({ requestEdit: [] });
+    this.toggle();
+  };
+
+  getSelectionClick = selection => {
+    if (this.state.selection === selection) {
+      // if selection stays the same
+      //this.setState({ isAnnotate: !this.state.isAnnotate });
+    } else if (!this.state.isAnnotate) {
+      this.setState({ selection: selection });
+      this.setState({ isAnnotate: !this.state.isAnnotate });
+    } else {
+      this.setState({ selection: selection });
+    }
+  };
+
+  clearSelectionClick = () => {
+    this.setState({ selection: '' });
   };
 
   onUpdate = (edit_id, edit) => {
@@ -97,12 +121,16 @@ class Edit extends Component {
           isEdit={this.state.isEdit}
           edits={edits}
           requestEdit={this.state.requestEdit}
+          getSelectionClick={this.getSelectionClick}
+          clearSelectionClick={this.clearSelectionClick}
           onUpdate={this.onUpdate}
           onDelete={this.onDelete}
         />
         <GuestEditor
           initialValue={this.props.post_entry}
           post_id={this.props.post_id}
+          isAnnotate={this.state.isAnnotate}
+          selection={this.state.selection}
           requestEdit={this.requestEdit}
         />
       </Fragment>

@@ -24,16 +24,15 @@ class RequestEdit extends Component {
 
     if (!this.state.edit) return;
     this.props.onAddEdit(this.props.selection, this.state.edit);
-    this.props.toggle();
   };
 
   onCancel = () => {
-    this.props.toggle();
+    this.props.onCancelEdit();
   };
 
   render() {
     return(
-      <Container>
+      <Container style={{ marginBottom: '1rem' }}>
         <Row>
           <Col>
             <Card>

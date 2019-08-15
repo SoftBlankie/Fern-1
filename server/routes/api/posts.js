@@ -66,7 +66,7 @@ router.post('/:id', auth, (req, res) => {
 // @route   DELETE api/posts/:id
 // @desc    Delete a Post
 // @access  Private
-router.delete('/:id', auth, (req, res) => {
+router.delete('/:id', (req, res) => {
   Post.remove(req.params.id)
     .then(() => res.json({success: true}))
     .catch(err => res.status(404).json({success: false}));

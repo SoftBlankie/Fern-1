@@ -36,6 +36,16 @@ class GuestEditor extends Component {
     this.updateMenu()
   }
 
+  componentWillReceiveProps(nextProps) {
+    if ((this.props.selection !== nextProps.selection)
+      || (this.state.isAnnotate !== nextProps.isAnnotate)) {
+      this.setState({
+        selection: nextProps.selection,
+        isAnnotate: nextProps.isAnnotate
+      }, this.annotateText())
+    }
+  }
+
   EditButton = () => {
     return (
       <Button
@@ -77,15 +87,9 @@ class GuestEditor extends Component {
   updateMenu = () => {
     const menu = this.menuRef.current
     if (!menu) return
-
     const { value } = this.state
     const { fragment, selection } = value
     
-    // plan: return plain text, and implement temporary highlight on every editcard's specification
-    // problem: in process of editing, there is no highlight
-    // resolution: make a temporary highlight when in process of editing
-    // path: onrequestedit, must pass selected text to highlight within editor
-
     if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
       menu.removeAttribute('style')
       return
@@ -103,38 +107,43 @@ class GuestEditor extends Component {
       rect.width / 2}px`
   }
 
-  // get list of all editcard selections within array
-  // go through each text and make highlights within editor
-  // Need to find someone to make function togglable
   annotateText = () => {
     const editor = this.editor
     const { value } = editor
     const { document, annotations } = value
-    const string = 'blah blah' // represents string of one element in array
 
-    editor.withoutSaving(() => {
-      annotations.forEach(ann => {
-        if (ann.type === 'highlight') {
-          editor.removeAnnotation(ann)
-        }
-      })
+    this.setState({
+      isAnnotate: this.props.isAnnotate
+    }, () => {
+      const string = this.props.selection
+      if (this.state.isAnnotate) {
+        editor.withoutSaving(() => {
+          annotations.forEach(ann => {
+            if (ann.type === 'highlight') {
+              editor.removeAnnotation(ann)
+            }
+          })
+          
+          for (const [node, path] of document.texts()) {
+            const { key, text } = node
+            const parts = text.split(string)
+            let offset = 0
 
-      for (const [node, path] of document.texts()) {
-        const { key, text } = node
-        const parts = text.split(string)
-        let offset = 0
-
-        parts.forEach((part, i) => {
-          if (i !== 0) {
-            editor.addAnnotation({
-              key: getHighlightKey(),
-              type: 'highlight',
-              anchor: { path, key, offset: offset - string.length },
-              focus: { path, key, offset },
+            parts.forEach((part, i) => {
+              if (i !== 0) {
+                editor.addAnnotation({
+                  key: getHighlightKey(),
+                  type: 'highlight',
+                  anchor: { path, key, offset: offset - string.length },
+                  focus: { path, key, offset },
+                })
+              }
+              offset = offset + part.length + string.length
             })
           }
-          offset = offset + part.length + string.length
         })
+      } else {
+        this.removeAnnotate()
       }
     })
   }
@@ -163,10 +172,6 @@ class GuestEditor extends Component {
     return value.blocks.some(node => node.type === type)
   }
 
-  toggle = () => {
-    this.setState({ isAnnotate: !this.state.isAnnotate });
-  }
-
   onChange = ({ value }) => {
     const { fragment } = value
     if (value.document.text !== this.state.value.document.text) {
@@ -180,12 +185,6 @@ class GuestEditor extends Component {
   render() {
     return (
       <Fragment>
-        <Button onClick={!this.state.isAnnotate ? this.annotateText : this.removeAnnotate}>
-          Toggle annotations
-        </Button>
-        <Button onClick={this.removeAnnotate}>
-          Remove annotations
-        </Button>
         <Editor
           ref={this.ref}
           value={this.state.value}

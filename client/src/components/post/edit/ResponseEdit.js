@@ -14,7 +14,6 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-
 import MoreVert from '@material-ui/icons/MoreVert';
 
 class ResponseEdit extends Component {
@@ -76,8 +75,14 @@ class ResponseEdit extends Component {
               </Dropdown>
             </Col>
           </Row>
-          {this.state.readOnly ? 
-            <CardText>{this.props.edit}</CardText> :
+          {this.state.readOnly ? (
+            <CardText
+              onClick={this.props.getSelectionClick.bind(this, this.props.selection)}
+              style={{ cursor: 'pointer' }}
+            >
+              {this.props.edit}
+            </CardText>
+          ) : (
             <Container>
               <Row>
                 <Col>
@@ -113,7 +118,7 @@ class ResponseEdit extends Component {
                 </Col>
               </Row>
             </Container>
-          }
+          )}
           <CardText>
             <small className='text-muted'>{this.props.date}</small>
           </CardText>
