@@ -10,6 +10,9 @@ module.exports = {
   getAll: () => {
     return knex('post');
   },
+  getAllByLanguage: language => {
+    return knex('post').where('language', language);
+  },
   getJoinUser: () => {
     return knex('post')
       .join('user', 'user.id', 'post.user_id')
@@ -39,7 +42,12 @@ module.exports = {
     });
   },
   remove: id => {
-    // does not work on updated posts, possibly because joined
-    return knex('post').where('id', id).del();
+    return knex('comment').where('post_id', id).del()
+      .then(() => {
+        return knex('edit').where('post_id', id).del()
+          .then(() => {
+            return knex('post').where('id', id).del();
+          });
+      });
   }
 }

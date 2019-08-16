@@ -40,6 +40,21 @@ export const getUserPosts = post => (dispatch, getState) => {
     );
 };
 
+export const getLanguagePosts = language => (dispatch, getState) => {
+  dispatch(setPostsLoading());
+  axios
+    .get(`/api/posts/${language}`)
+    .then(res =>
+      dispatch({
+        type: GET_POSTS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
 export const clearUserPosts = () => {
   return {
     type: CLEAR_USER_POSTS

@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import { getPosts } from '../../actions/postActions';
+import { getPosts, getLanguagePosts } from '../../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -25,6 +25,7 @@ class Home extends Component {
     dropdownOpen: false
   };
 
+  //FIXME component mounted twice
   componentDidMount() {
     this.props.getPosts();
   };
@@ -37,6 +38,10 @@ class Home extends Component {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
+  };
+
+  filterLanguage = language => {
+    this.props.getLanguagePosts(language);
   };
 
   render() {
@@ -83,7 +88,12 @@ class Home extends Component {
                 </DropdownToggle>
                 <DropdownMenu>
                   {languages.map((language, id) => (
-                    <DropdownItem key={id}>{language}</DropdownItem>
+                    <DropdownItem
+                      key={id}
+                      onClick={this.filterLanguage.bind(this, language)}
+                    >
+                      {language}
+                    </DropdownItem>
                   ))}
                 </DropdownMenu>
               </Dropdown>
@@ -98,6 +108,7 @@ class Home extends Component {
 
 Home.propTypes = {
   getPosts: PropTypes.func.isRequired,
+  getLanguagePosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
 }
 
@@ -108,5 +119,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getPosts }
+  { getPosts, getLanguagePosts }
 )(Home);

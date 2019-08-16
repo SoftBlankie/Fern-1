@@ -14,11 +14,21 @@ router.get('/', (req, res) => {
 });
 
 // @route   GET api/posts/user
-// @desc    Get all posts from user
-// @access  public
+// @desc    Get all Posts from User
+// @access  Public
 router.post('/user', (req, res) => {
   Post.getJoinUser()
     .where('name', req.body.name)
+    .orderBy('date', 'desc')
+    .then(posts => res.json(posts));
+});
+
+// @route   GET api/posts/:language
+// @desc    Get all Posts of language
+// @access  Public
+router.get('/:language', (req, res) => {
+  Post.getJoinUser()
+    .where('language', req.params.language)
     .orderBy('date', 'desc')
     .then(posts => res.json(posts));
 });
