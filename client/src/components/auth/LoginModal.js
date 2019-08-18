@@ -82,7 +82,6 @@ class LoginModal extends Component {
         <NavLink onClick={this.toggle} href='#'>
           Login
         </NavLink>
-
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Login</ModalHeader>
           <ModalBody>

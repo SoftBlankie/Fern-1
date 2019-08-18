@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { NavLink } from 'reactstrap';
 import { connect } from 'react-redux';
-import { logout } from '../../actions/authActions';
-import { clearUserPosts } from '../../actions/postActions';
 import PropTypes from 'prop-types';
+import { logout } from '../../actions/authActions';
 
 export class Logout extends Component {
   static propTypes = {
@@ -11,14 +11,13 @@ export class Logout extends Component {
   };
 
   onClick = () => {
-    this.props.clearUserPosts();
     this.props.logout();
   }
 
   render() {
     return (
       <Fragment>
-        <NavLink onClick={this.onClick} href='#'>
+        <NavLink tag={Link} to='/' onClick={this.onClick}>
           Logout
         </NavLink>
       </Fragment>
@@ -28,5 +27,5 @@ export class Logout extends Component {
 
 export default connect(
   null,
-  { logout, clearUserPosts }
+  { logout }
 )(Logout);

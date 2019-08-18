@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import AppNavbar from './components/nav/AppNavbar';
 
 import { Provider } from 'react-redux';
@@ -33,6 +33,7 @@ class App extends Component {
               <Route exact path="/:name/profile" component={Profile} />
               <Route exact path="/:name/postform" component={PostForm} />
               <Route exact path="/:name/post/:id" component={Post} />
+              <Redirect to="/" />
             </div>
           </div>
         </Provider>

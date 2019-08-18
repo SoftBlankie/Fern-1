@@ -17,14 +17,14 @@ import { getUserPosts } from '../../actions/postActions';
 import {
   getProfileByName,
   clearProfile,
-  updateProfile } from '../../actions/profileActions';
+  updateProfile
+} from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import ProfileCard from './ProfileCard';
 import Post from '../home/Post';
 
-// onFollow needs to be made
 class Profile extends Component {
   state = {
     activeTab: '1'
@@ -69,7 +69,8 @@ class Profile extends Component {
     const { profile } = this.props.profile;
     const isUser = (user ? user.name : '') === this.props.match.params.name;
 
-    if (!isAuthenticated) return <Redirect to='/'/>
+    if (!isAuthenticated)
+      return <Redirect to='/' />
 
     return (
       <div>

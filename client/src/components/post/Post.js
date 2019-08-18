@@ -46,7 +46,7 @@ class Post extends Component {
     const isUser = (user ? user.name : '') === this.props.match.params.name;
 
     if (!isAuthenticated)
-      return <Redirect to='/'/>
+      return <Redirect to='/' />
 
 		const fabStyle = {
 			margin: 0,

@@ -99,15 +99,14 @@ class ProfileCard extends Component {
     );
 
     const guestAccess = (
-      profile ? (!profile.followers.includes(this.props.user_id) ?
-      (
-      <Button color='dark' onClick={this.onFollow} block>
-        Follow
-      </Button>
-      ) : (
-      <Button color='dark' onClick={this.onUnfollow} block>
-        Unfollow
-      </Button>
+      profile ? (!profile.followers.includes(this.props.user_id) ? (
+        <Button color='dark' onClick={this.onFollow} block>
+          Follow
+        </Button>
+        ) : (
+        <Button color='dark' onClick={this.onUnfollow} block>
+          Unfollow
+        </Button>
       )) : null
     );
 
