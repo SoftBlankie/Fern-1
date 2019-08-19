@@ -19,7 +19,8 @@ class UpdateModal extends Component {
     age: '',
     location: '',
     learning: '',
-    native: '' 
+    native: '',
+    about: ''
   };
 
   componentWillReceiveProps(nextProps) {
@@ -27,6 +28,7 @@ class UpdateModal extends Component {
     this.setState({ location: nextProps.location });
     this.setState({ learning: nextProps.learning });
     this.setState({ native: nextProps.native });
+    this.setState({ about: nextProps.about });
   };
 
   toggle = () => {
@@ -50,11 +52,11 @@ class UpdateModal extends Component {
   onNative = value => {
     this.setState({ native: value });
   };
-
+  
   onClick = () => {
-    const { age, location, learning, native } = this.state;
+    const { age, location, learning, native, about } = this.state;
 
-    this.props.onUpdate(age, location, learning, native);
+    this.props.onUpdate(age, location, learning, native, about);
     this.toggle();
   };
 
@@ -63,6 +65,7 @@ class UpdateModal extends Component {
     this.setState({ location: this.props.location });
     this.setState({ learning: this.props.learning });
     this.setState({ native: this.props.native });
+    this.setState({ about: this.props.about });
     this.toggle();
   };
 
@@ -109,6 +112,18 @@ class UpdateModal extends Component {
                   onLanguage={this.onNative}
                 />
               </FormGroup>
+              <FormGroup>
+                <Label for='about'>About</Label>
+                <Input
+                  type='textarea'
+                  name='about'
+                  id='about'
+                  placeholder='about'
+                  value={this.state.about}
+                  className='mb-3'
+                  onChange={this.onChange}
+                />
+              </FormGroup>
             </Form>
           </ModalBody>
           <ModalFooter>
@@ -119,7 +134,7 @@ class UpdateModal extends Component {
               Update
             </Button>
             <Button
-              color='seconday'
+              color='secondary'
               onClick={this.onCancel.bind(this)}
             >
               Cancel

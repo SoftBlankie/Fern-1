@@ -14,8 +14,6 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// need to populate following and follower list
-// get list from redux and replace user_id with names
 class FollowCard extends Component {
   state = {
     activeTab: '1',
@@ -55,7 +53,10 @@ class FollowCard extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
-            <TabContent activeTab={this.state.activeTab}>
+            <TabContent
+              activeTab={this.state.activeTab}
+              style={{ height: '200px', overflowY: 'auto' }}
+            >
               <TabPane tabId='1'>
                 <ListGroup>
                   {profile ? profile.followings.map((name, id) => (

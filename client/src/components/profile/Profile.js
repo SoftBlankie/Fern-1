@@ -78,11 +78,11 @@ class Profile extends Component {
           <Row>
             <Col md='3'>
               <ProfileCard
-                user_id={user.id}
                 isUser={isUser}
                 isProfile={true}
-                name={profile.name}
-                date={profile.date}
+                user_id={user.id}
+                user_name={user.name}
+                user_followings={profile.followings}
               />
             </Col>
             <Col md='9'>

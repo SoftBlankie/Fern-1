@@ -49,6 +49,7 @@ router.post('/:id', auth, (req, res) => {
     location: req.body.location,
     learning: req.body.learning,
     native: req.body.native,
+    about: req.body.about,
     followers: req.body.followers,
     followings: req.body.followings
   };
