@@ -50,6 +50,13 @@ class Searchbar extends Component {
     suggestions: []
   };
 
+  componentDidMount() {
+    axios.get('/api/users')
+      .then(res => {
+        suggestions = res.data;
+      });
+  };
+
   onChange = (e, { newValue, method }) => {
     this.setState({ value: newValue });
   };

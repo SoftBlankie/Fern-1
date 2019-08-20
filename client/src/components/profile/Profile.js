@@ -74,67 +74,70 @@ class Profile extends Component {
 
     return (
       <div>
-        <Container>
-          <Row>
-            <Col md='3'>
-              <ProfileCard
-                isUser={isUser}
-                isProfile={true}
-                user_id={user.id}
-                user_name={user.name}
-                user_followings={profile.followings}
-              />
-            </Col>
-            <Col md='9'>
-              <Nav tabs>
-                <NavItem>
-                  <NavLink
-                  className={classnames({ active: this.state.activeTab === '1' })}
-                  href="#"
-                  onClick={() => { this.toggle('1'); }}
-                  >
-                    Profile
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({ active: this.state.activeTab === '2' })}
+        {profile ? (
+          <Container>
+            <Row>
+              <Col md='3'>
+                <ProfileCard
+                  isUser={isUser}
+                  isProfile={true}
+                  user_id={user.id}
+                  user_name={user.name}
+                  user_followings={profile.followings}
+                />
+                {window.innerWidth <= 760 ? <hr /> : null}
+              </Col>
+              <Col md='9'>
+                <Nav tabs>
+                  <NavItem>
+                    <NavLink
+                    className={classnames({ active: this.state.activeTab === '1' })}
                     href="#"
-                    onClick={() => { this.toggle('2'); }}
-                  >
-                    Posts
-                  </NavLink>
-                </NavItem>
-              </Nav>
-              <TabContent activeTab={this.state.activeTab}>
-                <TabPane tabId="1">
-                  <Row>
-                    <Col>
-                      <ListGroup>
-                        <ListGroupItem>Public Name: {profile.name}</ListGroupItem>
-                        <ListGroupItem>Age: {profile.age !== 0 ? profile.age : null}</ListGroupItem>
-                        <ListGroupItem>Location: {profile.location}</ListGroupItem>
-                        <ListGroupItem>Learning: {profile.learning}</ListGroupItem>
-                        <ListGroupItem>Native: {profile.native}</ListGroupItem>
-                        <ListGroupItem>Posts: {userPosts.length}</ListGroupItem>
-                        <ListGroupItem>Following: {profile.followings.length}</ListGroupItem>
-                        <ListGroupItem>Followers: {profile.followers.length}</ListGroupItem>
-                        <ListGroupItem>Date Created: {profile.date}</ListGroupItem>
-                      </ListGroup>
-                    </Col>
-                  </Row>
-                </TabPane>
-                <TabPane tabId="2">
-                  <Row>
-                    <Col sm="12">
-                      <Post posts={userPosts}/>
-                    </Col>
-                  </Row>
-                </TabPane>
-              </TabContent>
-            </Col>
-          </Row>
-        </Container>
+                    onClick={() => { this.toggle('1'); }}
+                    >
+                      Profile
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({ active: this.state.activeTab === '2' })}
+                      href="#"
+                      onClick={() => { this.toggle('2'); }}
+                    >
+                      Posts
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+                <TabContent activeTab={this.state.activeTab}>
+                  <TabPane tabId="1">
+                    <Row>
+                      <Col>
+                        <ListGroup>
+                          <ListGroupItem>Public Name: {profile.name}</ListGroupItem>
+                          <ListGroupItem>Age: {profile.age !== 0 ? profile.age : null}</ListGroupItem>
+                          <ListGroupItem>Location: {profile.location}</ListGroupItem>
+                          <ListGroupItem>Learning: {profile.learning}</ListGroupItem>
+                          <ListGroupItem>Native: {profile.native}</ListGroupItem>
+                          <ListGroupItem>Posts: {userPosts.length}</ListGroupItem>
+                          <ListGroupItem>Following: {profile.followings.length}</ListGroupItem>
+                          <ListGroupItem>Followers: {profile.followers.length}</ListGroupItem>
+                          <ListGroupItem>Date Created: {profile.date}</ListGroupItem>
+                        </ListGroup>
+                      </Col>
+                    </Row>
+                  </TabPane>
+                  <TabPane tabId="2">
+                    <Row>
+                      <Col sm="12">
+                        <Post posts={userPosts}/>
+                      </Col>
+                    </Row>
+                  </TabPane>
+                </TabContent>
+              </Col>
+            </Row>
+          </Container>
+        ) : null}
       </div>
     );
   }

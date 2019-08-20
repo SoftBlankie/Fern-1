@@ -73,10 +73,10 @@ class AppNavbar extends Component {
       <div>
         <Navbar color='dark' dark expand='sm' className='mb-5' style={{ zIndex: 99 }}>
           <Container>
-            <NavbarBrand tag={Link} to={`/${user ? user.name : 0}`}>Fern</NavbarBrand>
+            <NavbarBrand tag={Link} to={`/${user ? user.name : null}`}>Fern</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
-              {isAuthenticated ? <Searchbar /> : !<Searchbar />}
+              {isAuthenticated ? <Searchbar /> : null}
               <Nav className='ml-auto' navbar>
                 {isAuthenticated ? authLinks : guestLinks}
               </Nav>

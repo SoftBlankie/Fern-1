@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import UpdateModal from './UpdateModal';
+import FollowModal from './FollowModal';
 import Person from '@material-ui/icons/Person';
 
 class ProfileCard extends Component {
@@ -70,8 +71,6 @@ class ProfileCard extends Component {
     if (profile) {
       let followings = this.state.user_followings;
       index = followings.indexOf(profile.name);
-      if (index !== -1) followings.splice(index, 1);
-      index = followings.indexOf('User2');
       if (index !== -1) followings.splice(index, 1);
 
       let { followers } = profile;
@@ -134,7 +133,14 @@ class ProfileCard extends Component {
           }) : null}
         </CardBody>
         <CardFooter style={{ backgroundColor: 'white' }}>
-          <Person />{profile ? profile.followings.length : null} Following
+          <Person />
+          {profile ? (
+            <FollowModal
+              isOpen={this.state.isOpen}
+              followings={profile.followings}
+              followers={profile.followers}
+            />
+          ) : null}
         </CardFooter>
       </Card>
     );

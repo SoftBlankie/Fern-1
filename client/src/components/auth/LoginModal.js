@@ -99,7 +99,6 @@ class LoginModal extends Component {
                   className='mb-3'
                   onChange={this.onChange}
                 />
-
                 <Label for='password'>Password</Label>
                 <Input
                   type='password'

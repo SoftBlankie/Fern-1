@@ -16,7 +16,6 @@ import PropTypes from 'prop-types';
 
 import Post from './Post';
 import ProfileCard from '../profile/ProfileCard';
-import FollowCard from './FollowCard';
 
 import Fab from '@material-ui/core/Fab';
 import Add from '@material-ui/icons/Add';
@@ -72,17 +71,18 @@ class Home extends Component {
         </Fab>
         <Container>
           <Row>
-            <Col md='3'>
-              <ProfileCard
-                user_id={user.id}
-                isUser={true}
-                isProfile={false}
-                name={user.name}
-                date={user.date}
-              />
-              <div style={{ marginBottom: '1rem' }}></div>
-              <FollowCard />
-            </Col>
+            {window.innerWidth > 760 ? (
+              <Col md='3'>
+                <ProfileCard
+                  user_id={user.id}
+                  isUser={true}
+                  isProfile={false}
+                  name={user.name}
+                  date={user.date}
+                />
+                <div style={{ marginBottom: '1rem' }}></div>
+              </Col>
+            ) : null}
             <Col md='9'>
               <Dropdown className='list-unstyled' nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle nav caret>
