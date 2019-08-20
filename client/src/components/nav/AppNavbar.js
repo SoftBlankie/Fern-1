@@ -71,7 +71,7 @@ class AppNavbar extends Component {
 
     return (
       <div>
-        <Navbar color='dark' dark expand='sm' className='mb-5' style={{ zIndex: 99 }}>
+        <Navbar color='dark' dark expand='sm' style={{ zIndex: 99 }}>
           <Container>
             <NavbarBrand tag={Link} to={`/${user ? user.name : null}`}>Fern</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
@@ -83,6 +83,9 @@ class AppNavbar extends Component {
             </Collapse>
           </Container>
         </Navbar>
+        {isAuthenticated ? (
+          <div className='mb-5'></div>
+        ) : null}
       </div>
     );
   }

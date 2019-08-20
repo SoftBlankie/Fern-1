@@ -49,7 +49,7 @@ class RegisterModal extends Component {
         this.toggle();
       }
     }
-  }
+  };
 
   toggle = () => {
     // Clear errors
@@ -103,7 +103,6 @@ class RegisterModal extends Component {
                   className='mb-3'
                   onChange={this.onChange}
                 />
-
                 <Label for='email'>Email</Label>
                 <Input
                   type='email'
@@ -113,7 +112,6 @@ class RegisterModal extends Component {
                   className='mb-3'
                   onChange={this.onChange}
                 />
-
                 <Label for='password'>Password</Label>
                 <Input
                   type='password'

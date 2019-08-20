@@ -118,7 +118,7 @@ class ProfileCard extends Component {
     );
 
     return(
-      <Card>
+      <Card style={{ marginBottom: '2rem' }}>
         <CardImg top width="100%" src="https://semantic-ui.com/images/avatar2/large/kristy.png" alt="Card image cap" />
         {this.props.isUser ? (this.props.isProfile ? userAccess : null) : guestAccess}
         <CardBody>
