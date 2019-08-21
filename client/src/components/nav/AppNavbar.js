@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Container,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -8,7 +9,10 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -21,7 +25,8 @@ import Logout from '../auth/Logout';
 
 class AppNavbar extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    dropdownOpen: false
   };
 
   static propTypes = {
@@ -34,6 +39,10 @@ class AppNavbar extends Component {
         isOpen: !this.state.isOpen
       });
     }
+  };
+
+  dropdownToggle = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen });
   };
 
   render() {
@@ -50,11 +59,21 @@ class AppNavbar extends Component {
           <NavLink tag={Link} to={`/${user ? user.name : ''}`}>Home</NavLink>
         </NavItem>
         <NavItem onClick={this.toggle}>
-          <NavLink tag={Link} to={`/${user ? user.name : 0}/profile`}>Profile</NavLink>
+          <NavLink tag={Link} to={`/${user ? user.name : ''}/profile`}>Profile</NavLink>
         </NavItem>
-        <NavItem onClick={this.toggle}>
-          <Logout />
-        </NavItem>
+        <Dropdown nav inNavbar isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+          <DropdownToggle nav caret></DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem tag={Link} to={`/${user ? user.name : ''}/help`}>
+              Help
+            </DropdownItem>
+            <DropdownItem tag={Link} to={`/${user ? user.name : ''}/contact`}>
+              Contact
+            </DropdownItem>
+            <DropdownItem divider />
+            <Logout />
+          </DropdownMenu>
+        </Dropdown>
       </Fragment>
     );
 
@@ -69,6 +88,14 @@ class AppNavbar extends Component {
       </Fragment>
     );
 
+    const infoLinks = (
+      <Fragment>
+        <NavItem onClick={this.toggle}>
+          <NavLink tag={Link} to={'/info/about'}>About</NavLink>
+        </NavItem>
+      </Fragment>
+    );
+
     return (
       <div>
         <Navbar color='dark' dark expand='sm' style={{ zIndex: 99 }}>
@@ -77,6 +104,9 @@ class AppNavbar extends Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               {isAuthenticated ? <Searchbar /> : null}
+              <Nav navbar>
+                {!isAuthenticated ? infoLinks : null}
+              </Nav>
               <Nav className='ml-auto' navbar>
                 {isAuthenticated ? authLinks : guestLinks}
               </Nav>

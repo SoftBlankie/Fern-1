@@ -8,6 +8,7 @@ import {
   Card,
   CardHeader,
   CardBody,
+	CardText,
   CardImg,
   Form,
   FormGroup,
@@ -18,11 +19,12 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { register } from '../actions/authActions';
+import { login, register } from '../actions/authActions';
 import { clearErrors } from '../actions/errorActions';
 
 class Landing extends Component {
   state = {
+		isLogin: true,
     name: '',
     email: '',
     password: '',
@@ -44,11 +46,32 @@ class Landing extends Component {
     }
   };
 
+	toggle = () => {
+		this.setState({ name: '' });
+		this.setState({ email: '' });
+		this.setState({ password: '' });
+		this.setState({ msg: null });
+		this.setState({ isLogin: !this.state.isLogin });
+	};
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+	onLogin = e => {
+		e.preventDefault();
+	
+		const { email, password } = this.state;
+
+		const user = {
+			email,
+			password
+		};
+
+		this.props.login(user);
+	};
+
+  onRegister = e => {
     e.preventDefault();
 
     const { name, email, password } = this.state;
@@ -68,62 +91,119 @@ class Landing extends Component {
     if (isAuthenticated)
       return <Redirect to={`/${user.name}`}/>
 
+    const loginForm = (
+      <Form onSubmit={this.onLogin}>
+				<FormGroup>
+					<Label for='email'>Email</Label>
+					<Input
+						type='email'
+						name='email'
+						id='email'
+						placeholder='Email'
+						className='mb-3'
+						onChange={this.onChange}
+					/>
+					<Label for='password'>Password</Label>
+					<Input
+						type='password'
+						name='password'
+						id='password'
+						placeholder='Password'
+						className='mb-3'
+						onChange={this.onChange}
+					/>
+					<Button color='dark' style={{ marginTop: '2rem' }} block>
+						Login
+					</Button>
+				</FormGroup>
+			</Form>
+    );
+
+    const registerForm = (
+      <Form onSubmit={this.onRegister}>
+        <FormGroup>
+          <Label for='name'>Public Name</Label>
+          <Input
+            type='text'
+            name='name'
+            id='name'
+            placeholder='name'
+            className='mb-3'
+            onChange={this.onChange}
+          />
+          <Label for='email'>Email</Label>
+          <Input
+            type='email'
+            name='email'
+            id='email'
+            placeholder='Email'
+            className='mb-3'
+            onChange={this.onChange}
+          />
+          <Label for='password'>Password</Label>
+          <Input
+            type='password'
+            name='password'
+            id='password'
+            placeholder='Password'
+            className='mb-3'
+            onChange={this.onChange}
+          />
+          <Button color='dark' style={{ marginTop: '2rem' }} block>
+            Register
+          </Button>
+        </FormGroup>
+      </Form>
+    );
+
     return( 
-        <Jumbotron style={{ marginTop: '3rem' }}>
+        <Jumbotron style={{ marginTop: '2rem' }}>
           <Container>
-          <Row>
-            <Col>
-              <Card>
-                <CardImg src='' />
-              </Card>
-            </Col>
-            <Col md={{ size: 5, offset: 1 }}>
-              <Card>
-                <CardHeader style={{ border: 0, backgroundColor: 'white' }}>
-                  <h1>Fern</h1>
-                </CardHeader>
-                <CardBody>
-                  {this.state.msg ? (
-                    <Alert color='danger'>{this.state.msg}</Alert>
-                  ) : null}
-                  <Form onSubmit={this.onSubmit}>
-                    <FormGroup>
-                      <Label for='name'>Public Name</Label>
-                      <Input
-                        type='text'
-                        name='name'
-                        id='name'
-                        placeholder='name'
-                        className='mb-3'
-                        onChange={this.onChange}
-                      />
-                      <Label for='email'>Email</Label>
-                      <Input
-                        type='email'
-                        name='email'
-                        id='email'
-                        placeholder='Email'
-                        className='mb-3'
-                        onChange={this.onChange}
-                      />
-                      <Label for='password'>Password</Label>
-                      <Input
-                        type='password'
-                        name='password'
-                        id='password'
-                        placeholder='Password'
-                        className='mb-3'
-                        onChange={this.onChange}
-                      />
-                      <Button color='dark' style={{ marginTop: '2rem' }} block>
-                        Register
-                      </Button>
-                    </FormGroup>
-                  </Form>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+            <Row>
+              <Col md={{ size: 4, offset: 2 }}>
+                <Card>
+                  <CardImg src='https://cdn.pixabay.com/photo/2016/03/11/12/51/fern-1250222_960_720.jpg' />
+                </Card>
+              </Col>
+              <Col md={{ size: 4 }}>
+                <Card style={{ marginTop: '1rem' }}>
+                  <CardHeader style={{ border: 0, backgroundColor: 'white' }}>
+                    <h1 className='text-center'>Fern</h1>
+                  </CardHeader>
+                  <CardBody style={{ paddingTop: 0 }}>
+                    {this.state.msg ? (
+                      <Alert color='danger'>{this.state.msg}</Alert>
+                    ) : null}
+                  	{this.state.isLogin ? loginForm : registerForm}
+                  </CardBody>
+                </Card>
+                <Card style={{ marginTop: '1rem' }}>
+                  <CardBody>
+										{this.state.isLogin ? (
+											<CardText className='text-center'>
+												<span className='text-muted'>Ready to get started? </span>
+												<span
+													onClick={this.toggle}
+													style={{ cursor: 'pointer', color: '#40a2ff' }}
+												>
+													Sign up
+												</span>
+											</CardText>
+										) : (
+											<CardText className='text-center'>
+												<span className='text-muted'>Back to </span>
+												<span
+													onClick={this.toggle}
+													style={{ cursor: 'pointer', color: '#40a2ff' }}
+												>
+													Login
+												</span>
+											</CardText>
+										)}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
           </Container>
         </Jumbotron>
     );
@@ -137,5 +217,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { register, clearErrors }
+  { login, register, clearErrors }
 )(Landing);

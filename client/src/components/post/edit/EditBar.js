@@ -100,7 +100,7 @@ class EditBar extends Component {
                 >
                   <p>- Create an edit by selecting the text</p>
                   <p>- Clicking on the card text shows the edit's selection</p>
-                  <p>- Clear edits by clicking the 'Edits' header to the left</p>
+                  <p>- Clear annotations by clicking the 'Edits' header to the left</p>
                 </Tooltip>
               </Col>
             </Row>
