@@ -1,9 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { Component } from 'react';
 import {
   Container,
   Row,
-  Col
+  Col,
+  Card,
+  CardHeader,
+  CardBody
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -29,6 +31,17 @@ class Post extends Component {
 		deleteModal: false,
   };
 
+  componentDidMount() {
+    if (!this.props.posts) this.props.getPosts();
+  };
+
+  componentDidUpdate() {
+    const { isAuthenticated } = this.props.auth;
+    if (isAuthenticated === false) {
+      this.props.history.push('/');
+    }
+  };
+
   static propTypes = {
     auth: PropTypes.object.isRequired
   };
@@ -45,9 +58,6 @@ class Post extends Component {
     const post = posts.find(post => post.id === Number(this.props.match.params.id));
     const isUser = (user ? user.name : '') === this.props.match.params.name;
 
-    if (!isAuthenticated)
-      return <Redirect to='/' />
-
 		const fabStyle = {
 			margin: 0,
 			top: 'auto',
@@ -59,76 +69,93 @@ class Post extends Component {
 		}
 		
     const userAccess = (
-      <Fragment>
-        <PostForm
-          toggle={this.toggle}
-          postId={this.props.match.params.id}
-          initialTitle={post.title}
-          initialEntry={html.deserialize(post.entry)}
-          initialLanguage={post.language}
-        />
-        <DeleteModal
-          post_id={post.id} 
-          history={this.props.history}
-          deletePost={this.props.deletePost}
-        />
-				<Fab
-					size='large'
-					onClick={this.toggle}
-					style={fabStyle}
-				>
-					<BackIcon />
-				</Fab>
-      </Fragment>
+      <div>
+        {isAuthenticated ? (
+          <div>
+            <PostForm
+              toggle={this.toggle}
+              postId={this.props.match.params.id}
+              initialTitle={post.title}
+              initialEntry={html.deserialize(post.entry)}
+              initialLanguage={post.language}
+            />
+            <DeleteModal
+              post_id={post.id} 
+              history={this.props.history}
+              deletePost={this.props.deletePost}
+            />
+            <Fab
+              size='large'
+              onClick={this.toggle}
+              style={fabStyle}
+            >
+              <BackIcon />
+            </Fab>
+          </div>
+        ) : null}
+      </div>
     );
 
     const defaultAccess = (
-      <Fragment>
-				{isUser ? (
-          <Fab
-            size='large'
-            onClick={this.toggle}
-            style={fabStyle}
-          >
-            <EditIcon />
-          </Fab>
+      <div>
+        {isAuthenticated ? (
+          <div>
+            {isUser ? (
+              <Fab
+                size='large'
+                onClick={this.toggle}
+                style={fabStyle}
+              >
+                <EditIcon />
+              </Fab>
+            ) : null}
+            <Row style={{ margin: 0 }}>
+              <Col md={{ size: 7, offset: 1 }}>
+                <Container style={{ zIndex: 1 }}>
+                  <Row>
+                    <Col md={{ size: 10, offset: 1 }}>
+                      <Card>
+                        <CardHeader style={{ border: 0, backgroundColor: 'white' }}>
+                          <h1>{post.title}</h1>
+                          <Row>
+                            <Col md='auto' xs='auto'>
+                              {post.name}
+                            </Col>
+                            <Col>
+                              <small className='text-muted'>{post.date}</small>
+                            </Col>
+                          </Row>
+                        </CardHeader>
+                        <CardBody>
+                          <Edit
+                            post_entry={html.deserialize(post.entry)}
+                            post_id={post.id}
+                            user_id={user.id}
+                            name={user.name}
+                            isUser={isUser}
+                            post_edits={post.edits}
+                          />
+                          <Comment
+                            post_id={post.id}
+                            user_id={user.id}
+                            user_name={user.name}
+                            post_comments={post.comments}
+                          />
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Container>
+              </Col>
+            </Row>
+          </div>
         ) : null}
-        <Row style={{ margin: 0 }}>
-          <Col md={{ size: 7, offset: 1 }}>
-            <Container style={{ zIndex: 1 }}>
-              <h1>{post.title}</h1>
-                <Row>
-                  <Col md='auto' xs='auto'>
-                    {post.name}
-                  </Col>
-                  <Col>
-                    <small className='text-muted'>{post.date}</small>
-                  </Col>
-                </Row>
-              <hr />
-              <Edit
-                post_entry={html.deserialize(post.entry)}
-                post_id={post.id}
-                user_id={user.id}
-                name={user.name}
-                isUser={isUser}
-                post_edits={post.edits}
-              />
-              <Comment
-                post_id={post.id}
-                user_id={user.id}
-                user_name={user.name}
-                post_comments={post.comments}
-              />
-            </Container>
-          </Col>
-        </Row>
-      </Fragment>
+      </div>
     );
 
     return (
       <div>
-        {this.state.isOpen ? (isUser ? userAccess : defaultAccess) : defaultAccess}
+        {(this.state.isOpen && isUser) ? userAccess : defaultAccess}
       </div>
     );
   }

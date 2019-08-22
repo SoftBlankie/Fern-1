@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import languages from '../languages';
 import {
   Container,
@@ -24,13 +24,24 @@ class Home extends Component {
   state = {
     dropdownOpen: false
   };
+  
+  static propTypes = {
+    auth: PropTypes.object.isRequired,
+  };
 
   componentDidMount() {
     this.props.getPosts();
   };
 
-  static propTypes = {
-    auth: PropTypes.object.isRequired,
+  componentDidUpdate() {
+    const { isAuthenticated, user } = this.props.auth;
+    if (isAuthenticated === false) {
+      this.props.history.push('/');
+    } else if (user) {
+      if (user.name !== this.props.match.params.name) {
+        this.props.history.push(user.name)
+      }
+    }
   };
 
   toggle = () => {
@@ -47,9 +58,6 @@ class Home extends Component {
     const { isAuthenticated, user } = this.props.auth;
     const { posts } = this.props.post;
 
-    if (!isAuthenticated)
-      return <Redirect to='/' />
-
     const addStyle = {
       margin: 0,
       top: 'auto',
@@ -62,54 +70,58 @@ class Home extends Component {
 
     return (
       <div>
-        <Fab
-          size="large"
-          component={Link} to={`/${user.name}/postform`}
-          style={addStyle}
-        >
-          <Add />
-        </Fab>
-        <Container>
-          <Row>
-            {window.innerWidth > 760 ? (
-              <Col md='3'>
-                <ProfileCard
-                  user_id={user.id}
-                  isUser={true}
-                  isProfile={false}
-                  name={user.name}
-                  date={user.date}
-                />
-                <div style={{ marginBottom: '1rem' }}></div>
-              </Col>
-            ) : null}
-            <Col md='9'>
-              <Dropdown className='list-unstyled' nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle nav caret>
-                  Filter
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem onClick={this.props.getPosts.bind(this)}>
-                    Default
-                  </DropdownItem>
-                  <DropdownItem onClick={this.props.getPosts.bind(this)}>
-                    Following
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  {languages.map((language, id) => (
-                    <DropdownItem
-                      key={id}
-                      onClick={this.filterLanguage.bind(this, language)}
-                    >
-                      {language}
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              </Dropdown>
-              <Post posts={posts}/>
-            </Col>
-          </Row>
-        </Container>
+        {isAuthenticated ? (
+          <div>
+            <Fab
+              size="large"
+              component={Link} to={`/${user.name}/postform`}
+              style={addStyle}
+            >
+              <Add />
+            </Fab>
+            <Container>
+              <Row>
+                {window.innerWidth > 760 ? (
+                  <Col md='3'>
+                    <ProfileCard
+                      user_id={user.id}
+                      isUser={true}
+                      isProfile={false}
+                      name={user.name}
+                      date={user.date}
+                    />
+                    <div style={{ marginBottom: '1rem' }}></div>
+                  </Col>
+                ) : null}
+                <Col md='9'>
+                  <Dropdown className='list-unstyled' nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                    <DropdownToggle nav caret>
+                      Filter
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem onClick={this.props.getPosts.bind(this)}>
+                        Default
+                      </DropdownItem>
+                      <DropdownItem onClick={this.props.getPosts.bind(this)}>
+                        Following
+                      </DropdownItem>
+                      <DropdownItem divider />
+                      {languages.map((language, id) => (
+                        <DropdownItem
+                          key={id}
+                          onClick={this.filterLanguage.bind(this, language)}
+                        >
+                          {language}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                  <Post posts={posts}/>
+                </Col>
+              </Row>
+            </Container>
+          </div>
+        ) : null}
       </div>
     );
   }

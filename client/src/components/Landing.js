@@ -31,8 +31,8 @@ class Landing extends Component {
     msg: null
   };
 
-  static propTypes = {
-    auth: PropTypes.object.isRequired
+  componentDidMount() {
+    window.sessionStorage.setItem('currentPage', window.location.pathname);
   };
 
   componentDidUpdate(prevProps) {
@@ -44,6 +44,10 @@ class Landing extends Component {
         this.setState({ msg: null });
       }
     }
+  };
+
+  static propTypes = {
+    auth: PropTypes.object.isRequired
   };
 
 	toggle = () => {
@@ -89,7 +93,7 @@ class Landing extends Component {
     const { isAuthenticated, user } = this.props.auth;
 
     if (isAuthenticated)
-      return <Redirect to={`/${user.name}`}/>
+      return <Redirect to={`/${user.name}`} />
 
     const loginForm = (
       <Form onSubmit={this.onLogin}>

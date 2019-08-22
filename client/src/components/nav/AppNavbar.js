@@ -64,10 +64,10 @@ class AppNavbar extends Component {
         <Dropdown nav inNavbar isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
           <DropdownToggle nav caret></DropdownToggle>
           <DropdownMenu right>
-            <DropdownItem tag={Link} to={`/${user ? user.name : ''}/help`}>
+            <DropdownItem tag={Link} to={`/${user ? user.name : ''}/help`} onClick={this.toggle}>
               Help
             </DropdownItem>
-            <DropdownItem tag={Link} to={`/${user ? user.name : ''}/contact`}>
+            <DropdownItem tag={Link} to={`/${user ? user.name : ''}/contact`} onClick={this.toggle}>
               Contact
             </DropdownItem>
             <DropdownItem divider />
@@ -99,19 +99,21 @@ class AppNavbar extends Component {
     return (
       <div>
         <Navbar color='dark' dark expand='sm' style={{ zIndex: 99 }}>
-          <Container>
-            <NavbarBrand tag={Link} to={`/${user ? user.name : null}`}>Fern</NavbarBrand>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              {isAuthenticated ? <Searchbar /> : null}
-              <Nav navbar>
-                {!isAuthenticated ? infoLinks : null}
-              </Nav>
-              <Nav className='ml-auto' navbar>
-                {isAuthenticated ? authLinks : guestLinks}
-              </Nav>
-            </Collapse>
-          </Container>
+          {isAuthenticated !== null ? (
+            <Container>
+              <NavbarBrand tag={Link} to={`/${user ? user.name : ''}`}>Fern</NavbarBrand>
+              <NavbarToggler onClick={this.toggle} />
+              <Collapse isOpen={this.state.isOpen} navbar>
+                {isAuthenticated ? <Searchbar /> : null}
+                <Nav navbar>
+                  {!isAuthenticated ? infoLinks : null}
+                </Nav>
+                <Nav className='ml-auto' navbar>
+                  {(isAuthenticated === true) ? authLinks : guestLinks}
+                </Nav>
+              </Collapse>
+            </Container>
+          ) : null}
         </Navbar>
         {isAuthenticated ? (
           <div className='mb-5'></div>

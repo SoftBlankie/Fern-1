@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import Html from 'slate-html-serializer';
-import { Redirect } from 'react-router-dom';
 import languages from '../languages';
 import {
+  Container,
+  Row,
+  Col,
   Button,
   Form,
   FormGroup,
   Label,
   Input,
-  Container,
-  Row,
-  Col
+  Card,
+  CardBody
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addPost, updatePost } from '../../actions/postActions';
@@ -33,6 +34,17 @@ class PostForm extends Component {
 
   static propTypes = {
     auth: PropTypes.object.isRequired
+  };
+
+  componentDidUpdate() {
+    const { isAuthenticated, user } = this.props.auth;
+    if (isAuthenticated === false) {
+      this.props.history.push('/');
+    } else if (user) {
+      if (user.name !== this.props.match.params.name) {
+        this.props.history.push(user.name)
+      }
+    }
   };
 
   onChange = e => {
@@ -66,8 +78,7 @@ class PostForm extends Component {
         };
 
         this.props.updatePost(this.props.postId, newPost);
-        // timeout to allow redux to load
-        setTimeout(function() {this.props.toggle();}.bind(this),200);
+        this.props.toggle()
       }
     } else {
       if (this.isValid()) {
@@ -85,11 +96,6 @@ class PostForm extends Component {
   };
 
   render() {
-    const { isAuthenticated } = this.props.auth;
-    
-    if (!isAuthenticated)
-      return <Redirect to='/'/>
-
     const addButton = (
       <Button color='dark' style={{ marginTop: '2rem' }} block>
         Add Post
@@ -107,43 +113,47 @@ class PostForm extends Component {
         <Container>
           <Row>
             <Col sm="12" md={{ size: 8, offset: 2 }}>
-              <Form onSubmit={this.onSubmit}>
-                <FormGroup>
-                  <Label for="title">Title</Label>
-                  <Input
-                    type='text'
-                    name='title'
-                    id='post'
-                    invalid={this.state.title_error}
-                    placeholder='Title'
-                    defaultValue={this.state.title}
-                    onChange={this.onChange}
-                    style={{ marginBottom: '2rem' }}
-                  />
-                  <Label for="entry">Entry</Label>
-                  <div
-                    name='entry'
-                    id='post'
-                    style={{ marginBottom: '2rem' }}
-                  >
-                    <TextEditor initialValue={this.state.entry} onChange={this.onEdit} />
-                  </div>
-                  <Label for="language">Language</Label>
-                  <Input
-                    type='select'
-                    name='language'
-                    invalid={this.state.language_error}
-                    defaultValue={this.state.language}
-                    onChange={this.onChange}
-                  >
-                    <option>Select</option>
-                    {languages.map((language, id) => (
-                      <option key={id}>{language}</option>
-                    ))}
-                  </Input>
-                  {this.props.postId ? editButton : addButton}
-                </FormGroup>
-              </Form>
+              <Card>
+                <CardBody>
+                  <Form onSubmit={this.onSubmit}>
+                    <FormGroup>
+                      <Label for='title'>Title</Label>
+                      <Input
+                        type='text'
+                        name='title'
+                        id='post'
+                        invalid={this.state.title_error}
+                        placeholder='Title'
+                        defaultValue={this.state.title}
+                        onChange={this.onChange}
+                        style={{ marginBottom: '2rem' }}
+                      />
+                      <Label for="entry">Entry</Label>
+                      <div
+                        name='entry'
+                        id='post'
+                        style={{ marginBottom: '2rem' }}
+                      >
+                        <TextEditor initialValue={this.state.entry} onChange={this.onEdit} />
+                      </div>
+                      <Label for="language">Language</Label>
+                      <Input
+                        type='select'
+                        name='language'
+                        invalid={this.state.language_error}
+                        defaultValue={this.state.language}
+                        onChange={this.onChange}
+                      >
+                        <option>Select</option>
+                        {languages.map((language, id) => (
+                          <option key={id}>{language}</option>
+                        ))}
+                      </Input>
+                      {this.props.postId ? editButton : addButton}
+                    </FormGroup>
+                  </Form>
+                </CardBody>
+              </Card>
             </Col>
           </Row>
         </Container>

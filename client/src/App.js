@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import AppNavbar from './components/nav/AppNavbar';
 
 import { Provider } from 'react-redux';
@@ -20,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 class App extends Component {
-  componentDidMount() {
+  componentDidMount(prevProps) {
     store.dispatch(loadUser());
   }
 
@@ -31,15 +31,17 @@ class App extends Component {
           <div className="App">
             <AppNavbar />
             <div>
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/info/about" component={About} />
-              <Route exact path="/:name" component={Home} />
-              <Route exact path="/:name/profile" component={Profile} />
-              <Route exact path="/:name/postform" component={PostForm} />
-              <Route exact path="/:name/post/:id" component={Post} />
-              <Route exact path="/:name/help" component={Help} />
-              <Route exact path="/:name/contact" component={Contact} />
-              <Redirect to="/" />
+              <Switch>
+                <Route exact path="/" component={Landing} />
+                <Route exact path="/info/about" component={About} />
+                <Route exact path="/:name" component={Home} />
+                <Route exact path="/:name/profile" component={Profile} />
+                <Route exact path="/:name/postform" component={PostForm} />
+                <Route exact path="/:name/post/:id" component={Post} />
+                <Route exact path="/:name/help" component={Help} />
+                <Route exact path="/:name/contact" component={Contact} />
+                <Redirect to="/" />
+              </Switch>
             </div>
           </div>
         </Provider>

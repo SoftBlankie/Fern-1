@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import classnames from 'classnames';
 import {
   Container,
@@ -30,19 +29,22 @@ class Profile extends Component {
     activeTab: '1'
   };
 
-  componentDidMount() {
-    const { user } = this.props.auth;
+  componentDidUpdate() {
+    const { isAuthenticated } = this.props.auth;
+    if (isAuthenticated === false) {
+      this.props.history.push('/');
+    }
+  };
 
-    if (user) {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.auth.user !== nextProps.auth.user) {
       const userPosts = {
         name: this.props.match.params.name
       };
       this.props.getUserPosts(userPosts);
       this.props.getProfileByName(this.props.match.params.name);
     }
-  };
 
-  componentWillReceiveProps(nextProps) {
     if (this.props.match.params.name !== nextProps.match.params.name) {
       const userPosts = {
         name: nextProps.match.params.name
@@ -64,13 +66,10 @@ class Profile extends Component {
   };
 
   render() {
-    const { isAuthenticated, user } = this.props.auth;
+    const { user } = this.props.auth;
     const { userPosts } = this.props.post;
     const { profile } = this.props.profile;
     const isUser = (user ? user.name : '') === this.props.match.params.name;
-
-    if (!isAuthenticated)
-      return <Redirect to='/' />
 
     return (
       <div>
