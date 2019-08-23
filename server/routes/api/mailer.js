@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const config = require('config');
+
+require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-  service: config.get('mailService'),
+  service: process.env.mailService,
   auth: {
-    user: config.get('mailUser'),
-    pass: config.get('mailPass'),
+    user: process.env.mailUser,
+    pass: process.env.mailPass,
   },
 });
 
@@ -16,7 +17,7 @@ const transporter = nodemailer.createTransport({
 // @access  Public
 router.post('/', (req, res) => {
   const mailOptions = {
-    from: 'Fern <' + config.get('mailUser') + '>',
+    from: 'Fern <' + process.env.mailUser + '>',
     subject: 'Fern Support',
     text:
     "This is a copy of your message sent to Fern's support manager.\n"

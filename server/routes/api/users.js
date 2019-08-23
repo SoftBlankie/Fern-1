@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const config = require('config');
 const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
 
 const User = require('../../database/user');
 const Profile = require('../../database/profile');
@@ -75,7 +76,7 @@ router.post('/', (req, res) => {
               User.create(newUser).then(newId => {
                 jwt.sign(
                   { id: newId },
-                  config.get('jwtSecret'),
+                  process.env.jwtSecret,
                   { expiresIn: 3600 },
                   (err, token) => {
                   if(err) throw err;
