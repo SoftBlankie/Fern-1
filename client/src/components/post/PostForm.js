@@ -90,7 +90,7 @@ class PostForm extends Component {
         };
         
         this.props.addPost(newPost);
-        this.props.history.push('/');
+        this.props.history.push(`/${this.props.auth.user.name}`);
       }
     }
   };

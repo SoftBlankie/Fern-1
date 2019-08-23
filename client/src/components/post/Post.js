@@ -30,20 +30,25 @@ class Post extends Component {
     isOpen: false,
 		deleteModal: false,
   };
+  
+  static propTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
   componentDidMount() {
-    if (!this.props.posts) this.props.getPosts();
+    const { posts } = this.props.post;
+    if (posts === undefined || posts.length === 0) this.props.getPosts();
   };
 
   componentDidUpdate() {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
+    const { posts } = this.props.post;
     if (isAuthenticated === false) {
       this.props.history.push('/');
+    } else if (isAuthenticated) {
+      if (!posts.find(post => post.id === Number(this.props.match.params.id)))
+        this.props.history.push(`/${user.name}`);
     }
-  };
-
-  static propTypes = {
-    auth: PropTypes.object.isRequired
   };
 
   toggle = () => {
@@ -52,11 +57,19 @@ class Post extends Component {
     });
   };
 
+  onDelete = post_id => {
+    this.props.deletePost(post_id);
+    this.props.history.push(`/${this.props.auth.user.name}`);
+  };
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { posts } = this.props.post;
     const post = posts.find(post => post.id === Number(this.props.match.params.id));
     const isUser = (user ? user.name : '') === this.props.match.params.name;
+
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+    const date = post ? new Date(post.date).toLocaleDateString('en-US', options) : '';
 
 		const fabStyle = {
 			margin: 0,
@@ -70,7 +83,7 @@ class Post extends Component {
 		
     const userAccess = (
       <div>
-        {isAuthenticated ? (
+        {(isAuthenticated && post) ? (
           <div>
             <PostForm
               toggle={this.toggle}
@@ -81,8 +94,7 @@ class Post extends Component {
             />
             <DeleteModal
               post_id={post.id} 
-              history={this.props.history}
-              deletePost={this.props.deletePost}
+              onDelete={this.onDelete}
             />
             <Fab
               size='large'
@@ -98,7 +110,7 @@ class Post extends Component {
 
     const defaultAccess = (
       <div>
-        {isAuthenticated ? (
+        {(isAuthenticated && post) ? (
           <div>
             {isUser ? (
               <Fab
@@ -122,7 +134,7 @@ class Post extends Component {
                               {post.name}
                             </Col>
                             <Col>
-                              <small className='text-muted'>{post.date}</small>
+                              <small className='text-muted'>{date}</small>
                             </Col>
                           </Row>
                         </CardHeader>

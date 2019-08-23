@@ -28,23 +28,34 @@ class Profile extends Component {
   state = {
     activeTab: '1'
   };
-
-  componentDidUpdate() {
-    const { isAuthenticated } = this.props.auth;
-    if (isAuthenticated === false) {
-      this.props.history.push('/');
-    }
+  
+  static propTypes = {
+    auth: PropTypes.object.isRequired
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.auth.user !== nextProps.auth.user) {
+  componentDidMount() {
+    if (!this.props.profile.profile
+      || (this.props.match.params.name !== this.props.auth.user.name)) {
       const userPosts = {
         name: this.props.match.params.name
       };
       this.props.getUserPosts(userPosts);
       this.props.getProfileByName(this.props.match.params.name);
     }
+  };
 
+  componentDidUpdate() {
+    const { isAuthenticated, user } = this.props.auth;
+    const { profile } = this.props.profile;
+    if (isAuthenticated === false) {
+      this.props.history.push('/');
+    } else if (isAuthenticated) {
+      if (!profile)
+        this.props.history.push(`/${user.name}`);
+    }
+  };
+
+  componentWillReceiveProps(nextProps) {
     if (this.props.match.params.name !== nextProps.match.params.name) {
       const userPosts = {
         name: nextProps.match.params.name
@@ -53,10 +64,6 @@ class Profile extends Component {
       this.props.getProfileByName(nextProps.match.params.name);
       this.setState({ activeTab: '1' });
     }
-  };
-
-  static propTypes = {
-    auth: PropTypes.object.isRequired
   };
   
   toggle = tab => {
@@ -71,19 +78,24 @@ class Profile extends Component {
     const { profile } = this.props.profile;
     const isUser = (user ? user.name : '') === this.props.match.params.name;
 
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = profile ? new Date(profile.date).toLocaleDateString('en-US', options) : '';
+
     return (
       <div>
         {profile ? (
           <Container>
             <Row>
               <Col md='3'>
-                <ProfileCard
-                  isUser={isUser}
-                  isProfile={true}
-                  user_id={user.id}
-                  user_name={user.name}
-                  user_followings={profile.followings}
-                />
+                {(profile && user) ? (
+                  <ProfileCard
+                    isUser={isUser}
+                    isProfile={true}
+                    user_id={user.id}
+                    user_name={user.name}
+                    user_followings={profile.followings}
+                  />
+                ) : null}
                 {window.innerWidth <= 760 ? <hr /> : null}
               </Col>
               <Col md='9'>
@@ -120,7 +132,7 @@ class Profile extends Component {
                           <ListGroupItem>Posts: {userPosts.length}</ListGroupItem>
                           <ListGroupItem>Following: {profile.followings.length}</ListGroupItem>
                           <ListGroupItem>Followers: {profile.followers.length}</ListGroupItem>
-                          <ListGroupItem>Date Created: {profile.date}</ListGroupItem>
+                          <ListGroupItem>Date Created: {date}</ListGroupItem>
                         </ListGroup>
                       </Col>
                     </Row>

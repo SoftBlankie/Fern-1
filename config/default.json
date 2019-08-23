@@ -1,3 +1,6 @@
 {
-  "jwtSecret": "DC419276C9F6D43D290C6309EC6A0A2B7BB1B68B241F169F4AFDAE067F0F5F6A"
+  "jwtSecret": "DC419276C9F6D43D290C6309EC6A0A2B7BB1B68B241F169F4AFDAE067F0F5F6A",
+  "mailService": "gmail",
+  "mailUser": "fernManager@gmail.com",
+  "mailPass": "leafyDefender123"
 }

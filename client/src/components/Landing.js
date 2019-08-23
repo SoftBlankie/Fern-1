@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import {
   Jumbotron,
   Container,
@@ -31,11 +30,10 @@ class Landing extends Component {
     msg: null
   };
 
-  componentDidMount() {
-    window.sessionStorage.setItem('currentPage', window.location.pathname);
-  };
-
   componentDidUpdate(prevProps) {
+    const { isAuthenticated, user } = this.props.auth;
+    if (isAuthenticated) this.props.history.push(user.name);
+
     const { error } = this.props;
     if (error !== prevProps.error) {
       if (error.id === 'REGISTER_FAIL') {
@@ -90,11 +88,6 @@ class Landing extends Component {
   };
 
   render() {
-    const { isAuthenticated, user } = this.props.auth;
-
-    if (isAuthenticated)
-      return <Redirect to={`/${user.name}`} />
-
     const loginForm = (
       <Form onSubmit={this.onLogin}>
 				<FormGroup>

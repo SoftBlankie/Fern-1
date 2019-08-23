@@ -14,6 +14,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/mailer', require('./routes/api/mailer'));
 app.use('/api/posts', require('./routes/api/posts'));
 app.use('/api/posts', require('./routes/api/edits'));
 app.use('/api/posts', require('./routes/api/comments'));

@@ -12,7 +12,9 @@ import Edit from '@material-ui/icons/Edit';
 
 class ResponsePost extends Component {
   render() {
-    const { id, name, title, language, date, comments, edits } = this.props;
+    const { id, name, title, language, comments, edits } = this.props;
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+    const date = new Date(this.props.date).toLocaleDateString('en-US', options);
 
     return(
       <Card tag={Link} to={`/${name}/post/${id}`} style={{ color: 'black' }}>

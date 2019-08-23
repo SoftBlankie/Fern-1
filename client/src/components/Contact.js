@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { sendMail } from '../actions/mailerActions';
 
 class Contact extends Component {
   state = {
@@ -54,11 +55,13 @@ class Contact extends Component {
     e.preventDefault();
 
     if (this.isValid()) {
-      const message = {
+      const mail = {
+        email: this.props.auth.user.email,
         message: this.state.message
       };
 
-      
+      this.props.sendMail(mail);
+      this.setState({ message: '' });
     }
   };
 
@@ -92,6 +95,7 @@ class Contact extends Component {
                           id='contact'
                           invalid={this.state.message_error}
                           placeholder='Message'
+                          value={this.state.message}
                           onChange={this.onChange}
                           style={{ height: '100px' }}
                         />
@@ -112,10 +116,11 @@ class Contact extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+
 });
 
 export default connect(
   mapStateToProps,
-  null
+  { sendMail }
 )(Contact);

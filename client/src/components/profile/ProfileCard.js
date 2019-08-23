@@ -91,6 +91,8 @@ class ProfileCard extends Component {
 
   render() {
     const { profile } = this.props.profile;
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = profile ? new Date(profile.date).toLocaleDateString('en-US', options) : '';
 
     const userAccess = (
       profile ? (
@@ -121,27 +123,29 @@ class ProfileCard extends Component {
       <Card style={{ marginBottom: '2rem' }}>
         <CardImg top width="100%" src="https://semantic-ui.com/images/avatar2/large/kristy.png" alt="Card image cap" />
         {this.props.isUser ? (this.props.isProfile ? userAccess : null) : guestAccess}
-        <CardBody>
-          <CardTitle style={{ margin: 0 }}>
-            <h5 style={{ margin: 0 }}>{profile ? profile.name : null}</h5>
-          </CardTitle>
-          <CardText>
-            <small className='text-muted'>Joined in {profile ? profile.date : null}</small>
-          </CardText>
-          {profile ? profile.about.split('\n').map((string, key) => {
-            return <CardText key={key}>{string}</CardText>;
-          }) : null}
-        </CardBody>
-        <CardFooter style={{ backgroundColor: 'white' }}>
+        {profile ? (
+          <CardBody>
+            <CardTitle style={{ margin: 0 }}>
+              <h5 style={{ margin: 0 }}>{profile.name}</h5>
+            </CardTitle>
+            <CardText>
+              <small className='text-muted'>Joined in {date}</small>
+            </CardText>
+            {profile.about.split('\n').map((string, key) => {
+              return <CardText key={key}>{string}</CardText>;
+            })}
+          </CardBody>
+        ) : null}
+        {profile ? (
+          <CardFooter style={{ backgroundColor: 'white' }}>
           <Person />
-          {profile ? (
             <FollowModal
               isOpen={this.state.isOpen}
               followings={profile.followings}
               followers={profile.followers}
             />
-          ) : null}
-        </CardFooter>
+          </CardFooter>
+        ) : null}
       </Card>
     );
   }
