@@ -52,6 +52,9 @@ class ResponseEdit extends Component {
   };
 
   render() {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+    const date = new Date(this.props.date).toLocaleDateString('en-US', options);
+
     return(
       <Card>
         <CardBody>
@@ -120,7 +123,7 @@ class ResponseEdit extends Component {
             </Container>
           )}
           <CardText>
-            <small className='text-muted'>{this.props.date}</small>
+            <small className='text-muted'>{date}</small>
           </CardText>
         </CardBody>
       </Card>

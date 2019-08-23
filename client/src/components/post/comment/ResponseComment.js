@@ -53,6 +53,8 @@ class ResponseComment extends Component {
 
   render() {
     const { comment_id } = this.props;
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+    const date = new Date(this.props.date).toLocaleDateString('en-US', options);
 
     return(
       <ListGroupItem>
@@ -61,7 +63,7 @@ class ResponseComment extends Component {
             <ListGroupItemHeading>{this.props.name}</ListGroupItemHeading>
           </Col>
           <Col>
-            <small className='text-muted'>{this.props.date}</small>
+            <small className='text-muted'>{date}</small>
           </Col>
           <Col className='text-md-right' md='1' xs='2'>
             <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>

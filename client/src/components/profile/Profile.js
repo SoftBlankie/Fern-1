@@ -34,12 +34,13 @@ class Profile extends Component {
   };
 
   componentDidMount() {
+    const userPosts = {
+      name: this.props.match.params.name
+    };
+    this.props.getUserPosts(userPosts);
+   
     if (!this.props.profile.profile
       || (this.props.match.params.name !== this.props.auth.user.name)) {
-      const userPosts = {
-        name: this.props.match.params.name
-      };
-      this.props.getUserPosts(userPosts);
       this.props.getProfileByName(this.props.match.params.name);
     }
   };

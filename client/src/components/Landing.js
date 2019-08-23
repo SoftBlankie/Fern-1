@@ -167,38 +167,42 @@ class Landing extends Component {
                   <CardHeader style={{ border: 0, backgroundColor: 'white' }}>
                     <h1 className='text-center'>Fern</h1>
                   </CardHeader>
-                  <CardBody style={{ paddingTop: 0 }}>
-                    {this.state.msg ? (
-                      <Alert color='danger'>{this.state.msg}</Alert>
-                    ) : null}
-                  	{this.state.isLogin ? loginForm : registerForm}
-                  </CardBody>
+                  {window.innerWidth > 760 ? (
+                    <CardBody style={{ paddingTop: 0 }}>
+                      {this.state.msg ? (
+                        <Alert color='danger'>{this.state.msg}</Alert>
+                      ) : null}
+                      {this.state.isLogin ? loginForm : registerForm}
+                    </CardBody>
+                  ) : null}
                 </Card>
-                <Card style={{ marginTop: '1rem' }}>
-                  <CardBody>
-										{this.state.isLogin ? (
-											<CardText className='text-center'>
-												<span className='text-muted'>Ready to get started? </span>
-												<span
-													onClick={this.toggle}
-													style={{ cursor: 'pointer', color: '#40a2ff' }}
-												>
-													Sign up
-												</span>
-											</CardText>
-										) : (
-											<CardText className='text-center'>
-												<span className='text-muted'>Back to </span>
-												<span
-													onClick={this.toggle}
-													style={{ cursor: 'pointer', color: '#40a2ff' }}
-												>
-													Login
-												</span>
-											</CardText>
-										)}
-                  </CardBody>
-                </Card>
+                {window.innerWidth > 760 ? (
+                  <Card style={{ marginTop: '1rem' }}>
+                    <CardBody>
+                      {this.state.isLogin ? (
+                        <CardText className='text-center'>
+                          <span className='text-muted'>Ready to get started? </span>
+                          <span
+                            onClick={this.toggle}
+                            style={{ cursor: 'pointer', color: '#40a2ff' }}
+                          >
+                            Sign up
+                          </span>
+                        </CardText>
+                      ) : (
+                        <CardText className='text-center'>
+                          <span className='text-muted'>Back to </span>
+                          <span
+                            onClick={this.toggle}
+                            style={{ cursor: 'pointer', color: '#40a2ff' }}
+                          >
+                            Login
+                          </span>
+                        </CardText>
+                      )}
+                    </CardBody>
+                  </Card>
+                ) : null}
               </Col>
             </Row>
           </Container>
