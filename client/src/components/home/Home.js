@@ -10,9 +10,9 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import { getPosts, getLanguagePosts } from '../../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getPosts, getFollowingsPosts, getLanguagePosts } from '../../actions/postActions';
 
 import Post from './Post';
 import ProfileCard from '../profile/ProfileCard';
@@ -22,6 +22,7 @@ import Add from '@material-ui/icons/Add';
 
 class Home extends Component {
   state = {
+    dropdownLabel: 'Default',
     dropdownOpen: false
   };
   
@@ -50,7 +51,20 @@ class Home extends Component {
     });
   };
 
-  filterLanguage = language => {
+  onGetPosts = () => {
+    this.setState({ dropdownLabel: 'Default' });
+    this.props.getPosts();
+  };
+
+  onGetFollowingsPosts = () => {
+    const followings = { followings: this.props.profile.profile.followings };
+
+    this.setState({ dropdownLabel: 'Followings' });
+    this.props.getFollowingsPosts(followings);
+  };
+  
+  onGetLanguagePosts = language => {
+    this.setState({ dropdownLabel: language });
     this.props.getLanguagePosts(language);
   };
 
@@ -94,10 +108,13 @@ class Home extends Component {
                   </Col>
                 ) : null}
                 <Col md='9'>
-                  <Dropdown className='list-unstyled' nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                    <DropdownToggle nav caret>
-                      Filter
-                    </DropdownToggle>
+                  <Dropdown 
+                    className='list-unstyled'
+                    isOpen={this.state.dropdownOpen}
+                    toggle={this.toggle}
+                    nav 
+                  >
+                    <DropdownToggle nav caret>{this.state.dropdownLabel}</DropdownToggle>
                     <DropdownMenu
                       modifiers={{
                         setMaxHeight: {
@@ -116,17 +133,17 @@ class Home extends Component {
                         },
                       }}
                     >
-                      <DropdownItem onClick={this.props.getPosts.bind(this)}>
+                      <DropdownItem onClick={this.onGetPosts.bind(this)}>
                         Default
                       </DropdownItem>
-                      <DropdownItem onClick={this.props.getPosts.bind(this)}>
+                      <DropdownItem onClick={this.onGetFollowingsPosts.bind(this)}>
                         Following
                       </DropdownItem>
                       <DropdownItem divider />
                       {languages.map((language, id) => (
                         <DropdownItem
                           key={id}
-                          onClick={this.filterLanguage.bind(this, language)}
+                          onClick={this.onGetLanguagePosts.bind(this, language)}
                         >
                           {language}
                         </DropdownItem>
@@ -146,16 +163,19 @@ class Home extends Component {
 
 Home.propTypes = {
   getPosts: PropTypes.func.isRequired,
+  getFollowingsPosts: PropTypes.func.isRequired,
   getLanguagePosts: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  profile: state.profile,
   post: state.post
 });
 
 export default connect(
   mapStateToProps,
-  { getPosts, getLanguagePosts }
+  { getPosts, getFollowingsPosts, getLanguagePosts }
 )(Home);

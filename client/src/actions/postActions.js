@@ -40,6 +40,21 @@ export const getUserPosts = post => (dispatch, getState) => {
     );
 };
 
+export const getFollowingsPosts = followings => (dispatch, getState) => {
+  dispatch(setPostsLoading());
+    axios
+      .post('/api/posts/followings', followings, tokenConfig(getState))
+      .then(res =>
+        dispatch({
+          type: GET_POSTS,
+          payload: res.data
+        })
+      )
+      .catch(err =>
+        dispatch(returnErrors(err.response.data, err.response.status))
+      );
+};
+
 export const getLanguagePosts = language => (dispatch, getState) => {
   dispatch(setPostsLoading());
   axios

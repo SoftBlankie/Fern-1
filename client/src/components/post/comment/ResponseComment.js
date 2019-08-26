@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Container,
   Row,
@@ -13,7 +14,6 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-
 import MoreVert from '@material-ui/icons/MoreVert';
 
 class ResponseComment extends Component {
@@ -60,7 +60,9 @@ class ResponseComment extends Component {
       <ListGroupItem>
         <Row>
           <Col md='auto' xs='auto'>
-            <ListGroupItemHeading>{this.props.name}</ListGroupItemHeading>
+            <ListGroupItemHeading>
+              <Link to={`/${this.props.name}/profile`}>{this.props.name}</Link>
+            </ListGroupItemHeading>
           </Col>
           <Col>
             <small className='text-muted'>{date}</small>

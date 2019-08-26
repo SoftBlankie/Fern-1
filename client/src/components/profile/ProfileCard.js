@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Button,
   Card,
-  CardImg,
   CardBody,
   CardTitle,
   CardText,
@@ -17,6 +16,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import AvatarModal from './AvatarModal';
 import UpdateModal from './UpdateModal';
 import FollowModal from './FollowModal';
 import Person from '@material-ui/icons/Person';
@@ -121,7 +121,7 @@ class ProfileCard extends Component {
 
     return(
       <Card style={{ marginBottom: '2rem' }}>
-        <CardImg top width="100%" src="https://semantic-ui.com/images/avatar2/large/kristy.png" alt="Card image cap" />
+        <AvatarModal isUser={this.props.isUser} />
         {this.props.isUser ? (this.props.isProfile ? userAccess : null) : guestAccess}
         {profile ? (
           <CardBody>

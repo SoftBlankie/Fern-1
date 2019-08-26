@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Container,
   Row,
@@ -60,7 +61,9 @@ class ResponseEdit extends Component {
         <CardBody>
           <Row>
             <Col md='10' xs='10'>
-              <CardTitle>{this.props.name}</CardTitle>
+              <CardTitle>
+                <Link to={`/${this.props.name}/profile`}>{this.props.name}</Link>
+              </CardTitle>
             </Col>
             <Col md='2' xs='2'>
               <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>

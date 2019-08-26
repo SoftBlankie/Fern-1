@@ -23,8 +23,18 @@ router.post('/user', (req, res) => {
     .then(posts => res.json(posts));
 });
 
+// @route   POST api/posts/followings
+// @desc    Get all Posts from Followings
+// @access  Public
+router.post('/followings', (req, res) => {
+  Post.getJoinUser()
+    .whereIn('name', req.body.followings)
+    .orderBy('date', 'desc')
+    .then(posts => res.json(posts));
+});
+
 // @route   GET api/posts/:language
-// @desc    Get all Posts of language
+// @desc    Get all Posts of Language
 // @access  Public
 router.get('/:language', (req, res) => {
   Post.getJoinUser()

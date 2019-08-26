@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Container,
   Row,
@@ -131,10 +132,10 @@ class Post extends Component {
                           <h1>{post.title}</h1>
                           <Row>
                             <Col md='auto' xs='auto'>
-                              {post.name}
+                              <Link to={`/${post.name}/profile`}>{post.name}</Link>
                             </Col>
                             <Col>
-                              <small className='text-muted'>{date}</small>
+                              <span className='text-muted'>{date}</span>
                             </Col>
                           </Row>
                         </CardHeader>

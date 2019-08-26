@@ -12,14 +12,14 @@ import {
   TabContent,
   TabPane
 } from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getUserPosts } from '../../actions/postActions';
 import {
   getProfileByName,
   clearProfile,
   updateProfile
 } from '../../actions/profileActions';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import ProfileCard from './ProfileCard';
 import Post from '../home/Post';
@@ -126,7 +126,9 @@ class Profile extends Component {
                       <Col>
                         <ListGroup>
                           <ListGroupItem>Public Name: {profile.name}</ListGroupItem>
-                          <ListGroupItem>Age: {profile.age !== 0 ? profile.age : null}</ListGroupItem>
+                          <ListGroupItem>
+                            Age: {profile.age !== 0 ? profile.age : null}
+                          </ListGroupItem>
                           <ListGroupItem>Location: {profile.location}</ListGroupItem>
                           <ListGroupItem>Learning: {profile.learning}</ListGroupItem>
                           <ListGroupItem>Native: {profile.native}</ListGroupItem>
