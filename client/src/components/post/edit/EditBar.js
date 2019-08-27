@@ -92,15 +92,16 @@ class EditBar extends Component {
               <Col md='2' xs='2'>
                 <InfoIcon id='info'/>
                 <Tooltip
-                  placement='right'
+                  placement='auto'
                   isOpen={this.state.tooltipOpen}
                   target='info'
                   toggle={this.toggleTooltip}
                   style={{ textAlign: 'left' }}
+                  modifiers={{offset:{offset: '-200px', enabled: true}}}
                 >
-                  <p>- Create an edit by selecting the text</p>
-                  <p>- Clicking on the card text shows the edit's selection</p>
-                  <p>- Clear annotations by clicking the 'Edits' header to the left</p>
+                  <p>- Select text to edit</p>
+                  <p>- Click card text to show edit annotation</p>
+                  <p>- Click 'Edits' header to clear annotation</p>
                 </Tooltip>
               </Col>
             </Row>

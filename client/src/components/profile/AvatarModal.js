@@ -43,6 +43,7 @@ class AvatarModal extends Component {
   };
 
   onClick = () => {
+    this.props.onAvatar(this.state.activeIndex);
     this.toggle();
   };
 
@@ -93,7 +94,7 @@ class AvatarModal extends Component {
     return(
       <div>
         <CardImg top width='100%'
-          src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' alt='Card image cap'
+          src={items[this.props.avatar].src} alt='Card image cap'
           onClick={this.toggle}
           style={this.props.isUser ? { cursor: 'pointer' } : null}
         />

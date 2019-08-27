@@ -67,6 +67,9 @@ class ResponseComment extends Component {
           <Col>
             <small className='text-muted'>{date}</small>
           </Col>
+          <Col className='text-md-right'>
+            <small className='text-muted'>15 Likes</small>
+          </Col>
           <Col className='text-md-right' md='1' xs='2'>
             <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>
               <DropdownToggle tag='span'>

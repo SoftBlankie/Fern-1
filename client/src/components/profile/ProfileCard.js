@@ -30,6 +30,14 @@ class ProfileCard extends Component {
     if (!this.props.isProfile) this.props.getProfile(this.props.user_id);
   };
 
+  onAvatar = avatar => {
+    const newProfile = {
+      avatar: avatar
+    };
+    
+    this.props.updateProfile(this.props.user_id, newProfile);
+  };
+
   onUpdate = (age, location, learning, native, about) => {
     const newProfile = {
       age: age,
@@ -121,7 +129,13 @@ class ProfileCard extends Component {
 
     return(
       <Card style={{ marginBottom: '2rem' }}>
-        <AvatarModal isUser={this.props.isUser} />
+        {profile ? (
+          <AvatarModal
+            isUser={this.props.isUser}
+            avatar={profile.avatar}
+            onAvatar={this.onAvatar}
+          />
+        ) : null}
         {this.props.isUser ? (this.props.isProfile ? userAccess : null) : guestAccess}
         {profile ? (
           <CardBody>

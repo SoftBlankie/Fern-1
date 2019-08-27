@@ -5,6 +5,7 @@ exports.up = function(knex) {
     table.integer('user_id').notNullable();
     table.integer('post_id').notNullable();
     table.text('comment').notNullable();
+    table.integer('likes').notNullable().defaultTo(0);
     table.datetime('date').notNullable();
 
     table.foreign('user_id').references('user.id');

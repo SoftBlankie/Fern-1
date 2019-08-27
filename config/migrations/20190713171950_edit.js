@@ -6,6 +6,7 @@ exports.up = function(knex) {
     table.integer('post_id').notNullable();
     table.text('selection').notNullable();
     table.text('edit').notNullable();
+    table.integer('agrees').notNullable().defaultTo(0);
     table.datetime('date').notNullable();
 
     table.foreign('user_id').references('user.id');

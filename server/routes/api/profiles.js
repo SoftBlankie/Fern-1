@@ -45,6 +45,7 @@ router.post('/', auth, (req, res) => {
 // @access  Private
 router.post('/:id', auth, (req, res) => {
   const newProfile = {
+    avatar: req.body.avatar,
     age: req.body.age,
     location: req.body.location,
     learning: req.body.learning,

@@ -13,13 +13,13 @@ module.exports = {
   getJoinUser: () => {
     return knex('edit')
       .join('user', 'user.id', 'edit.user_id')
-      .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.date');
+      .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.agrees',  'edit.date');
   },
   create: edit => {
     return knex('edit').insert(edit, 'id').then(ids => {
       return knex('edit')
         .join('user', 'user.id', 'edit.user_id')
-        .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.date')
+        .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.agrees', 'edit.date')
         .where('edit.id', ids[0]).first();
     });
   },
@@ -30,7 +30,7 @@ module.exports = {
     }).then(() => {
       return knex('edit')
         .join('user', 'user.id', 'edit.user_id')
-        .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.date')
+        .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.agrees', 'edit.date')
         .where('edit.id', id).first();
     });
   },

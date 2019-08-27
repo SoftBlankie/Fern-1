@@ -33,6 +33,7 @@ router.post('/:id/comments', auth, (req, res) => {
 router.post('/:post_id/comments/:comment_id', auth, (req, res) => {
   const newComment = {
     comment: req.body.comment,
+    likes: req.body.likes,
     date: new Date()
   };
   Comment.update(req.params.comment_id, newComment).then(comment => res.json(comment));

@@ -34,6 +34,7 @@ router.post('/:id/edits', auth, (req, res) => {
 router.post('/:post_id/edits/:edit_id', auth, (req, res) => {
   const newEdit = {
     edit: req.body.edit,
+    agrees: req.body.agrees,
     date: new Date()
   };
   Edit.update(req.params.edit_id, newEdit).then(edit => res.json(edit));

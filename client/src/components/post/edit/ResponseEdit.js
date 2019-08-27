@@ -126,7 +126,14 @@ class ResponseEdit extends Component {
             </Container>
           )}
           <CardText>
-            <small className='text-muted'>{date}</small>
+            <Row>
+              <Col md='auto' xs='auto'>
+                <small className='text-muted'>{date}</small>
+              </Col>
+              <Col className='text-md-right'>
+                <small className='text-muted'>15 Agrees</small>
+              </Col>
+            </Row>
           </CardText>
         </CardBody>
       </Card>

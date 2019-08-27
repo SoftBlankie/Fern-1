@@ -3,6 +3,7 @@ exports.up = function(knex) {
   return knex.schema.createTable('profile', table=> {
     table.increments();
     table.integer('user_id').notNullable();
+    table.text('avatar').notNullable().defaultTo('0');
     table.integer('age').notNullable().defaultTo(0);
     table.text('location').notNullable().defaultTo('');
     table.text('learning').notNullable().defaultTo('');
