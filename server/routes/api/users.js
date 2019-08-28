@@ -93,8 +93,8 @@ router.post('/', (req, res) => {
 
                 const newProfile = {
                   user_id: newId,
-                  followings: [],
-                  followers: []
+                  followers: [],
+                  followings: []
                 };
 
                 // Create profile

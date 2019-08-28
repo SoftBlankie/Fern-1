@@ -109,18 +109,22 @@ class EditBar extends Component {
             <Row>
               <Col>
                 {this.props.isEdit ? requestEdit : null}
-                {edits ? edits.map(({ id, name, selection, edit, date }) => (
+                {edits ? edits.map(({ id, name, selection, edit, agrees, date }) => (
                   <Container key={id} style={{ marginBottom: '1rem' }}>
                     <Row>
                       <Col>
                         <ResponseEdit
+                          user_name={this.props.user_name}
                           edit_id={id}
                           name={name}
                           selection={selection}
                           edit={edit}
+                          agrees={agrees}
                           date={date}
                           getSelectionClick={this.props.getSelectionClick}
                           onUpdate={this.props.onUpdate}
+                          onAgree={this.props.onAgree}
+                          onUnagree={this.props.onUnagree}
                           onDelete={this.props.onDelete}
                         />
                       </Col>

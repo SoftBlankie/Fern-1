@@ -3,6 +3,7 @@ import {
   CLEAR_EDITS,
   ADD_EDIT,
   UPDATE_EDIT,
+  AGREE_EDIT,
   DELETE_EDIT,
   EDITS_LOADING
 } from '../actions/types';
@@ -34,6 +35,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         edits: [action.payload, ...state.edits.filter(edit => edit.id !== action.payload.id)]
+      };
+    case AGREE_EDIT:
+      return {
+        ...state,
+        edits: [...state.edits]
       };
     case DELETE_EDIT:
       return {

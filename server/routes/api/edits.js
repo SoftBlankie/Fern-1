@@ -23,6 +23,7 @@ router.post('/:id/edits', auth, (req, res) => {
     post_id: req.params.id,
     selection: req.body.selection,
     edit: req.body.edit,
+    agrees: [],
     date: new Date()
   };
   Edit.create(newEdit).then(edit => res.json(edit))
@@ -32,11 +33,19 @@ router.post('/:id/edits', auth, (req, res) => {
 // @desc    Update an Edit
 // @access  Private
 router.post('/:post_id/edits/:edit_id', auth, (req, res) => {
-  const newEdit = {
-    edit: req.body.edit,
-    agrees: req.body.agrees,
-    date: new Date()
-  };
+  var newEdit;
+  if (req.body.date) {
+    newEdit = {
+      edit: req.body.edit,
+      agrees: req.body.agrees
+    };
+  } else {
+    newEdit = {
+      edit: req.body.edit,
+      agrees: req.body.agrees,
+      date: new Date()
+    };
+  }
   Edit.update(req.params.edit_id, newEdit).then(edit => res.json(edit));
 });
 

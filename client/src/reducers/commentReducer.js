@@ -3,6 +3,7 @@ import {
   CLEAR_COMMENTS,
   ADD_COMMENT,
   UPDATE_COMMENT,
+  LIKE_COMMENT,
   DELETE_COMMENT,
   COMMENTS_LOADING
 } from '../actions/types';
@@ -35,6 +36,11 @@ export default (state = initialState, action) => {
         ...state,
         comments: [action.payload,
           ...state.comments.filter(comment => comment.id !== action.payload.id)]
+      };
+    case LIKE_COMMENT:
+      return {
+        ...state,
+        comments: [...state.comments]
       };
     case DELETE_COMMENT:
       return {

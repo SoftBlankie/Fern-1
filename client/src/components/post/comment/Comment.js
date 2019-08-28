@@ -12,6 +12,7 @@ import {
   clearComments,
   addComment,
   updateComment,
+  likeComment,
   deleteComment
 } from '../../../actions/commentActions';
 import { updatePost } from '../../../actions/postActions';
@@ -20,7 +21,6 @@ import CommentForm from './CommentForm';
 import ResponseComment from './ResponseComment';
 
 // create onReport
-// make onCreate also update post simultaneously
 class Comment extends Component {
   state = {
     currentPage: 0,
@@ -80,6 +80,29 @@ class Comment extends Component {
     this.props.updateComment(this.props.post_id, comment_id, newComment);
   };
 
+  onLike = (comment_id, likes) => {
+    likes.push(this.props.user_name);
+
+    const newComment = {
+      likes: likes,
+      date: 'current'
+    };
+
+    this.props.likeComment(this.props.post_id, comment_id, newComment);
+  };
+
+  onUnlike = (comment_id, likes) => {
+    const index = likes.indexOf(this.props.user_name);
+    if (index !== -1) likes.splice(index, 1);
+
+    const newComment = {
+      likes: likes,
+      date: 'current'
+    };
+
+    this.props.likeComment(this.props.post_id, comment_id, newComment);
+  };
+
   onDelete = comment_id => {
     const newPost = {
       comments: this.props.post_comments-1,
@@ -105,15 +128,18 @@ class Comment extends Component {
           <Col>
             <ListGroup>
               <TransitionGroup className='comments'>
-                {comments.slice(0, (currentPage+1)*pageSize).map(({ id, name, comment, date }) => (
+                {comments.slice(0, (currentPage+1)*pageSize).map(({ id, name, comment, likes, date }) => (
                   <CSSTransition key={id} timeout={500} classNames='fade'>
                     <ResponseComment
                       user_name={this.props.user_name}
                       comment_id={id}
                       name={name}
                       comment={comment}
+                      likes={likes}
                       date={date}
                       onUpdate={this.onUpdate}
+                      onLike={this.onLike}
+                      onUnlike={this.onUnlike}
                       onDelete={this.onDelete}
                       onReport={this.onReport}
                     />
@@ -140,5 +166,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getComments, clearComments, addComment, updateComment, deleteComment, updatePost }
+  { getComments, clearComments, addComment, updateComment, likeComment, deleteComment, updatePost }
 )(Comment);

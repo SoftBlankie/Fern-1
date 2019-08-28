@@ -144,7 +144,7 @@ class Post extends Component {
                             post_entry={html.deserialize(post.entry)}
                             post_id={post.id}
                             user_id={user.id}
-                            name={user.name}
+                            user_name={user.name}
                             isUser={isUser}
                             post_edits={post.edits}
                           />

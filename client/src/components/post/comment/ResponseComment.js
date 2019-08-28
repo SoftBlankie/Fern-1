@@ -52,7 +52,7 @@ class ResponseComment extends Component {
   };
 
   render() {
-    const { comment_id } = this.props;
+    const { user_name, comment_id, likes } = this.props;
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
     const date = new Date(this.props.date).toLocaleDateString('en-US', options);
 
@@ -68,7 +68,15 @@ class ResponseComment extends Component {
             <small className='text-muted'>{date}</small>
           </Col>
           <Col className='text-md-right'>
-            <small className='text-muted'>15 Likes</small>
+            <small
+              className={likes.includes(user_name) ? 'text-muted' : ''}
+              onClick={likes.includes(user_name) ? 
+                this.props.onUnlike.bind(this, comment_id, likes) :
+                this.props.onLike.bind(this, comment_id, likes)}
+              style={{ cursor: 'pointer' }}
+            >
+              {likes.length} Likes
+            </small>
           </Col>
           <Col className='text-md-right' md='1' xs='2'>
             <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>
@@ -94,7 +102,7 @@ class ResponseComment extends Component {
           </Col>
         </Row>
         {this.state.readOnly ? 
-          <ListGroupItemText style={{ wordBreak: 'break-all' }}>
+          <ListGroupItemText>
             {this.props.comment}
           </ListGroupItemText> :
           <Container>

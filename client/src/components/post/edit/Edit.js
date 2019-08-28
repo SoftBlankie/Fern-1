@@ -6,6 +6,7 @@ import {
   clearEdits,
   addEdit,
   updateEdit,
+  agreeEdit,
   deleteEdit
 } from '../../../actions/editActions';
 import { updatePost } from '../../../actions/postActions';
@@ -101,6 +102,29 @@ class Edit extends Component {
     this.props.updateEdit(this.props.post_id, edit_id, newEdit);
   };
 
+  onAgree = (edit_id, agrees) => {
+    agrees.push(this.props.user_name);
+
+    const newEdit = {
+      agrees: agrees,
+      date: 'current'
+    };
+
+    this.props.agreeEdit(this.props.post_id, edit_id, newEdit);
+  };
+
+  onUnagree = (edit_id, agrees) => {
+    const index = agrees.indexOf(this.props.user_name);
+    if (index !== -1) agrees.splice(index, 1);
+
+    const newEdit = {
+      agrees: agrees,
+      date: 'current'
+    };
+
+    this.props.agreeEdit(this.props.post_id, edit_id, newEdit);
+  };
+
   onDelete = edit_id => {
     const newPost = {
       edits: this.props.post_edits-1,
@@ -117,6 +141,7 @@ class Edit extends Component {
     return(
       <Fragment>
         <EditBar
+          user_name={this.props.user_name}
           isUser={this.props.isUser}
           isEdit={this.state.isEdit}
           edits={edits}
@@ -124,6 +149,8 @@ class Edit extends Component {
           getSelectionClick={this.getSelectionClick}
           clearSelectionClick={this.clearSelectionClick}
           onUpdate={this.onUpdate}
+          onAgree={this.onAgree}
+          onUnagree={this.onUnagree}
           onDelete={this.onDelete}
         />
         <GuestEditor
@@ -149,5 +176,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getEdits, clearEdits, addEdit, updateEdit, deleteEdit, updatePost }
+  { getEdits, clearEdits, addEdit, updateEdit, agreeEdit, deleteEdit, updatePost }
 )(Edit);

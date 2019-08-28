@@ -53,6 +53,7 @@ class ResponseEdit extends Component {
   };
 
   render() {
+    const { user_name, edit_id, agrees } = this.props;
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
     const date = new Date(this.props.date).toLocaleDateString('en-US', options);
 
@@ -74,7 +75,7 @@ class ResponseEdit extends Component {
                   <DropdownItem onClick={this.toggleReadOnly}>
                     Edit
                   </DropdownItem>
-                  <DropdownItem onClick={this.props.onDelete.bind(this, this.props.edit_id)}>
+                  <DropdownItem onClick={this.props.onDelete.bind(this, edit_id)}>
                     Delete
                   </DropdownItem>
                 </DropdownMenu>
@@ -125,16 +126,22 @@ class ResponseEdit extends Component {
               </Row>
             </Container>
           )}
-          <CardText>
-            <Row>
-              <Col md='auto' xs='auto'>
-                <small className='text-muted'>{date}</small>
-              </Col>
-              <Col className='text-md-right'>
-                <small className='text-muted'>15 Agrees</small>
-              </Col>
-            </Row>
-          </CardText>
+          <Row>
+            <Col md='auto' xs='auto'>
+              <small className='text-muted'>{date}</small>
+            </Col>
+            <Col className='text-md-right'>
+              <small
+                className={agrees.includes(user_name) ? 'text-muted' : ''}
+                onClick={agrees.includes(user_name) ?
+                  this.props.onUnagree.bind(this, edit_id, agrees) :
+                  this.props.onAgree.bind(this, edit_id, agrees)}
+                style={{ cursor: 'pointer' }}
+              >
+                {agrees.length} Agrees
+              </small>
+            </Col>
+          </Row>
         </CardBody>
       </Card>
     );

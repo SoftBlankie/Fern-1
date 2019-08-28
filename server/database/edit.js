@@ -26,6 +26,7 @@ module.exports = {
   update: (id, edit) => {
     return knex('edit').where('id', id).first().update({
       edit: edit.edit,
+      agrees: edit.agrees,
       date: edit.date
     }).then(() => {
       return knex('edit')

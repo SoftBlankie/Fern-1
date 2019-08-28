@@ -34,8 +34,8 @@ router.get('/name/:name', (req, res) => {
 router.post('/', auth, (req, res) => {
   const newProfile = {
     user_id: req.body.user_id,
-    followers: 0,
-    followings: 0
+    followers: [],
+    followings: []
   };
   Profile.create(newProfile).then(profile => res.json(profile));
 });

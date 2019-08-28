@@ -22,6 +22,7 @@ router.post('/:id/comments', auth, (req, res) => {
     user_id: req.body.user_id,
     post_id: req.params.id,
     comment: req.body.comment,
+    likes: [],
     date: new Date()
   };
   Comment.create(newComment).then(comment => res.json(comment));
@@ -31,11 +32,19 @@ router.post('/:id/comments', auth, (req, res) => {
 // @desc    Update a Comment
 // @access  Private
 router.post('/:post_id/comments/:comment_id', auth, (req, res) => {
-  const newComment = {
-    comment: req.body.comment,
-    likes: req.body.likes,
-    date: new Date()
-  };
+  var newComment;
+  if (req.body.date) {
+    newComment = {
+      comment: req.body.comment,
+      likes: req.body.likes
+    };
+  } else {
+    newComment = {
+      comment: req.body.comment,
+      likes: req.body.likes,
+      date: new Date()
+    };
+  }
   Comment.update(req.params.comment_id, newComment).then(comment => res.json(comment));
 });
 

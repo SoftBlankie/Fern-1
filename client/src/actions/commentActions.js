@@ -4,6 +4,7 @@ import {
   CLEAR_COMMENTS,
   ADD_COMMENT,
   UPDATE_COMMENT,
+  LIKE_COMMENT,
   DELETE_COMMENT,
   COMMENTS_LOADING
 } from './types';
@@ -51,6 +52,20 @@ export const updateComment = (post_id, comment_id, comment) => (dispatch, getSta
     .then(res =>
       dispatch({
         type: UPDATE_COMMENT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const likeComment = (post_id, comment_id, comment) => (dispatch, getState) => {
+  axios
+    .post(`/api/posts/${post_id}/comments/${comment_id}`, comment, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: LIKE_COMMENT,
         payload: res.data
       })
     )

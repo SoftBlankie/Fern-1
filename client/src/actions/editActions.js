@@ -4,6 +4,7 @@ import {
   CLEAR_EDITS,
   ADD_EDIT,
   UPDATE_EDIT,
+  AGREE_EDIT,
   DELETE_EDIT,
   EDITS_LOADING
 } from './types';
@@ -51,6 +52,20 @@ export const updateEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
     .then(res =>
       dispatch({
         type: UPDATE_EDIT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const agreeEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
+  axios
+    .post(`/api/posts/${post_id}/edits/${edit_id}`, edit, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: AGREE_EDIT,
         payload: res.data
       })
     )
