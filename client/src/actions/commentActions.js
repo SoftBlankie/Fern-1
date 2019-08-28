@@ -6,6 +6,7 @@ import {
   UPDATE_COMMENT,
   LIKE_COMMENT,
   DELETE_COMMENT,
+  REPORT_COMMENT,
   COMMENTS_LOADING
 } from './types';
 import { tokenConfig } from './authActions';
@@ -84,6 +85,20 @@ export const deleteComment = (post_id, comment_id) => (dispatch, getState) => {
       })
     )
     .catch(err => 
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const reportComment = (post_id, comment_id, comment) => (dispatch, getState) => {
+  axios
+    .post(`/api/posts/${post_id}/comments/${comment_id}`, comment, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: REPORT_COMMENT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };

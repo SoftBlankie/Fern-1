@@ -53,7 +53,7 @@ class ResponseEdit extends Component {
   };
 
   render() {
-    const { user_name, edit_id, agrees } = this.props;
+    const { user_name, edit_id, agrees, reports } = this.props;
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
     const date = new Date(this.props.date).toLocaleDateString('en-US', options);
 
@@ -71,14 +71,22 @@ class ResponseEdit extends Component {
                 <DropdownToggle tag='span'>
                   <MoreVert style={{ cursor: 'pointer' }}/>
                 </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem onClick={this.toggleReadOnly}>
-                    Edit
-                  </DropdownItem>
-                  <DropdownItem onClick={this.props.onDelete.bind(this, edit_id)}>
-                    Delete
-                  </DropdownItem>
-                </DropdownMenu>
+                {this.props.name === this.props.user_name ? (
+                  <DropdownMenu>
+                    <DropdownItem onClick={this.toggleReadOnly}>
+                      Edit
+                    </DropdownItem>
+                    <DropdownItem onClick={this.props.onDelete.bind(this, edit_id)}>
+                      Delete
+                    </DropdownItem>
+                  </DropdownMenu>
+                ) : (
+                  <DropdownMenu>
+                    <DropdownItem onClick={this.props.onReport.bind(this, edit_id, reports)}>
+                      Report
+                    </DropdownItem>
+                  </DropdownMenu>
+                )}
               </Dropdown>
             </Col>
           </Row>

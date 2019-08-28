@@ -6,6 +6,7 @@ import {
   UPDATE_EDIT,
   AGREE_EDIT,
   DELETE_EDIT,
+  REPORT_EDIT,
   EDITS_LOADING
 } from './types';
 import { tokenConfig } from './authActions';
@@ -84,6 +85,20 @@ export const deleteEdit = (post_id, edit_id) => (dispatch, getState) => {
       })
     )
     .catch(err => 
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const reportEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
+  axios
+    .post(`/api/posts/${post_id}/edits/${edit_id}`, edit, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: REPORT_EDIT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };

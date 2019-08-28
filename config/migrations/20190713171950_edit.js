@@ -7,6 +7,7 @@ exports.up = function(knex) {
     table.text('selection').notNullable();
     table.text('edit').notNullable();
     table.specificType('agrees', 'text ARRAY').notNullable();
+    table.specificType('reports', 'text ARRAY').notNullable();
     table.datetime('date').notNullable();
 
     table.foreign('user_id').references('user.id');

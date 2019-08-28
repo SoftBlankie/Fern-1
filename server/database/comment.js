@@ -10,13 +10,13 @@ module.exports = {
   getJoinUser: () => {
     return knex('comment')
       .join('user', 'user.id', 'comment.user_id')
-      .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.date');
+      .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.reports', 'comment.date');
   },
   create: comment => {
     return knex('comment').insert(comment, 'id').then(ids => {
       return knex('comment')
         .join('user', 'user.id', 'comment.user_id')
-        .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.date')
+        .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.reports', 'comment.date')
         .where('comment.id', ids[0]).first();
     });
   },
@@ -24,11 +24,12 @@ module.exports = {
     return knex('comment').where('id', id).first().update({
       comment: comment.comment,
       likes: comment.likes,
+      reports: comment.reports,
       date: comment.date
     }).then(() => {
       return knex('comment')
         .join('user', 'user.id', 'comment.user_id')
-        .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.date')
+        .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.reports', 'comment.date')
         .where('comment.id', id).first();
     });
   },

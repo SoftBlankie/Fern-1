@@ -7,7 +7,8 @@ import {
   addEdit,
   updateEdit,
   agreeEdit,
-  deleteEdit
+  deleteEdit,
+  reportEdit
 } from '../../../actions/editActions';
 import { updatePost } from '../../../actions/postActions';
 
@@ -44,7 +45,7 @@ class Edit extends Component {
 
     requestEdit.push(
       <RequestEdit key={this.props.post_id}
-        name={this.props.name}
+        name={this.props.user_name}
         selection={selection}
         onAddEdit={this.onAddEdit}
         onCancelEdit={this.onCancelEdit}
@@ -135,6 +136,28 @@ class Edit extends Component {
     this.props.updatePost(this.props.post_id, newPost);
   };
 
+  onReport = (edit_id, reports) => {
+    // check if already reported
+    const index = reports.indexOf(this.props.user_name);
+    if (index !== -1) {
+      return;
+    } else {
+      // if 3 reports, delete edit
+      if (reports.length === 2) {
+        this.onDelete(edit_id);
+        return;
+      }
+      reports.push(this.props.user_name);
+
+      const newEdit = {
+        reports: reports,
+        date: 'current'
+      };
+
+      this.props.reportEdit(this.props.post_id, edit_id, newEdit);
+    }
+  };
+
   render() {
     const { edits } = this.props.edit;
 
@@ -152,6 +175,7 @@ class Edit extends Component {
           onAgree={this.onAgree}
           onUnagree={this.onUnagree}
           onDelete={this.onDelete}
+          onReport={this.onReport}
         />
         <GuestEditor
           initialValue={this.props.post_entry}
@@ -176,5 +200,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getEdits, clearEdits, addEdit, updateEdit, agreeEdit, deleteEdit, updatePost }
+  { getEdits, clearEdits, addEdit, updateEdit, agreeEdit, deleteEdit, reportEdit, updatePost }
 )(Edit);

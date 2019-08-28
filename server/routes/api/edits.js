@@ -24,6 +24,7 @@ router.post('/:id/edits', auth, (req, res) => {
     selection: req.body.selection,
     edit: req.body.edit,
     agrees: [],
+    reports: [],
     date: new Date()
   };
   Edit.create(newEdit).then(edit => res.json(edit))
@@ -37,12 +38,14 @@ router.post('/:post_id/edits/:edit_id', auth, (req, res) => {
   if (req.body.date) {
     newEdit = {
       edit: req.body.edit,
-      agrees: req.body.agrees
+      agrees: req.body.agrees,
+      reports: req.body.reports
     };
   } else {
     newEdit = {
       edit: req.body.edit,
       agrees: req.body.agrees,
+      reports: req.body.reports,
       date: new Date()
     };
   }

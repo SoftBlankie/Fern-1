@@ -12,6 +12,7 @@ export const ADD_COMMENT = 'ADD_COMMENT';
 export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const LIKE_COMMENT = 'LIKE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const REPORT_COMMENT = 'REPORT_COMMENT';
 export const COMMENTS_LOADING = 'COMMENTS_LOADING';
 
 export const GET_EDITS = 'GET_EDITS';
@@ -20,6 +21,7 @@ export const ADD_EDIT = 'ADD_EDIT';
 export const UPDATE_EDIT = 'UPDATE_EDIT';
 export const AGREE_EDIT = 'AGREE_EDIT';
 export const DELETE_EDIT = 'DELETE_EDIT';
+export const REPORT_EDIT = 'REPORT_EDIT';
 export const EDITS_LOADING = 'EDITS_LOADING';
 
 export const USER_LOADING = 'USER_LOADING';

@@ -23,6 +23,7 @@ router.post('/:id/comments', auth, (req, res) => {
     post_id: req.params.id,
     comment: req.body.comment,
     likes: [],
+    reports: [],
     date: new Date()
   };
   Comment.create(newComment).then(comment => res.json(comment));
@@ -36,12 +37,14 @@ router.post('/:post_id/comments/:comment_id', auth, (req, res) => {
   if (req.body.date) {
     newComment = {
       comment: req.body.comment,
-      likes: req.body.likes
+      likes: req.body.likes,
+      reports: req.body.reports
     };
   } else {
     newComment = {
       comment: req.body.comment,
       likes: req.body.likes,
+      reports: req.body.reports,
       date: new Date()
     };
   }

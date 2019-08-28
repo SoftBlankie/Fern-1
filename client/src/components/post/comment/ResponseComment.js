@@ -52,7 +52,7 @@ class ResponseComment extends Component {
   };
 
   render() {
-    const { user_name, comment_id, likes } = this.props;
+    const { user_name, comment_id, likes, reports } = this.props;
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
     const date = new Date(this.props.date).toLocaleDateString('en-US', options);
 
@@ -83,7 +83,7 @@ class ResponseComment extends Component {
               <DropdownToggle tag='span'>
                 <MoreVert style={{ cursor: 'pointer' }}/>
               </DropdownToggle>
-              {this.props.name === this.props.user_name ?
+              {this.props.name === this.props.user_name ? (
                 <DropdownMenu>
                   <DropdownItem onClick={this.toggleReadOnly}>
                     Edit
@@ -91,13 +91,14 @@ class ResponseComment extends Component {
                   <DropdownItem onClick={this.props.onDelete.bind(this, comment_id)}>
                     Delete
                   </DropdownItem>
-                </DropdownMenu> :
+                </DropdownMenu> 
+              ) : (
                 <DropdownMenu>
-                  <DropdownItem onClick={this.props.onReport.bind(this, comment_id)}>
+                  <DropdownItem onClick={this.props.onReport.bind(this, comment_id, reports)}>
                     Report
                   </DropdownItem>
                 </DropdownMenu>
-              }
+              )}
             </Dropdown>
           </Col>
         </Row>

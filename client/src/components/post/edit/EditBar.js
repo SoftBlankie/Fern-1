@@ -109,7 +109,7 @@ class EditBar extends Component {
             <Row>
               <Col>
                 {this.props.isEdit ? requestEdit : null}
-                {edits ? edits.map(({ id, name, selection, edit, agrees, date }) => (
+                {edits ? edits.map(({ id, name, selection, edit, agrees, reports, date }) => (
                   <Container key={id} style={{ marginBottom: '1rem' }}>
                     <Row>
                       <Col>
@@ -120,12 +120,14 @@ class EditBar extends Component {
                           selection={selection}
                           edit={edit}
                           agrees={agrees}
+                          reports={reports}
                           date={date}
                           getSelectionClick={this.props.getSelectionClick}
                           onUpdate={this.props.onUpdate}
                           onAgree={this.props.onAgree}
                           onUnagree={this.props.onUnagree}
                           onDelete={this.props.onDelete}
+                          onReport={this.props.onReport}
                         />
                       </Col>
                     </Row>

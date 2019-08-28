@@ -13,7 +13,8 @@ import {
   addComment,
   updateComment,
   likeComment,
-  deleteComment
+  deleteComment,
+  reportComment
 } from '../../../actions/commentActions';
 import { updatePost } from '../../../actions/postActions';
 
@@ -113,8 +114,26 @@ class Comment extends Component {
     this.props.updatePost(this.props.post_id, newPost);
   };
 
-  onReport = comment_id => {
+  onReport = (comment_id, reports) => {
+    // check if already reported
+    const index = reports.indexOf(this.props.user_name);
+    if (index !== -1) {
+      return;
+    } else {
+      // if 3 reports, delete comment
+      if (reports.length === 2) {
+        this.onDelete(comment_id);
+        return;
+      }
+      reports.push(this.props.user_name);
 
+      const newComment = {
+        reports: reports,
+        date: 'current'
+      };
+
+      this.props.reportComment(this.props.post_id, comment_id, newComment);
+    }
   };
 
   render() {
@@ -128,7 +147,7 @@ class Comment extends Component {
           <Col>
             <ListGroup>
               <TransitionGroup className='comments'>
-                {comments.slice(0, (currentPage+1)*pageSize).map(({ id, name, comment, likes, date }) => (
+                {comments.slice(0, (currentPage+1)*pageSize).map(({ id, name, comment, likes, reports, date }) => (
                   <CSSTransition key={id} timeout={500} classNames='fade'>
                     <ResponseComment
                       user_name={this.props.user_name}
@@ -136,6 +155,7 @@ class Comment extends Component {
                       name={name}
                       comment={comment}
                       likes={likes}
+                      reports={reports}
                       date={date}
                       onUpdate={this.onUpdate}
                       onLike={this.onLike}
@@ -166,5 +186,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getComments, clearComments, addComment, updateComment, likeComment, deleteComment, updatePost }
+  { getComments, clearComments, addComment, updateComment, likeComment, deleteComment, reportComment, updatePost }
 )(Comment);
