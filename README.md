@@ -21,6 +21,8 @@ Application Features:
  - Selection-based edits
  - Optimized loading
  - Following system
+ - Like system
+ - Reporting
 
 Major libraries include:
  - SlateJS
