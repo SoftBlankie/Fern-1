@@ -6,7 +6,6 @@ import {
   FormGroup
 } from 'reactstrap';
 import theme from './themes/searchbar.css';
-
 import Autosuggest from 'react-autosuggest';
 import deburr from 'lodash/deburr';
 

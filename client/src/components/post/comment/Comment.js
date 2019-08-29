@@ -5,8 +5,6 @@ import {
   ListGroup
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import {
   getComments,
   clearComments,
@@ -17,11 +15,12 @@ import {
   reportComment
 } from '../../../actions/commentActions';
 import { updatePost } from '../../../actions/postActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import CommentForm from './CommentForm';
 import ResponseComment from './ResponseComment';
 
-// create onReport
 class Comment extends Component {
   state = {
     currentPage: 0,

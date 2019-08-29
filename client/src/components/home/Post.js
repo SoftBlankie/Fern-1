@@ -34,6 +34,7 @@ class Post extends Component {
     });
   };
 
+  // Auto cycle pagination
   getPagination = () => {
     const { currentPage, pageCount } = this.state;
     var startPage = (currentPage < 5) ? 0 : currentPage - 5;

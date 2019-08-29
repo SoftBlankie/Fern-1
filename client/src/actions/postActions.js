@@ -10,6 +10,7 @@ import {
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
+// GET POSTS
 export const getPosts = () => dispatch => {
   dispatch(setPostsLoading());
   axios
@@ -25,6 +26,7 @@ export const getPosts = () => dispatch => {
     );
 };
 
+// GET USER POSTS
 export const getUserPosts = post => (dispatch, getState) => {
   dispatch(setPostsLoading());
   axios
@@ -40,6 +42,7 @@ export const getUserPosts = post => (dispatch, getState) => {
     );
 };
 
+// GET FOLLOWINGS POSTS
 export const getFollowingsPosts = followings => (dispatch, getState) => {
   dispatch(setPostsLoading());
     axios
@@ -55,6 +58,7 @@ export const getFollowingsPosts = followings => (dispatch, getState) => {
       );
 };
 
+// GET LANGUAGE POSTS
 export const getLanguagePosts = language => (dispatch, getState) => {
   dispatch(setPostsLoading());
   axios
@@ -70,12 +74,14 @@ export const getLanguagePosts = language => (dispatch, getState) => {
     );
 };
 
+// CLEAR USER POSTS
 export const clearUserPosts = () => {
   return {
     type: CLEAR_USER_POSTS
   };
 };
 
+// ADD POST
 export const addPost = post => (dispatch, getState) => {
   axios
     .post('/api/posts', post, tokenConfig(getState))
@@ -90,6 +96,7 @@ export const addPost = post => (dispatch, getState) => {
     );
 };
 
+// UPDATE POST
 export const updatePost = (id, post) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${id}`, post, tokenConfig(getState))
@@ -104,6 +111,7 @@ export const updatePost = (id, post) => (dispatch, getState) => {
     );
 };
 
+// DELETE POST
 export const deletePost = id => (dispatch, getState) => {
   axios
     .delete(`/api/posts/${id}`, tokenConfig(getState))
@@ -118,6 +126,7 @@ export const deletePost = id => (dispatch, getState) => {
     );
 };
 
+// POSTS LOADING
 export const setPostsLoading = () => {
   return {
     type: POSTS_LOADING

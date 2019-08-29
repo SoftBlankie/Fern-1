@@ -4,6 +4,7 @@ import {
 } from './types';
 import { returnErrors } from './errorActions';
 
+// SEND MAIL
 export const sendMail = mail => dispatch => {
   axios
     .post('/api/mailer', mail)

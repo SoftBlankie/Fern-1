@@ -41,8 +41,7 @@ class Help extends Component {
                   <CardBody>
                     <b>Guidelines</b>
                     <CardText>
-                      This site supports users learning languages through writing.
-                      Please be respectful and courteous.
+                      This site supports users learning languages through writing. Please be respectful and courteous.
                     </CardText>
                     <b>FAQ</b>
                     <hr />
@@ -65,10 +64,7 @@ class Help extends Component {
                         Why focus on writing long texts?
                       </CardText>
                       <CardText>
-                        Due to personal beliefs, engaging in longer writing structures challenges
-                        our minds to continuously think in the language
-                        that we hope to learn. Rather than thinking of short lines, we build
-                        upon what has been stated.
+                        Due to personal beliefs, engaging in longer writing structures challenges our minds to continuously think in the language that we hope to learn. Rather than thinking of short lines, we build upon what has been stated.
                       </CardText>
                     </div>
                     <hr />
@@ -78,9 +74,7 @@ class Help extends Component {
                         interests?
                       </CardText>
                       <CardText>
-                        The profile page is meant to showcase to others what we are most
-                        interested in learning. Rather than displaying multiple interests,
-                        this allows for easier communication between other users.
+                        The profile page is meant to showcase to others what we are most interested in learning. Rather than displaying multiple interests, this allows for easier communication between other users.
                       </CardText>
                     </div>
                   </CardBody>

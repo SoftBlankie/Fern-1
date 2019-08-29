@@ -3,19 +3,19 @@ import {
   Container,
   Row,
   Col,
+  Label,
+  Input,
+  Button,
   Card,
   CardHeader,
   CardBody,
   CardText,
   Form,
-  FormGroup,
-  Label,
-  Input,
-  Button
+  FormGroup
 } from 'reactstrap';
+import { sendMail } from '../actions/mailerActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { sendMail } from '../actions/mailerActions';
 
 class Contact extends Component {
   state = {

@@ -12,6 +12,7 @@ import {
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
+// GET EDITS
 export const getEdits = id => dispatch => {
   dispatch(setEditsLoading());
   axios
@@ -27,12 +28,14 @@ export const getEdits = id => dispatch => {
     );
 };
 
+// CLEAR EDITS
 export const clearEdits = () => {
   return {
     type: CLEAR_EDITS
   };
 };
 
+// ADD EDIT
 export const addEdit = (id, edit) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${id}/edits`, edit, tokenConfig(getState))
@@ -47,6 +50,7 @@ export const addEdit = (id, edit) => (dispatch, getState) => {
     );
 };
 
+// UPDATE EDIT
 export const updateEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${post_id}/edits/${edit_id}`, edit, tokenConfig(getState))
@@ -61,6 +65,7 @@ export const updateEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
     );
 };
 
+// AGREE EDIT
 export const agreeEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${post_id}/edits/${edit_id}`, edit, tokenConfig(getState))
@@ -75,6 +80,7 @@ export const agreeEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
     );
 };
 
+// DELETE EDIT
 export const deleteEdit = (post_id, edit_id) => (dispatch, getState) => {
   axios
     .delete(`/api/posts/${post_id}/edits/${edit_id}`, tokenConfig(getState))
@@ -89,6 +95,7 @@ export const deleteEdit = (post_id, edit_id) => (dispatch, getState) => {
     );
 };
 
+// REPORT EDIT
 export const reportEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${post_id}/edits/${edit_id}`, edit, tokenConfig(getState))
@@ -103,6 +110,7 @@ export const reportEdit = (post_id, edit_id, edit) => (dispatch, getState) => {
     );
 };
 
+// EDITS LOADING
 export const setEditsLoading = () => {
   return {
     type: EDITS_LOADING

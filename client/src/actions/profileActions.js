@@ -3,11 +3,13 @@ import {
   GET_PROFILE,
   CLEAR_PROFILE,
   UPDATE_PROFILE,
+  FOLLOW_PROFILE,
   PROFILE_LOADING
 } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
+// GET PROFILE
 export const getProfile = id => dispatch => {
   dispatch(setProfileLoading());
   axios
@@ -23,6 +25,7 @@ export const getProfile = id => dispatch => {
     );
 };
 
+// GET PROFILE BY NAME
 export const getProfileByName = name => dispatch => {
   dispatch(setProfileLoading());
   axios
@@ -38,12 +41,14 @@ export const getProfileByName = name => dispatch => {
     );
 };
 
+// CLEAR PROFILE
 export const clearProfile = () => {
   return {
     type: CLEAR_PROFILE
   };
 };
 
+// UPDATE PROFILE
 export const updateProfile = (id, profile) => (dispatch, getState) => {
   axios
     .post(`/api/profiles/${id}`, profile, tokenConfig(getState))
@@ -58,12 +63,13 @@ export const updateProfile = (id, profile) => (dispatch, getState) => {
     );
 };
 
+// FOLLOW PROFILE
 export const followProfile = (following_id, follower_id, newFollowing, newFollower) => (dispatch, getState) => {
   axios
     .post(`/api/profiles/${follower_id}`, newFollower, tokenConfig(getState))
     .then(res =>
       dispatch({
-        type: UPDATE_PROFILE,
+        type: FOLLOW_PROFILE,
         payload: res.data
       })
     )
@@ -78,6 +84,7 @@ export const followProfile = (following_id, follower_id, newFollowing, newFollow
     );
 };
 
+// PROFILE LOADING
 export const setProfileLoading = () => {
   return {
     type: PROFILE_LOADING

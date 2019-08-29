@@ -3,16 +3,12 @@ import ReactDOM from 'react-dom';
 import { css } from 'emotion';
 import { Editor } from 'slate-react';
 import { Button, Menu } from './component';
-
 import Edit from '@material-ui/icons/Edit';
-
-// might want to add versions for precision edits
-// add selection finder and annotation
 
 let n = 0
 
 function getHighlightKey() {
-  return `highlight_${n++}`
+  return `highlight_${n++}`;
 }
 
 class GuestEditor extends Component {
@@ -23,26 +19,26 @@ class GuestEditor extends Component {
   }
 
   ref = editor => {
-    this.editor = editor
+    this.editor = editor;
   }
 
-  menuRef = React.createRef()
+  menuRef = React.createRef();
 
   componentDidMount = () => {
-    this.updateMenu()
+    this.updateMenu();
   }
 
   componentDidUpdate = () => {
-    this.updateMenu()
+    this.updateMenu();
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((this.props.selection !== nextProps.selection)
-      || (this.state.isAnnotate !== nextProps.isAnnotate)) {
+    if ((this.props.selection !== nextProps.selection) ||
+      (this.state.isAnnotate !== nextProps.isAnnotate)) {
       this.setState({
         selection: nextProps.selection,
         isAnnotate: nextProps.isAnnotate
-      }, this.annotateText())
+      }, this.annotateText());
     }
   }
 
@@ -85,32 +81,32 @@ class GuestEditor extends Component {
   })
 
   updateMenu = () => {
-    const menu = this.menuRef.current
-    if (!menu) return
-    const { value } = this.state
-    const { fragment, selection } = value
+    const menu = this.menuRef.current;
+    if (!menu) return;
+    const { value } = this.state;
+    const { fragment, selection } = value;
     
     if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
-      menu.removeAttribute('style')
-      return
+      menu.removeAttribute('style');
+      return;
     }
 
-    const native = window.getSelection()
-    const range = native.getRangeAt(0)
-    const rect = range.getBoundingClientRect()
-    menu.style.opacity = 1
-    menu.style.top = `${rect.top + window.pageYOffset - menu.offsetHeight}px`
+    const native = window.getSelection();
+    const range = native.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+    menu.style.opacity = 1;
+    menu.style.top = `${rect.top + window.pageYOffset - menu.offsetHeight}px`;
 
     menu.style.left = `${rect.left +
       window.pageXOffset -
       menu.offsetWidth / 2 +
-      rect.width / 2}px`
+      rect.width / 2}px`;
   }
 
   annotateText = () => {
-    const editor = this.editor
-    const { value } = editor
-    const { document, annotations } = value
+    const editor = this.editor;
+    const { value } = editor;
+    const { document, annotations } = value;
 
     this.setState({
       isAnnotate: this.props.isAnnotate
@@ -122,12 +118,12 @@ class GuestEditor extends Component {
             if (ann.type === 'highlight') {
               editor.removeAnnotation(ann)
             }
-          })
+          });
           
           for (const [node, path] of document.texts()) {
-            const { key, text } = node
-            const parts = text.split(string)
-            let offset = 0
+            const { key, text } = node;
+            const parts = text.split(string);
+            let offset = 0;
 
             parts.forEach((part, i) => {
               if (i !== 0) {
@@ -136,44 +132,44 @@ class GuestEditor extends Component {
                   type: 'highlight',
                   anchor: { path, key, offset: offset - string.length },
                   focus: { path, key, offset },
-                })
+                });
               }
-              offset = offset + part.length + string.length
-            })
+              offset = offset + part.length + string.length;
+            });
           }
-        })
+        });
       } else {
-        this.removeAnnotate()
+        this.removeAnnotate();
       }
     })
   }
 
   removeAnnotate = () => {
-    const editor = this.editor
-    const { value } = editor
-    const { annotations } = value
+    const editor = this.editor;
+    const { value } = editor;
+    const { annotations } = value;
 
     editor.withoutSaving(() => {
       annotations.forEach(ann => {
         if (ann.type === 'highlight') {
-          editor.removeAnnotation(ann)
+          editor.removeAnnotation(ann);
         }
-      })
-    })
+      });
+    });
   }
 
 	hasMark = type => {
-		const { value } = this.state
-    return value.activeMarks.some(mark => mark.type === type)
+		const { value } = this.state;
+    return value.activeMarks.some(mark => mark.type === type);
   }
 
 	hasBlock = type => {
-  	const { value } = this.state
-    return value.blocks.some(node => node.type === type)
+  	const { value } = this.state;
+    return value.blocks.some(node => node.type === type);
   }
 
   onChange = ({ value }) => {
-    const { fragment } = value
+    const { fragment } = value;
     if (value.document.text !== this.state.value.document.text) {
       this.setState({ value: this.props.initialValue });
       return;
@@ -210,7 +206,7 @@ class GuestEditor extends Component {
   }
 
   renderAnnotation = (props, editor, next) => {
-    const { children, annotation, attributes } = props
+    const { children, annotation, attributes } = props;
 
     switch (annotation.type) {
       case 'highlight':
@@ -225,7 +221,7 @@ class GuestEditor extends Component {
   }
 
   renderBlock = (props, editor, next) => {
-    const { attributes, children, node } = props
+    const { attributes, children, node } = props;
 
     switch (node.type) {
       case 'bulleted-list':

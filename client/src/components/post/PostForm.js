@@ -5,17 +5,18 @@ import {
   Container,
   Row,
   Col,
+  Label,
+  Input,
   Button,
   Form,
   FormGroup,
-  Label,
-  Input,
   Card,
   CardBody
 } from 'reactstrap';
-import { connect } from 'react-redux';
 import { addPost, updatePost } from '../../actions/postActions';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import TextEditor from '../editor/TextEditor';
 import { rules } from '../editor/rules';
 
@@ -26,7 +27,6 @@ class PostForm extends Component {
 		title_error: false,
 		entry_error: false,
 		language_error: false,
-
     title: this.props.initialTitle ? this.props.initialTitle : '',
     entry: this.props.initialEntry ? this.props.initialEntry : '',
     language: this.props.initialLanguage ? this.props.initialLanguage : 'Select'
@@ -42,7 +42,7 @@ class PostForm extends Component {
       this.props.history.push('/');
     } else if (user) {
       if (user.name !== this.props.match.params.name) {
-        this.props.history.push(user.name)
+        this.props.history.push(user.name);
       }
     }
   };
@@ -78,7 +78,7 @@ class PostForm extends Component {
         };
 
         this.props.updatePost(this.props.postId, newPost);
-        this.props.toggle()
+        this.props.toggle();
       }
     } else {
       if (this.isValid()) {

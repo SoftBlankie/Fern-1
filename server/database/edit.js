@@ -1,5 +1,7 @@
 const knex = require('./connection');
 
+const selectList = ['edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.agrees', 'edit.reports', 'edit.date'];
+
 module.exports = {
   getOne: id => {
     return knex('edit').where('id', id).first();
@@ -13,13 +15,13 @@ module.exports = {
   getJoinUser: () => {
     return knex('edit')
       .join('user', 'user.id', 'edit.user_id')
-      .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.agrees', 'edit.reports', 'edit.date');
+      .select(selectList);
   },
   create: edit => {
     return knex('edit').insert(edit, 'id').then(ids => {
       return knex('edit')
         .join('user', 'user.id', 'edit.user_id')
-        .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.agrees', 'edit.reports', 'edit.date')
+        .select(selectList)
         .where('edit.id', ids[0]).first();
     });
   },
@@ -32,7 +34,7 @@ module.exports = {
     }).then(() => {
       return knex('edit')
         .join('user', 'user.id', 'edit.user_id')
-        .select('edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.agrees', 'edit.reports', 'edit.date')
+        .select(selectList)
         .where('edit.id', id).first();
     });
   },

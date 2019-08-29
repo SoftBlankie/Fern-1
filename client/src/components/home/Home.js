@@ -10,9 +10,9 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import { getPosts, getFollowingsPosts, getLanguagePosts } from '../../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getPosts, getFollowingsPosts, getLanguagePosts } from '../../actions/postActions';
 
 import Post from './Post';
 import ProfileCard from '../profile/ProfileCard';
@@ -40,7 +40,7 @@ class Home extends Component {
       this.props.history.push('/');
     } else if (user) {
       if (user.name !== this.props.match.params.name) {
-        this.props.history.push(user.name)
+        this.props.history.push(user.name);
       }
     }
   };

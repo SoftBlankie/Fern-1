@@ -12,14 +12,14 @@ import {
   TabContent,
   TabPane
 } from 'reactstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { getUserPosts } from '../../actions/postActions';
 import {
   getProfileByName,
   clearProfile,
   updateProfile
 } from '../../actions/profileActions';
+import { getUserPosts } from '../../actions/postActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import ProfileCard from './ProfileCard';
 import Post from '../home/Post';
@@ -39,8 +39,8 @@ class Profile extends Component {
     };
     this.props.getUserPosts(userPosts);
    
-    if (!this.props.profile.profile
-      || (this.props.match.params.name !== this.props.auth.user.name)) {
+    if (!this.props.profile.profile ||
+      (this.props.match.params.name !== this.props.auth.user.name)) {
       this.props.getProfileByName(this.props.match.params.name);
     }
   };

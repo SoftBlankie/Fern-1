@@ -12,6 +12,7 @@ import {
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
+// GET COMMENTS
 export const getComments = id => dispatch => {
   dispatch(setCommentsLoading());
   axios
@@ -27,12 +28,14 @@ export const getComments = id => dispatch => {
     );
 };
 
+// CLEAR COMMENTS
 export const clearComments = () => {
   return {
     type: CLEAR_COMMENTS
   };
 };
 
+// ADD COMMENT
 export const addComment = (id, comment) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${id}/comments`, comment, tokenConfig(getState))
@@ -47,6 +50,7 @@ export const addComment = (id, comment) => (dispatch, getState) => {
     );
 };
 
+// UPDATE COMMENT
 export const updateComment = (post_id, comment_id, comment) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${post_id}/comments/${comment_id}`, comment, tokenConfig(getState))
@@ -61,6 +65,7 @@ export const updateComment = (post_id, comment_id, comment) => (dispatch, getSta
     );
 };
 
+// LIKE COMMENT
 export const likeComment = (post_id, comment_id, comment) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${post_id}/comments/${comment_id}`, comment, tokenConfig(getState))
@@ -75,6 +80,7 @@ export const likeComment = (post_id, comment_id, comment) => (dispatch, getState
     );
 };
 
+// DELETE COMMENT
 export const deleteComment = (post_id, comment_id) => (dispatch, getState) => {
   axios
     .delete(`/api/posts/${post_id}/comments/${comment_id}`, tokenConfig(getState))
@@ -89,6 +95,7 @@ export const deleteComment = (post_id, comment_id) => (dispatch, getState) => {
     );
 };
 
+// REPORT COMMENT
 export const reportComment = (post_id, comment_id, comment) => (dispatch, getState) => {
   axios
     .post(`/api/posts/${post_id}/comments/${comment_id}`, comment, tokenConfig(getState))
@@ -103,6 +110,7 @@ export const reportComment = (post_id, comment_id, comment) => (dispatch, getSta
     );
 };
 
+// COMMENTS LOADING
 export const setCommentsLoading = () => {
   return {
     type: COMMENTS_LOADING

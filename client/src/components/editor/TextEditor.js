@@ -13,7 +13,7 @@ import LooksTwo from '@material-ui/icons/LooksTwo';
 import Numbered from '@material-ui/icons/FormatListNumbered';
 import Bulleted from '@material-ui/icons/FormatListBulleted';
 
-const DEFAULT_NODE = 'paragraph'
+const DEFAULT_NODE = 'paragraph';
 
 const initialValue = Value.fromJSON({
   document: {
@@ -57,17 +57,17 @@ class TextEditor extends Component {
   }
 
   ref = editor => {
-    this.editor = editor
+    this.editor = editor;
   }
 
 	hasMark = type => {
-		const { value } = this.state
-    return value.activeMarks.some(mark => mark.type === type)
+		const { value } = this.state;
+    return value.activeMarks.some(mark => mark.type === type);
   }
 
 	hasBlock = type => {
-  	const { value } = this.state
-    return value.blocks.some(node => node.type === type)
+  	const { value } = this.state;
+    return value.blocks.some(node => node.type === type);
   }
 
   onChange = ({ value }) => {
@@ -76,50 +76,50 @@ class TextEditor extends Component {
   }
 
   onClickMark = (event, type) => {
-    event.preventDefault()
-    this.editor.toggleMark(type)
+    event.preventDefault();
+    this.editor.toggleMark(type);
   }
 
   onClickBlock = (event, type) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const { editor } = this
-    const { value } = editor
-    const { document } = value
+    const { editor } = this;
+    const { value } = editor;
+    const { document } = value;
 
     // Handle everything but list buttons.
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
-      const isActive = this.hasBlock(type)
-      const isList = this.hasBlock('list-item')
+      const isActive = this.hasBlock(type);
+      const isList = this.hasBlock('list-item');
 
       if (isList) {
         editor
           .setBlocks(isActive ? DEFAULT_NODE : type)
           .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list')
+          .unwrapBlock('numbered-list');
       } else {
-        editor.setBlocks(isActive ? DEFAULT_NODE : type)
+        editor.setBlocks(isActive ? DEFAULT_NODE : type);
       }
     } else {
       // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock('list-item')
+      const isList = this.hasBlock('list-item');
       const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type === type)
+        return !!document.getClosest(block.key, parent => parent.type === type);
       })
 
       if (isList && isType) {
         editor
           .setBlocks(DEFAULT_NODE)
           .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list')
+          .unwrapBlock('numbered-list');
       } else if (isList) {
         editor
           .unwrapBlock(
             type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
           )
-          .wrapBlock(type)
+          .wrapBlock(type);
       } else {
-        editor.setBlocks('list-item').wrapBlock(type)
+        editor.setBlocks('list-item').wrapBlock(type);
       }
     }
   }
@@ -151,17 +151,17 @@ class TextEditor extends Component {
   }
 
   renderMarkButton = (type) => {
-    const isActive = this.hasMark(type)
+    const isActive = this.hasMark(type);
     var icon;
 
     if (type === 'bold') {
       icon = <Bold />;
     } else if (type === 'italic') {
-      icon = <Italic />
+      icon = <Italic />;
     } else if (type === 'underline') {
-      icon = <Underline />
+      icon = <Underline />;
     } else if (type === 'strikethrough') {
-      icon = <Strikethrough />
+      icon = <Strikethrough />;
     }
 
     return (
@@ -175,14 +175,14 @@ class TextEditor extends Component {
   }
 
   renderBlockButton = (type) => {
-    let isActive = this.hasBlock(type)
+    let isActive = this.hasBlock(type);
 
     if (['numbered-list', 'bulleted-list'].includes(type)) {
-      const { value: { document, blocks } } = this.state
+      const { value: { document, blocks } } = this.state;
 
       if (blocks.size > 0) {
-        const parent = document.getParent(blocks.first().key)
-        isActive = this.hasBlock('list-item') && parent && parent.type === type
+        const parent = document.getParent(blocks.first().key);
+        isActive = this.hasBlock('list-item') && parent && parent.type === type;
       }
     }
 
@@ -191,11 +191,11 @@ class TextEditor extends Component {
     if (type === 'heading-one') {
       icon = <LooksOne />;
     } else if (type === 'heading-two') {
-      icon = <LooksTwo />
+      icon = <LooksTwo />;
     } else if (type === 'numbered-list') {
-      icon = <Numbered />
+      icon = <Numbered />;
     } else if (type === 'bulleted-list') {
-      icon = <Bulleted />
+      icon = <Bulleted />;
     }
 
     return (
@@ -209,36 +209,36 @@ class TextEditor extends Component {
   }
 
   renderBlock = (props, editor, next) => {
-    const { attributes, children, node } = props
+    const { attributes, children, node } = props;
 
     switch (node.type) {
       case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>
+        return <ul {...attributes}>{children}</ul>;
       case 'heading-one':
-        return <h1 {...attributes}>{children}</h1>
+        return <h1 {...attributes}>{children}</h1>;
       case 'heading-two':
-        return <h2 {...attributes}>{children}</h2>
+        return <h2 {...attributes}>{children}</h2>;
       case 'list-item':
-        return <li {...attributes}>{children}</li>
+        return <li {...attributes}>{children}</li>;
       case 'numbered-list':
-        return <ol {...attributes}>{children}</ol>
+        return <ol {...attributes}>{children}</ol>;
       default:
-        return next()
+        return next();
     }
   }
 
   renderMark = (props, editor, next) => {
     switch (props.mark.type) {
       case 'bold':
-        return <strong>{props.children}</strong>
+        return <strong>{props.children}</strong>;
       case 'italic':
-        return <em>{props.children}</em>
+        return <em>{props.children}</em>;
       case 'strikethrough':
-        return <del>{props.children}</del>
+        return <del>{props.children}</del>;
       case 'underline':
-        return <u>{props.children}</u>
+        return <u>{props.children}</u>;
       default:
-        return next()
+        return next();
     }
   }
 }

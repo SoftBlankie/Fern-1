@@ -8,9 +8,9 @@ import {
   CardHeader,
   CardBody
 } from 'reactstrap';
+import { getPosts, deletePost } from '../../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getPosts, deletePost } from '../../actions/postActions';
 
 import Html from 'slate-html-serializer';
 import { rules } from '../editor/rules';
@@ -29,7 +29,7 @@ const html = new Html({ rules })
 class Post extends Component {
   state = {
     isOpen: false,
-		deleteModal: false,
+		deleteModal: false
   };
   
   static propTypes = {

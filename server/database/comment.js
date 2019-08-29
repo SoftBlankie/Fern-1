@@ -1,5 +1,7 @@
 const knex = require('./connection');
 
+const selectList = ['comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.reports', 'comment.date'];
+
 module.exports = {
   getOne: id => {
     return knex('comment').where('id', id).first();
@@ -10,13 +12,13 @@ module.exports = {
   getJoinUser: () => {
     return knex('comment')
       .join('user', 'user.id', 'comment.user_id')
-      .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.reports', 'comment.date');
+      .select(selectList);
   },
   create: comment => {
     return knex('comment').insert(comment, 'id').then(ids => {
       return knex('comment')
         .join('user', 'user.id', 'comment.user_id')
-        .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.reports', 'comment.date')
+        .select(selectList)
         .where('comment.id', ids[0]).first();
     });
   },
@@ -29,7 +31,7 @@ module.exports = {
     }).then(() => {
       return knex('comment')
         .join('user', 'user.id', 'comment.user_id')
-        .select('comment.id', 'user.name as name', 'comment.post_id', 'comment.comment', 'comment.likes', 'comment.reports', 'comment.date')
+        .select(selectList)
         .where('comment.id', id).first();
     });
   },

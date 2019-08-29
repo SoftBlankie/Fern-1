@@ -22,25 +22,25 @@ import './App.css';
 class App extends Component {
   componentDidMount(prevProps) {
     store.dispatch(loadUser());
-  }
+  };
 
   render() {
     return (
       <Router>
         <Provider store={store}>
-          <div className="App">
+          <div className='App'>
             <AppNavbar />
             <div>
               <Switch>
-                <Route exact path="/" component={Landing} />
-                <Route exact path="/info/about" component={About} />
-                <Route exact path="/:name" component={Home} />
-                <Route exact path="/:name/profile" component={Profile} />
-                <Route exact path="/:name/postform" component={PostForm} />
-                <Route exact path="/:name/post/:id" component={Post} />
-                <Route exact path="/:name/help" component={Help} />
-                <Route exact path="/:name/contact" component={Contact} />
-                <Redirect to="/" />
+                <Route exact path='/' component={Landing} />
+                <Route exact path='/info/about' component={About} />
+                <Route exact path='/:name' component={Home} />
+                <Route exact path='/:name/profile' component={Profile} />
+                <Route exact path='/:name/postform' component={PostForm} />
+                <Route exact path='/:name/post/:id' component={Post} />
+                <Route exact path='/:name/help' component={Help} />
+                <Route exact path='/:name/contact' component={Contact} />
+                <Redirect to='/' />
               </Switch>
             </div>
           </div>

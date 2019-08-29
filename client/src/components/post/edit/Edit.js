@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import {
   getEdits,
   clearEdits,
@@ -11,6 +9,8 @@ import {
   reportEdit
 } from '../../../actions/editActions';
 import { updatePost } from '../../../actions/postActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import RequestEdit from './RequestEdit';
 import EditBar from './EditBar';

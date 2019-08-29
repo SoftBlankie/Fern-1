@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import {
+  Alert,
+  Label,
+  Input,
   Button,
+  NavLink,
   Modal,
   ModalHeader,
   ModalBody,
   Form,
-  FormGroup,
-  Label,
-  Input,
-  NavLink,
-  Alert
+  FormGroup
 } from 'reactstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { register } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class RegisterModal extends Component {
   state = {

@@ -2,6 +2,7 @@ import {
   GET_PROFILE,
   CLEAR_PROFILE,
   UPDATE_PROFILE,
+  FOLLOW_PROFILE,
   PROFILE_LOADING
 } from '../actions/types';
 
@@ -23,6 +24,7 @@ export default (state = initialState, action) => {
         profile: null
       };
     case UPDATE_PROFILE:
+    case FOLLOW_PROFILE:
       return {
         ...state,
         profile: action.payload
