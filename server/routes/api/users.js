@@ -76,7 +76,7 @@ router.post('/', (req, res) => {
               User.create(newUser).then(newId => {
                 jwt.sign(
                   { id: newId },
-                  process.env.jwtSecret,
+                  process.env.JWT_SECRET,
                   { expiresIn: 3600 },
                   (err, token) => {
                   if(err) throw err;
