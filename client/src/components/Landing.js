@@ -49,11 +49,13 @@ class Landing extends Component {
   };
 
 	toggle = () => {
-		this.setState({ name: '' });
-		this.setState({ email: '' });
-		this.setState({ password: '' });
-		this.setState({ msg: null });
-		this.setState({ isLogin: !this.state.isLogin });
+		this.setState({
+      name: '',
+      email: '',
+      password: '',
+      msg: null,
+      isLogin: !this.state.isLogin
+    });
 	};
 
   onChange = e => {
@@ -125,6 +127,7 @@ class Landing extends Component {
             name='name'
             id='name'
             placeholder='name'
+            value={this.state.name}
             className='mb-3'
             onChange={this.onChange}
           />
@@ -134,6 +137,7 @@ class Landing extends Component {
             name='email'
             id='email'
             placeholder='Email'
+            value={this.state.email}
             className='mb-3'
             onChange={this.onChange}
           />
@@ -143,6 +147,7 @@ class Landing extends Component {
             name='password'
             id='password'
             placeholder='Password'
+            value={this.state.password}
             className='mb-3'
             onChange={this.onChange}
           />
