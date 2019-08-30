@@ -20,6 +20,13 @@ app.use('/api/posts', require('./routes/api/comments'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/profiles', require('./routes/api/profiles'));
 
+if (ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use((req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  });
+}
+
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
