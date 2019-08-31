@@ -101,7 +101,7 @@ class AppNavbar extends Component {
         <Navbar color='dark' dark expand='sm' style={{ zIndex: 99 }}>
           {isAuthenticated !== null ? (
             <Container>
-              <NavbarBrand tag={Link} to={`/${user ? user.name : ''}`}>Fern</NavbarBrand>
+              <NavbarBrand tag={Link} to={`/${user ? user.name : ''}`}>Fern-1</NavbarBrand>
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
                 {isAuthenticated ? <Searchbar /> : null}

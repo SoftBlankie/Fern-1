@@ -72,7 +72,7 @@ class Post extends Component {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
     const date = post ? new Date(post.date).toLocaleDateString('en-US', options) : '';
 
-		const fabStyle = {
+		const fabStyle = window.innerWidth > 760 ? {
 			margin: 0,
 			top: 'auto',
 			right: 50,
@@ -80,7 +80,16 @@ class Post extends Component {
 			left: 'auto',
 			position: 'fixed',
 			zIndex: 99,
-		}
+		} : {
+			margin: 0,
+			top: 'auto',
+			right: 25,
+			bottom: 25,
+			left: 'auto',
+			position: 'fixed',
+			zIndex: 99,
+
+    };
 		
     const userAccess = (
       <div>

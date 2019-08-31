@@ -121,10 +121,10 @@ class Profile extends Component {
                   </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="1">
+                  <TabPane tabId='1'>
                     <Row>
                       <Col>
-                        <ListGroup>
+                        <ListGroup style={{ marginBottom: '1rem' }}>
                           <ListGroupItem>Public Name: {profile.name}</ListGroupItem>
                           <ListGroupItem>
                             Age: {profile.age !== 0 ? profile.age : null}
@@ -140,9 +140,9 @@ class Profile extends Component {
                       </Col>
                     </Row>
                   </TabPane>
-                  <TabPane tabId="2">
+                  <TabPane tabId='2'>
                     <Row>
-                      <Col sm="12">
+                      <Col sm='12'>
                         <Post posts={userPosts}/>
                       </Col>
                     </Row>

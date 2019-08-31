@@ -37,7 +37,7 @@ class EditBar extends Component {
     const { edits } = this.state;
     const requestEdit = this.state.requestEdit.map(editCard => { return editCard });
 
-    const userStyle = {
+    const userStyle = window.innerWidth > 760 ? {
       margin: 0,
       top: 'auto',
       right: 50,
@@ -45,9 +45,17 @@ class EditBar extends Component {
       left: 'auto',
       position: 'fixed',
       zIndex: 99,
+    } : {
+      margin: 0,
+      top: 'auto',
+      right: 25,
+      bottom: 100,
+      left: 'auto',
+      position: 'fixed',
+      zIndex: 99,
     };
 
-    const guestStyle = {
+    const guestStyle = window.innerWidth > 760 ? {
       margin: 0,
       top: 'auto',
       right: 50,
@@ -55,11 +63,19 @@ class EditBar extends Component {
       left: 'auto',
       position: 'fixed',
       zIndex: 99,
+    } : {
+      margin: 0,
+      top: 'auto',
+      right: 25,
+      bottom: 25,
+      left: 'auto',
+      position: 'fixed',
+      zIndex: 99,
     };
 
     return (
       <Fragment>
-        {window.innerWidth <= 1080 ? <Fab
+        {window.innerWidth <= 760 ? <Fab
           size='large'
           onClick={this.toggle}
           style={ this.props.isUser ? userStyle : guestStyle }
@@ -72,11 +88,16 @@ class EditBar extends Component {
           open={this.state.isOpen}
           style={{ position: 'fixed', zIndex: 2 }}
         >
-          <Container style={{ 
+          <Container style={ window.innerWidth > 760 ? { 
             overflow: 'auto',
             width: 350,
             marginTop: 70,
-            marginRight: 50 }}
+            marginRight: 50
+          } : {
+            overflow: 'auto',
+            width: 350,
+            marginTop: 70
+          }}
           >
             <Row>
               <Col md='10' xs='10'>

@@ -72,11 +72,19 @@ class Home extends Component {
     const { isAuthenticated, user } = this.props.auth;
     const { posts } = this.props.post;
 
-    const addStyle = {
+    const addStyle = window.innerWidth > 760 ? {
       margin: 0,
       top: 'auto',
       right: 50,
       bottom: 50,
+      left: 'auto',
+      position: 'fixed',
+      zIndex: 99,
+    } : {
+      margin: 0,
+      top: 'auto',
+      right: 25,
+      bottom: 25,
       left: 'auto',
       position: 'fixed',
       zIndex: 99,

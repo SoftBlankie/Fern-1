@@ -159,7 +159,7 @@ class Landing extends Component {
     );
 
     return( 
-      <Jumbotron style={{ marginTop: '2rem' }}>
+      <Jumbotron style={{ marginTop: '2rem', marginBottom: '1rem' }}>
         <Container>
           <Row>
             <Col md={{ size: 4, offset: 2 }}>
@@ -170,7 +170,7 @@ class Landing extends Component {
             <Col md={{ size: 4 }}>
               <Card style={{ marginTop: '1rem' }}>
                 <CardHeader style={{ border: 0, backgroundColor: 'white' }}>
-                  <h1 className='text-center'>Fern</h1>
+                  <h1 className='text-center'>Fern-1</h1>
                 </CardHeader>
                 {window.innerWidth > 760 ? (
                   <CardBody style={{ paddingTop: 0 }}>

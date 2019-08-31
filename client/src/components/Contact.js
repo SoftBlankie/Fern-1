@@ -71,7 +71,7 @@ class Contact extends Component {
     return(
       <div>
         {isAuthenticated ? (
-          <Container>
+          <Container style={{ marginBottom: '1rem' }}>
             <Row>
               <Col md={{ size: 8, offset: 2 }}>
                 <Card>
