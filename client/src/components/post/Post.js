@@ -176,7 +176,7 @@ class Post extends Component {
     );
 
     return (
-      <div>
+      <div style={{ marginBottom: '1rem' }}>
         {(this.state.isOpen && isUser) ? userAccess : defaultAccess}
       </div>
     );

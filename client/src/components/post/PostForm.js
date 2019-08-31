@@ -110,7 +110,7 @@ class PostForm extends Component {
 
     return(
       <div>
-        <Container>
+        <Container style={{ marginBottom: '1rem' }}>
           <Row>
             <Col sm="12" md={{ size: 8, offset: 2 }}>
               <Card>

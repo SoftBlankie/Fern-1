@@ -25,20 +25,30 @@ class DeleteModal extends Component {
   };
 
   render() {
+    const deleteFab = window.innerWidth > 760 ? {
+      margin: 0,
+      top: 'auto',
+      right: 50,
+      bottom: 120,
+      left: 'auto',
+      position: 'fixed',
+      zIndex: 99,
+    } : {
+      margin: 0,
+      top: 'auto',
+      right: 25,
+      bottom: 100,
+      left: 'auto',
+      position: 'fixed',
+      zIndex: 99,
+    };
+
     return(
       <div>
         <Fab
           size='large'
           onClick={this.toggle}
-          style={{
-            margin: 0,
-            top: 'auto',
-            right: 50,
-            bottom: 120,
-            left: 'auto',
-            position: 'fixed',
-            zIndex: 99,
-          }}
+          style={deleteFab}
         >
           <Delete />
         </Fab>
