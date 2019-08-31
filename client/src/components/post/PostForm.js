@@ -40,7 +40,7 @@ class PostForm extends Component {
     const { isAuthenticated, user } = this.props.auth;
     if (isAuthenticated === false) {
       this.props.history.push('/');
-    } else if (user) {
+    } else if (user && this.props.match) {
       if (user.name !== this.props.match.params.name) {
         this.props.history.push(user.name);
       }

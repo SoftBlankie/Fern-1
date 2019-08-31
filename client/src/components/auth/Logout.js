@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { DropdownItem } from 'reactstrap';
+import { logout } from '../../actions/authActions';
+import { clearProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logout } from '../../actions/authActions';
 
 export class Logout extends Component {
   static propTypes = {
@@ -12,6 +13,7 @@ export class Logout extends Component {
 
   onClick = () => {
     this.props.logout();
+    this.props.clearProfile();
   }
 
   render() {
@@ -25,5 +27,5 @@ export class Logout extends Component {
 
 export default connect(
   null,
-  { logout }
+  { logout, clearProfile }
 )(Logout);
