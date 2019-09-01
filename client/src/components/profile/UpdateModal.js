@@ -55,6 +55,7 @@ class UpdateModal extends Component {
   
   onClick = () => {
     const { age, location, learning, native, about } = this.state;
+    if (age === '') this.setState({ age: 0 });
 
     this.props.onUpdate(age, location, learning, native, about);
     this.toggle();

@@ -6,6 +6,7 @@ import {
   Label,
   Input,
   Button,
+  Alert,
   Card,
   CardHeader,
   CardBody,
@@ -19,6 +20,7 @@ import PropTypes from 'prop-types';
 
 class Contact extends Component {
   state = {
+    isAlert: false,
     message_error: false,
     message: ''
   };
@@ -51,6 +53,13 @@ class Contact extends Component {
     return true;
   };
 
+  showAlert = () => {
+    this.setState({ isAlert: true });
+    setTimeout(() => {
+      this.setState({isAlert: false });
+    }, 2000);
+  };
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -63,10 +72,12 @@ class Contact extends Component {
       this.props.sendMail(mail);
       this.setState({ message: '' });
     }
+
+    this.showAlert();
   };
 
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
 
     return(
       <div>
@@ -74,6 +85,9 @@ class Contact extends Component {
           <Container style={{ marginBottom: '1rem' }}>
             <Row>
               <Col md={{ size: 8, offset: 2 }}>
+                <Alert color='primary' isOpen={this.state.isAlert}>
+                  A message from {user.email} has been sent to fernmanager@gmail.com
+                </Alert>
                 <Card>
                   <CardHeader>Contact</CardHeader>
                   <CardBody>

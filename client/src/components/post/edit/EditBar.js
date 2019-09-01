@@ -120,7 +120,7 @@ class EditBar extends Component {
                   style={{ textAlign: 'left' }}
                   modifiers={{offset:{offset: '-200px', enabled: true}}}
                 >
-                  <p>- Select text to edit</p>
+                  <p>- Select text and click on 'pencil' icon to edit</p>
                   <p>- Click card text to show edit annotation</p>
                   <p>- Click 'Edits' header to clear annotation</p>
                 </Tooltip>
