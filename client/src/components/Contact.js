@@ -57,7 +57,7 @@ class Contact extends Component {
     this.setState({ isAlert: true });
     setTimeout(() => {
       this.setState({isAlert: false });
-    }, 2000);
+    }, 3000);
   };
 
   onSubmit = e => {

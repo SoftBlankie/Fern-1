@@ -86,7 +86,7 @@ class Searchbar extends Component {
     const { value, suggestions } = this.state;
 
     const inputProps = {
-      placeholder: 'Search Users',
+      placeholder: 'Search user',
       value,
       onChange: this.onChange,
     };
