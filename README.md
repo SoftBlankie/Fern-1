@@ -1,7 +1,8 @@
 
-# Fern
+# Fern-1
 Full Stack Website with PERN
 PostgreSQL, Express, React, NodeJS
+[https://fern-1.herokuapp.com/](https://fern-1.herokuapp.com/)
 
 ### Goal
 
@@ -23,6 +24,7 @@ Application Features:
  - Following system
  - Like system
  - Reporting
+ - Mobile Support
 
 Major libraries include:
  - SlateJS
@@ -63,7 +65,11 @@ Major design challenges are listed below:
 #### Client-Side
 Improvements involve replacing Material-UI with Semantic-UI's library due to the difficulties experienced when using Material-UI. Although Material-UI has a great visual library, the multitudes of heavy features seem overwhelming for a website of this scale. Due to Semantic-UI's features, a change in libraries would opt for a more user-friendly appearance.
 
-Optimizations within route protection
+Other features:
+- Optimizations within route protection
+- Email Validation
+- Forgot Password
+- Delete Account
 
 #### Server-Side
 Improvements involve reducing code used in accessing PostgreSQL's database. Reduction allows for a minor improvement in time-complexity.
