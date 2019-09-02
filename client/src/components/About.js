@@ -6,6 +6,7 @@ import {
   Card,
   CardHeader,
   CardBody,
+  CardFooter,
   CardText
 } from 'reactstrap';
 import { connect } from 'react-redux';
@@ -42,12 +43,16 @@ class About extends Component {
                   </ul>
                   <b>Who I am</b>
                   <CardText>
-                    Hi there! My name is Derick, the developer for this website. I'm a college student that was inspired from language learning sites such as Lang-8, HelloTalk, etc and wished to make a community where we're all focused in an academic environment that seemed to be lacking within other sites.
+                    Hi there! My name is <a href='https://softblankie.github.io/' target='blank'>Derick</a>, the developer for this website. I'm a college student that was inspired from language learning sites such as Lang-8, HelloTalk, etc and wished to make a community where we're all focused in an academic environment that seemed to be lacking within other sites.
                   </CardText>
                   <CardText>
                     Everything built within this site might seem unconventional, but to me, it's more of a reflection of my decisions and values. Please enjoy and don't hesitate to contact me for further details.
                   </CardText>
                 </CardBody>
+                <CardFooter>
+                  <b>Credit</b>
+                  <CardText>Avatar Profile: Semantic UI Avatars</CardText>
+                </CardFooter>
               </Card>        
             </Col>
           </Row>
