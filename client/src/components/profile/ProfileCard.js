@@ -128,39 +128,43 @@ class ProfileCard extends Component {
     );
 
     return(
-      <Card style={{ marginBottom: '2rem' }}>
-        {profile ? (
-          <AvatarModal
-            isUser={this.props.isUser}
-            avatar={profile.avatar}
-            onAvatar={this.onAvatar}
-          />
+      <div>
+        {window.innerWidth > 760 ? (
+          <Card style={{ marginBottom: '2rem' }}>
+            {profile ? (
+              <AvatarModal
+                isUser={this.props.isUser}
+                avatar={profile.avatar}
+                onAvatar={this.onAvatar}
+              />
+            ) : null}
+            {this.props.isUser ? (this.props.isProfile ? userAccess : null) : guestAccess}
+            {profile ? (
+              <CardBody>
+                <CardTitle style={{ margin: 0 }}>
+                  <h5 style={{ margin: 0 }}>{profile.name}</h5>
+                </CardTitle>
+                <CardText>
+                  <small className='text-muted'>Joined in {date}</small>
+                </CardText>
+                {profile.about.split('\n').map((string, key) => {
+                  return <CardText key={key}>{string}</CardText>;
+                })}
+              </CardBody>
+            ) : null}
+            {profile ? (
+              <CardFooter style={{ backgroundColor: 'white' }}>
+              <Person />
+                <FollowModal
+                  isOpen={this.state.isOpen}
+                  followings={profile.followings}
+                  followers={profile.followers}
+                />
+              </CardFooter>
+            ) : null}
+          </Card>
         ) : null}
-        {this.props.isUser ? (this.props.isProfile ? userAccess : null) : guestAccess}
-        {profile ? (
-          <CardBody>
-            <CardTitle style={{ margin: 0 }}>
-              <h5 style={{ margin: 0 }}>{profile.name}</h5>
-            </CardTitle>
-            <CardText>
-              <small className='text-muted'>Joined in {date}</small>
-            </CardText>
-            {profile.about.split('\n').map((string, key) => {
-              return <CardText key={key}>{string}</CardText>;
-            })}
-          </CardBody>
-        ) : null}
-        {profile ? (
-          <CardFooter style={{ backgroundColor: 'white' }}>
-          <Person />
-            <FollowModal
-              isOpen={this.state.isOpen}
-              followings={profile.followings}
-              followers={profile.followers}
-            />
-          </CardFooter>
-        ) : null}
-      </Card>
+      </div>
     );
   }
 }

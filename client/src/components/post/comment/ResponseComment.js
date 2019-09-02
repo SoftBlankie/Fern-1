@@ -64,7 +64,7 @@ class ResponseComment extends Component {
               <Link to={`/${this.props.name}/profile`}>{this.props.name}</Link>
             </ListGroupItemHeading>
           </Col>
-          <Col>
+          <Col md='auto' xs='8'>
             <small className='text-muted'>{date}</small>
           </Col>
           <Col className='text-md-right'>

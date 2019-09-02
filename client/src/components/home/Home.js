@@ -103,18 +103,16 @@ class Home extends Component {
             </Fab>
             <Container>
               <Row>
-                {window.innerWidth > 760 ? (
-                  <Col md='3'>
-                    <ProfileCard
-                      user_id={user.id}
-                      isUser={true}
-                      isProfile={false}
-                      name={user.name}
-                      date={user.date}
-                    />
-                    <div style={{ marginBottom: '1rem' }}></div>
-                  </Col>
-                ) : null}
+                <Col md='3'>
+                  <ProfileCard
+                    user_id={user.id}
+                    isUser={true}
+                    isProfile={false}
+                    name={user.name}
+                    date={user.date}
+                  />
+                  <div style={{ marginBottom: '1rem' }}></div>
+                </Col>
                 <Col md='9'>
                   <Dropdown 
                     className='list-unstyled'

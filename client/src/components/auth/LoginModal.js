@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import {
-  Alert,
-  Label,
-  Input,
   Button,
-  NavLink,
   Modal,
   ModalHeader,
   ModalBody,
   Form,
-  FormGroup
+  FormGroup,
+  Label,
+  Input,
+  NavLink,
+  Alert
 } from 'reactstrap';
-import { login } from '../../actions/authActions';
-import { clearErrors } from '../../actions/errorActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { login } from '../../actions/authActions';
+import { clearErrors } from '../../actions/errorActions';
 
 class LoginModal extends Component {
   state = {
