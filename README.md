@@ -3,7 +3,7 @@
 Full Stack Website with PERN
 PostgreSQL, Express, React, NodeJS
 
-[https://fern-1.herokuapp.com/](https://fern-1.herokuapp.com/)
+[http://www.fern-1.com/](http://www.fern-1.com/)
 
 ### Goal
 
