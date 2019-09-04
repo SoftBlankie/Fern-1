@@ -27,6 +27,7 @@ class RequestEdit extends Component {
   };
 
   onCancel = () => {
+    this.props.clearSelectionClick();
     this.props.onCancelEdit();
   };
 

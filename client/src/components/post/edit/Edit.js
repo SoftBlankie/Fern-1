@@ -43,12 +43,14 @@ class Edit extends Component {
 
     if (this.state.isEdit) return;
 
+    this.getSelectionClick(selection);
     requestEdit.push(
       <RequestEdit key={this.props.post_id}
         name={this.props.user_name}
         selection={selection}
         onAddEdit={this.onAddEdit}
         onCancelEdit={this.onCancelEdit}
+        clearSelectionClick={this.clearSelectionClick}
       />
     );
     this.setState({ requestEdit });
@@ -84,15 +86,20 @@ class Edit extends Component {
       // if selection stays the same
       //this.setState({ isAnnotate: !this.state.isAnnotate });
     } else if (!this.state.isAnnotate) {
-      this.setState({ selection: selection });
-      this.setState({ isAnnotate: !this.state.isAnnotate });
+      this.setState({
+        selection: selection,
+        isAnnotate: !this.state.isAnnotate
+      });
     } else {
       this.setState({ selection: selection });
     }
   };
 
   clearSelectionClick = () => {
-    this.setState({ selection: '' });
+    this.setState({
+      selection: '',
+      isAnnotate: false
+    });
   };
 
   onUpdate = (edit_id, edit) => {

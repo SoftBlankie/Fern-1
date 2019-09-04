@@ -56,8 +56,32 @@ class ResponseComment extends Component {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
     const date = new Date(this.props.date).toLocaleDateString('en-US', options);
 
-    return(
-      <ListGroupItem>
+    const dropdown = (
+      <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>
+        <DropdownToggle tag='span'>
+          <MoreVert style={{ cursor: 'pointer' }}/>
+        </DropdownToggle>
+        {this.props.name === this.props.user_name ? (
+          <DropdownMenu>
+            <DropdownItem onClick={this.toggleReadOnly}>
+              Edit
+            </DropdownItem>
+            <DropdownItem onClick={this.props.onDelete.bind(this, comment_id)}>
+              Delete
+            </DropdownItem>
+          </DropdownMenu> 
+        ) : (
+          <DropdownMenu>
+            <DropdownItem onClick={this.props.onReport.bind(this, comment_id, reports)}>
+              Report
+            </DropdownItem>
+          </DropdownMenu>
+        )}
+      </Dropdown>
+    );
+
+    const webFormat = (
+      <div>
         <Row>
           <Col md='auto' xs='auto'>
             <ListGroupItemHeading>
@@ -79,29 +103,46 @@ class ResponseComment extends Component {
             </small>
           </Col>
           <Col className='text-md-right' md='1' xs='2'>
-            <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>
-              <DropdownToggle tag='span'>
-                <MoreVert style={{ cursor: 'pointer' }}/>
-              </DropdownToggle>
-              {this.props.name === this.props.user_name ? (
-                <DropdownMenu>
-                  <DropdownItem onClick={this.toggleReadOnly}>
-                    Edit
-                  </DropdownItem>
-                  <DropdownItem onClick={this.props.onDelete.bind(this, comment_id)}>
-                    Delete
-                  </DropdownItem>
-                </DropdownMenu> 
-              ) : (
-                <DropdownMenu>
-                  <DropdownItem onClick={this.props.onReport.bind(this, comment_id, reports)}>
-                    Report
-                  </DropdownItem>
-                </DropdownMenu>
-              )}
-            </Dropdown>
+            {dropdown}
           </Col>
         </Row>
+      </div>
+    );
+
+    const mobileFormat = (
+      <div>
+        <Row>
+          <Col>
+            <ListGroupItemHeading>
+              <Link to={`/${this.props.name}/profile`}>{this.props.name}</Link>
+            </ListGroupItemHeading>
+          </Col>
+          <Col className='text-md-right' md='2' xs='2'>
+            {dropdown}
+          </Col>
+        </Row>
+        <Row>
+          <Col md='auto' xs='auto'>
+            <small className='text-muted'>{date}</small>
+          </Col>
+          <Col className='text-md-right'>
+            <small
+              className={likes.includes(user_name) ? 'text-muted' : ''}
+              onClick={likes.includes(user_name) ? 
+                this.props.onUnlike.bind(this, comment_id, likes) :
+                this.props.onLike.bind(this, comment_id, likes)}
+              style={{ cursor: 'pointer' }}
+            >
+              {likes.length} Likes
+            </small>
+          </Col>
+        </Row>
+      </div>
+    );
+
+    return(
+      <ListGroupItem>
+        {window.innerWidth > 375 ? webFormat : mobileFormat}
         {this.state.readOnly ? 
           <ListGroupItemText>
             {this.props.comment}
