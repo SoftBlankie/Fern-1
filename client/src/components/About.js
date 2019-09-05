@@ -33,7 +33,7 @@ class About extends Component {
                 <CardBody>
                   <b>Purpose</b>
                   <CardText>
-                    Fern-1 is a language-hub accessible to all language learners determined to apply their skills. At Fern-1, members may assist one another in learning their preferred language in a more study-focused environment that caters towards their interests.
+                    Fern-1 is a language-hub accessible to all language learners determined to apply their skills through writing posts. At Fern-1, members may assist one another in learning their preferred language through edits in a more study-focused environment that caters towards their interests.
                   </CardText>
                   <b>Features</b>
                   <ul>
