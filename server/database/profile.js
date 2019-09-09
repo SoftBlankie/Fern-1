@@ -1,6 +1,6 @@
 const knex = require('./connection');
 
-const selectList = ['profile.id', 'user.name as name', 'profile.avatar', 'profile.age', 'profile.location', 'profile.learning', 'profile.native', 'profile.about', 'profile.followers', 'profile.followings', 'user.date as date', 'user.is_active as is_active'];
+const selectList = ['profile.id', 'user.name as name', 'profile.avatar', 'profile.age', 'profile.location', 'profile.learning', 'profile.native', 'profile.about', 'profile.edits', 'profile.followers', 'profile.followings', 'user.date as date', 'user.is_active as is_active'];
 
 module.exports = {
   getOne: id => {
@@ -41,6 +41,7 @@ module.exports = {
       learning: profile.learning,
       native: profile.native,
       about: profile.about,
+      edits: profile.edits,
       followers: profile.followers,
       followings: profile.followings
     }).then(() => {

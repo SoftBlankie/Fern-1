@@ -128,7 +128,7 @@ class PostForm extends Component {
                         onChange={this.onChange}
                         style={{ marginBottom: '2rem' }}
                       />
-                      <Label for="entry">Entry</Label>
+                      <Label for='entry'>Entry</Label>
                       <div
                         name='entry'
                         id='post'
@@ -136,7 +136,7 @@ class PostForm extends Component {
                       >
                         <TextEditor initialValue={this.state.entry} onChange={this.onEdit} />
                       </div>
-                      <Label for="language">Language</Label>
+                      <Label for='language'>Language</Label>
                       <Input
                         type='select'
                         name='language'

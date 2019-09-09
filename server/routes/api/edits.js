@@ -21,7 +21,6 @@ router.post('/:id/edits', auth, (req, res) => {
   const newEdit = {
     user_id: req.body.user_id,
     post_id: req.params.id,
-    selection: req.body.selection,
     edit: req.body.edit,
     agrees: [],
     reports: [],
@@ -38,12 +37,14 @@ router.post('/:post_id/edits/:edit_id', auth, (req, res) => {
   if (req.body.date) {
     newEdit = {
       edit: req.body.edit,
+      isComplete: req.body.isComplete,
       agrees: req.body.agrees,
       reports: req.body.reports
     };
   } else {
     newEdit = {
       edit: req.body.edit,
+      isComplete: req.body.isComplete,
       agrees: req.body.agrees,
       reports: req.body.reports,
       date: new Date()

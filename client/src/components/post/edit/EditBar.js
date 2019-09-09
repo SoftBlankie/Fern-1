@@ -14,8 +14,7 @@ import InfoIcon from '@material-ui/icons/Info';
 
 class EditBar extends Component {
   state = {
-    isOpen: window.innerWidth > 1080 ? true : false,
-    tooltipOpen: false,
+    isOpen: window.innerWidth > 760 ? true : false,
     edits: [],
     requestEdit: []
   };
@@ -100,7 +99,7 @@ class EditBar extends Component {
           }}
           >
             <Row>
-              <Col md='10' xs='10'>
+              <Col>
                 <h3>
                   <span
                     onClick={this.props.clearSelectionClick}
@@ -110,23 +109,15 @@ class EditBar extends Component {
                   </span>
                 </h3>
               </Col>
-              <Col md='2' xs='2'>
-                <InfoIcon id='info'/>
-                <Tooltip
-                  placement='auto'
-                  isOpen={this.state.tooltipOpen}
-                  target='info'
-                  toggle={this.toggleTooltip}
-                  style={{ textAlign: 'left' }}
-                  modifiers={{offset:{offset: '-200px', enabled: true}}}
-                >
-                  <p>- Select text and click on 'pencil' icon to edit</p>
-                  <p>- Click card text to show edit annotation</p>
-                  <p>- Click 'Edits' header to clear annotation</p>
-                </Tooltip>
-              </Col>
             </Row>
             <hr style={{ marginTop: 0 }}/>
+            <Row>
+              <Col>
+                <Card>
+                
+                </Card>
+              </Col>
+            </Row>
             <Row>
               <Col>
                 {this.props.isEdit ? requestEdit : null}
@@ -138,12 +129,10 @@ class EditBar extends Component {
                           user_name={this.props.user_name}
                           edit_id={id}
                           name={name}
-                          selection={selection}
                           edit={edit}
                           agrees={agrees}
                           reports={reports}
                           date={date}
-                          getSelectionClick={this.props.getSelectionClick}
                           onUpdate={this.props.onUpdate}
                           onAgree={this.props.onAgree}
                           onUnagree={this.props.onUnagree}

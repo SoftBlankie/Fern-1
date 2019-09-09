@@ -9,6 +9,7 @@ exports.up = function(knex) {
     table.text('learning').notNullable().defaultTo('');
     table.text('native').notNullable().defaultTo('');
     table.text('about').notNullable().defaultTo('');
+    table.integer('edits').notNullable().defaultTo(0);
     table.specificType('followers', 'text ARRAY').notNullable();
     table.specificType('followings', 'text ARRAY').notNullable();
 

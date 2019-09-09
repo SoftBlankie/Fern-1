@@ -51,6 +51,7 @@ router.post('/:id', auth, (req, res) => {
     learning: req.body.learning,
     native: req.body.native,
     about: req.body.about,
+    edits: req.body.edits,
     followers: req.body.followers,
     followings: req.body.followings
   };

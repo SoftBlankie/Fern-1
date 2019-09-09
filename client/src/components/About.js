@@ -48,6 +48,9 @@ class About extends Component {
                   <CardText>
                     Everything built within this site might seem unconventional, but to me, it's more of a reflection of my decisions and values. Please enjoy and don't hesitate to contact me for further details.
                   </CardText>
+                  <CardText>
+                    <a href='https://www.facebook.com/Fern-1-110611110322756/' target='blank'>Facebook</a>
+                  </CardText>
                 </CardBody>
                 <CardFooter>
                   <b>Credit</b>
