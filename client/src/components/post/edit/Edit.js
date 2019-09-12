@@ -1,4 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody
+} from 'reactstrap';
 import {
   getEdits,
   clearEdits,
@@ -12,42 +20,19 @@ import { updatePost } from '../../../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import EditBar from './EditBar';
-import GuestEditor from '../../editor/GuestEditor';
+import TextEditorRead from '../../editor/TextEditorRead';
 
 class Edit extends Component {
+  state = {
+    edit: ''
+  };
+
   componentDidMount() {
     this.props.getEdits(this.props.post_id);
   };
 
   componentWillUnmount() {
     this.props.clearEdits();
-  };
-
-  onAddEdit = (edit, isComplete) => {
-    const newEdit = {
-      user_id: this.props.user_id,
-      post_id: this.props.post_id,
-      edit: edit,
-      isComplete: isComplete
-    };
-
-    const newPost = {
-      edits: this.props.post_edits+1,
-      date: 'current'
-    };
-
-    this.props.addEdit(this.props.post_id, newEdit);
-    this.props.updatePost(this.props.post_id, newPost);
-  };
-
-  onUpdate = (edit_id, edit, isComplete) => {
-    const newEdit = {
-      edit: edit,
-      isComplete: isComplete
-    };
-
-    this.props.updateEdit(this.props.post_id, edit_id, newEdit);
   };
 
   onAgree = (edit_id, agrees) => {
@@ -109,22 +94,22 @@ class Edit extends Component {
     const { edits } = this.props.edit;
 
     return(
-      <Fragment>
-        <EditBar
-          user_name={this.props.user_name}
-          isUser={this.props.isUser}
-          edits={edits}
-          onUpdate={this.onUpdate}
-          onAgree={this.onAgree}
-          onUnagree={this.onUnagree}
-          onDelete={this.onDelete}
-          onReport={this.onReport}
-        />
-        <GuestEditor
-          post_id={this.props.post_id}
-          initialValue={this.props.post_entry}
-        />
-      </Fragment>
+      <Container>
+        <Row>
+          <Col>
+            <Card>
+              <CardHeader>
+                <h1>TITLE</h1>
+              </CardHeader>
+              <CardBody>
+                <TextEditorRead
+                  initialValue={this.state.edit}
+                />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

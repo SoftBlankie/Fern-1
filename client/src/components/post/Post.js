@@ -17,7 +17,8 @@ import { rules } from '../editor/rules';
 
 import PostForm from './PostForm';
 import DeleteModal from './DeleteModal';
-import Edit from './edit/Edit';
+import EditBar from './edit/EditBar';
+import TextEditorRead from '../editor/TextEditorRead';
 import Comment from './comment/Comment';
 
 import Fab from '@material-ui/core/Fab';
@@ -149,13 +150,9 @@ class Post extends Component {
                           </Row>
                         </CardHeader>
                         <CardBody>
-                          <Edit
-                            post_entry={html.deserialize(post.entry)}
+                          <TextEditorRead
                             post_id={post.id}
-                            user_id={user.id}
-                            user_name={user.name}
-                            isUser={isUser}
-                            post_edits={post.edits}
+                            initialValue={post.entry}
                           />
                           <Comment
                             post_id={post.id}
@@ -177,6 +174,12 @@ class Post extends Component {
 
     return (
       <div style={{ marginBottom: '1rem' }}>
+        <EditBar
+          post_id={post.id}
+          user_name={user.name}
+          isUser={isUser}
+          edits={post.edits}
+        />
         {(this.state.isOpen && isUser) ? userAccess : defaultAccess}
       </div>
     );

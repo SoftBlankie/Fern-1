@@ -1,10 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
-import { css } from 'emotion';
+import React, { Component } from 'react';
 import { Editor } from 'slate-react';
-import Edit from '@material-ui/icons/Edit';
 
-class GuestEditor extends Component {
+class TextEditorRead extends Component {
   state = {
     value: this.props.initialValue
   }
@@ -25,16 +22,13 @@ class GuestEditor extends Component {
 
   render() {
     return (
-      <Fragment>
-        <Editor
-          ref={this.ref}
-          value={this.state.value}
-          renderEditor={this.renderEditor}
-          renderBlock={this.renderBlock}
-          renderMark={this.renderMark}
-          readOnly
-        />
-      </Fragment>
+      <Editor
+        ref={this.ref}
+        value={this.state.value}
+        renderBlock={this.renderBlock}
+        renderMark={this.renderMark}
+        readOnly
+      />
     );
   }
 
@@ -73,4 +67,4 @@ class GuestEditor extends Component {
   }
 }
 
-export default GuestEditor;
+export default TextEditorRead;

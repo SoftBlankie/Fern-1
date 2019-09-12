@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 import TextEditor from '../editor/TextEditor';
 import { rules } from '../editor/rules';
 
-const html = new Html({ rules })
+const html = new Html({ rules });
 
 class PostForm extends Component {
   state = {

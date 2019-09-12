@@ -51,7 +51,7 @@ function MarkHotkey(options) {
   }
 }
 
-class TextEditor extends Component {
+class GuestEditor extends Component {
   state = {
     value: this.props.initialValue ? this.props.initialValue : initialValue
   }
@@ -243,4 +243,4 @@ class TextEditor extends Component {
   }
 }
 
-export default TextEditor;
+export default GuestEditor;
