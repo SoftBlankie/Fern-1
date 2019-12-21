@@ -75,6 +75,15 @@ Other features:
 #### Server-Side
 Improvements involve reducing code used in accessing PostgreSQL's database. Reduction allows for a minor improvement in time-complexity.
 
+### Todo
+- Improve edit system, make new edit route for viewers
+- Comments on edits
+- Give category for edits, correction, teaching/advice, reference
+- Get more avatar profile pictures
+- Route to match users with others for language exchange
+- Post changes not changing immediately
+- Login error not showing
+
 ### Reference
 
 Minimal references used to learn and jump-start learning how to web develop
