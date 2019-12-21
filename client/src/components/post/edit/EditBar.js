@@ -3,39 +3,74 @@ import {
   Container,
   Row,
   Col,
-  Tooltip
+  Button
 } from 'reactstrap';
 import ResponseEdit from './ResponseEdit';
 
 import Drawer from '@material-ui/core/Drawer';
 import Fab from '@material-ui/core/Fab';
 import ListIcon from '@material-ui/icons/List';
-import InfoIcon from '@material-ui/icons/Info';
 
 class EditBar extends Component {
   state = {
-    isOpen: window.innerWidth > 1080 ? true : false,
-    tooltipOpen: false,
+    isOpen: window.innerWidth > 760 ? true : false,
     edits: [],
-    requestEdit: []
+  };
+
+  componentDidMount() {
+    this.props.getEdits(this.props.post_id);
+  };
+
+  componentWillUnmount() {
+    this.props.clearEdits();
   };
 
   componentWillReceiveProps(nextProps) {
     this.setState({ edits: nextProps.edits });  
-    this.setState({ requestEdit: nextProps.requestEdit });
   };
 
   toggle = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
-  toggleTooltip = () => {
-    this.setState({ tooltipOpen: !this.state.tooltipOpen });
+  onClick = () => {
+
+  };
+
+  onDelete = edit_id => {
+    const newPost = {
+      edits: this.props.post_edits-1,
+      date: 'current'
+    };
+
+    this.props.deleteEdit(this.props.post_id, edit_id);
+    this.props.updatePost(this.props.post_id, newPost);
+  };
+
+  onReport = (edit_id, reports) => {
+    // check if already reported
+    const index = reports.indexOf(this.props.user_name);
+    if (index !== -1) {
+      return;
+    } else {
+      // if 3 reports, delete edit
+      if (reports.length === 2) {
+        this.onDelete(edit_id);
+        return;
+      }
+      reports.push(this.props.user_name);
+
+      const newEdit = {
+        reports: reports,
+        date: 'current'
+      };
+
+      this.props.reportEdit(this.props.post_id, edit_id, newEdit);
+    }
   };
 
   render() {
     const { edits } = this.state;
-    const requestEdit = this.state.requestEdit.map(editCard => { return editCard });
 
     const userStyle = window.innerWidth > 760 ? {
       margin: 0,
@@ -100,7 +135,7 @@ class EditBar extends Component {
           }}
           >
             <Row>
-              <Col md='10' xs='10'>
+              <Col>
                 <h3>
                   <span
                     onClick={this.props.clearSelectionClick}
@@ -110,40 +145,30 @@ class EditBar extends Component {
                   </span>
                 </h3>
               </Col>
-              <Col md='2' xs='2'>
-                <InfoIcon id='info'/>
-                <Tooltip
-                  placement='auto'
-                  isOpen={this.state.tooltipOpen}
-                  target='info'
-                  toggle={this.toggleTooltip}
-                  style={{ textAlign: 'left' }}
-                  modifiers={{offset:{offset: '-200px', enabled: true}}}
-                >
-                  <p>- Select text and click on 'pencil' icon to edit</p>
-                  <p>- Click card text to show edit annotation</p>
-                  <p>- Click 'Edits' header to clear annotation</p>
-                </Tooltip>
-              </Col>
             </Row>
             <hr style={{ marginTop: 0 }}/>
             <Row>
               <Col>
-                {this.props.isEdit ? requestEdit : null}
+                <Button color='dark' onClick={this.onClick} block>
+                  Add edit
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
                 {edits ? edits.map(({ id, name, selection, edit, agrees, reports, date }) => (
                   <Container key={id} style={{ marginBottom: '1rem' }}>
                     <Row>
                       <Col>
                         <ResponseEdit
                           user_name={this.props.user_name}
+                          post_id={this.props.post_id}
                           edit_id={id}
                           name={name}
-                          selection={selection}
                           edit={edit}
                           agrees={agrees}
                           reports={reports}
                           date={date}
-                          getSelectionClick={this.props.getSelectionClick}
                           onUpdate={this.props.onUpdate}
                           onAgree={this.props.onAgree}
                           onUnagree={this.props.onUnagree}

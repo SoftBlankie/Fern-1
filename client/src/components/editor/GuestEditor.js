@@ -1,161 +1,63 @@
 import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
-import { css } from 'emotion';
 import { Editor } from 'slate-react';
-import { Button, Menu } from './component';
-import Edit from '@material-ui/icons/Edit';
+import { Value } from 'slate';
+import { Button, Toolbar } from './component'
 
-let n = 0
+import Bold from '@material-ui/icons/FormatBold';
+import Italic from '@material-ui/icons/FormatItalic';
+import Underline from '@material-ui/icons/FormatUnderlined';
+import Strikethrough from '@material-ui/icons/StrikethroughS';
 
-function getHighlightKey() {
-  return `highlight_${n++}`;
+import LooksOne from '@material-ui/icons/LooksOne';
+import LooksTwo from '@material-ui/icons/LooksTwo';
+import Numbered from '@material-ui/icons/FormatListNumbered';
+import Bulleted from '@material-ui/icons/FormatListBulleted';
+
+const DEFAULT_NODE = 'paragraph';
+
+const initialValue = Value.fromJSON({
+  document: {
+    nodes: [
+      {
+        object: 'block',
+        type: 'paragraph',
+        nodes: [
+          {
+            object: 'text',
+            text: '',
+          },
+        ],
+      },
+    ],
+  },
+})
+
+const plugins = [
+  MarkHotkey({ key: 'b', type: 'bold' }),
+  MarkHotkey({ key: 'i', type: 'italic' }),
+  MarkHotkey({ key: 'x', type: 'strikethrough' }),
+  MarkHotkey({ key: 'u', type: 'underline' }),
+]
+
+function MarkHotkey(options) {
+  const { type, key } = options;
+
+  return {
+    onKeyDown(e, editor, next) {
+      if (!e.ctrlKey || e.key !== key) return next();
+      e.preventDefault();
+      editor.toggleMark(type);
+    },
+  }
 }
 
 class GuestEditor extends Component {
   state = {
-    isAnnotate: false,
-    selection: '',
-    value: this.props.initialValue
+    value: this.props.initialValue ? this.props.initialValue : initialValue
   }
 
   ref = editor => {
     this.editor = editor;
-  }
-
-  menuRef = React.createRef();
-
-  componentDidMount = () => {
-    this.updateMenu();
-  }
-
-  componentDidUpdate = () => {
-    this.updateMenu();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if ((this.props.selection !== nextProps.selection) ||
-      (this.state.isAnnotate !== nextProps.isAnnotate)) {
-      this.setState({
-        selection: nextProps.selection,
-        isAnnotate: nextProps.isAnnotate
-      }, this.annotateText());
-    }
-  }
-
-  EditButton = () => {
-    return (
-      <Button
-        reversed
-        onMouseDown={e => {
-          e.preventDefault()
-          this.props.requestEdit(this.state.selection);
-        }}
-      >
-        <Edit />
-      </Button>
-    )
-  }
-
-  HoverMenu = React.forwardRef(({ editor }, ref) => {
-    const root = window.document.getElementById('root')
-    return ReactDOM.createPortal(
-      <Menu
-        ref={ref}
-        className={css`
-          padding: 8px 7px 6px;
-          position: absolute;
-          z-index: 1;
-          top: -10000px;
-          left: -10000px;
-          margin-top: -6px;
-          opacity: 0;
-          background-color: #222;
-          border-radius: 4px;
-          transition: opacity 0.75s;
-        `}
-      >
-        <this.EditButton />
-      </Menu>,
-      root
-    )
-  })
-
-  updateMenu = () => {
-    const menu = this.menuRef.current;
-    if (!menu) return;
-    const { value } = this.state;
-    const { fragment, selection } = value;
-    
-    if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
-      menu.removeAttribute('style');
-      return;
-    }
-
-    const native = window.getSelection();
-    const range = native.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
-    menu.style.opacity = 1;
-    menu.style.top = `${rect.top + window.pageYOffset - menu.offsetHeight}px`;
-
-    menu.style.left = `${rect.left +
-      window.pageXOffset -
-      menu.offsetWidth / 2 +
-      rect.width / 2}px`;
-  }
-
-  annotateText = () => {
-    const editor = this.editor;
-    const { value } = editor;
-    const { document, annotations } = value;
-
-    this.setState({
-      isAnnotate: this.props.isAnnotate
-    }, () => {
-      const string = this.props.selection
-      if (this.state.isAnnotate) {
-        editor.withoutSaving(() => {
-          annotations.forEach(ann => {
-            if (ann.type === 'highlight') {
-              editor.removeAnnotation(ann)
-            }
-          });
-          
-          for (const [node, path] of document.texts()) {
-            const { key, text } = node;
-            const parts = text.split(string);
-            let offset = 0;
-
-            parts.forEach((part, i) => {
-              if (i !== 0) {
-                editor.addAnnotation({
-                  key: getHighlightKey(),
-                  type: 'highlight',
-                  anchor: { path, key, offset: offset - string.length },
-                  focus: { path, key, offset },
-                });
-              }
-              offset = offset + part.length + string.length;
-            });
-          }
-        });
-      } else {
-        this.removeAnnotate();
-      }
-    })
-  }
-
-  removeAnnotate = () => {
-    const editor = this.editor;
-    const { value } = editor;
-    const { annotations } = value;
-
-    editor.withoutSaving(() => {
-      annotations.forEach(ann => {
-        if (ann.type === 'highlight') {
-          editor.removeAnnotation(ann);
-        }
-      });
-    });
   }
 
 	hasMark = type => {
@@ -169,55 +71,141 @@ class GuestEditor extends Component {
   }
 
   onChange = ({ value }) => {
-    const { fragment } = value;
-    if (value.document.text !== this.state.value.document.text) {
-      this.setState({ value: this.props.initialValue });
-      return;
-    }
-    this.setState({ selection: fragment.text });
     this.setState({ value });
+    this.props.onChange({value});
+  }
+
+  onClickMark = (event, type) => {
+    event.preventDefault();
+    this.editor.toggleMark(type);
+  }
+
+  onClickBlock = (event, type) => {
+    event.preventDefault();
+
+    const { editor } = this;
+    const { value } = editor;
+    const { document } = value;
+
+    // Handle everything but list buttons.
+    if (type !== 'bulleted-list' && type !== 'numbered-list') {
+      const isActive = this.hasBlock(type);
+      const isList = this.hasBlock('list-item');
+
+      if (isList) {
+        editor
+          .setBlocks(isActive ? DEFAULT_NODE : type)
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
+      } else {
+        editor.setBlocks(isActive ? DEFAULT_NODE : type);
+      }
+    } else {
+      // Handle the extra wrapping required for list buttons.
+      const isList = this.hasBlock('list-item');
+      const isType = value.blocks.some(block => {
+        return !!document.getClosest(block.key, parent => parent.type === type);
+      })
+
+      if (isList && isType) {
+        editor
+          .setBlocks(DEFAULT_NODE)
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
+      } else if (isList) {
+        editor
+          .unwrapBlock(
+            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
+          )
+          .wrapBlock(type);
+      } else {
+        editor.setBlocks('list-item').wrapBlock(type);
+      }
+    }
   }
 
   render() {
     return (
       <Fragment>
+        <Toolbar>
+          {this.renderMarkButton('bold')}
+          {this.renderMarkButton('italic')}
+          {this.renderMarkButton('underline')}
+          {this.renderMarkButton('strikethrough')}
+          {this.renderBlockButton('heading-one')}
+          {this.renderBlockButton('heading-two')}
+          {this.renderBlockButton('numbered-list')}
+          {this.renderBlockButton('bulleted-list')}
+        </Toolbar>
         <Editor
+          plugins={plugins}
           ref={this.ref}
+          placeholder={'Enter an entry'}
           value={this.state.value}
           onChange={this.onChange}
-          renderEditor={this.renderEditor}
-          renderAnnotation={this.renderAnnotation}
-          renderBlock={this.renderBlock}
+					renderBlock={this.renderBlock}
           renderMark={this.renderMark}
         />
       </Fragment>
     );
   }
 
-  renderEditor = (props, editor, next) => {
-    const children = next()
-		
+  renderMarkButton = (type) => {
+    const isActive = this.hasMark(type);
+    var icon;
+
+    if (type === 'bold') {
+      icon = <Bold />;
+    } else if (type === 'italic') {
+      icon = <Italic />;
+    } else if (type === 'underline') {
+      icon = <Underline />;
+    } else if (type === 'strikethrough') {
+      icon = <Strikethrough />;
+    }
+
     return (
-      <Fragment>
-        {children}
-        <this.HoverMenu ref={this.menuRef} editor={editor} />
-      </Fragment>
+      <Button
+        active={isActive}
+        onMouseDown={event => this.onClickMark(event, type)}
+      >
+        {icon}
+      </Button>
     )
   }
 
-  renderAnnotation = (props, editor, next) => {
-    const { children, annotation, attributes } = props;
+  renderBlockButton = (type) => {
+    let isActive = this.hasBlock(type);
 
-    switch (annotation.type) {
-      case 'highlight':
-        return (
-          <span {...attributes} style={{ backgroundColor: '#ffeeba' }}>
-            {children}
-          </span>
-        )
-      default:
-        return next()
+    if (['numbered-list', 'bulleted-list'].includes(type)) {
+      const { value: { document, blocks } } = this.state;
+
+      if (blocks.size > 0) {
+        const parent = document.getParent(blocks.first().key);
+        isActive = this.hasBlock('list-item') && parent && parent.type === type;
+      }
     }
+
+    var icon;
+
+    if (type === 'heading-one') {
+      icon = <LooksOne />;
+    } else if (type === 'heading-two') {
+      icon = <LooksTwo />;
+    } else if (type === 'numbered-list') {
+      icon = <Numbered />;
+    } else if (type === 'bulleted-list') {
+      icon = <Bulleted />;
+    }
+
+    return (
+      <Button
+        active={isActive}
+        onMouseDown={event => this.onClickBlock(event, type)}
+      >
+        {icon}
+      </Button>
+    )
   }
 
   renderBlock = (props, editor, next) => {
@@ -225,32 +213,32 @@ class GuestEditor extends Component {
 
     switch (node.type) {
       case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>
+        return <ul {...attributes}>{children}</ul>;
       case 'heading-one':
-        return <h1 {...attributes}>{children}</h1>
+        return <h1 {...attributes}>{children}</h1>;
       case 'heading-two':
-        return <h2 {...attributes}>{children}</h2>
+        return <h2 {...attributes}>{children}</h2>;
       case 'list-item':
-        return <li {...attributes}>{children}</li>
+        return <li {...attributes}>{children}</li>;
       case 'numbered-list':
-        return <ol {...attributes}>{children}</ol>
+        return <ol {...attributes}>{children}</ol>;
       default:
-        return next()
+        return next();
     }
   }
 
   renderMark = (props, editor, next) => {
     switch (props.mark.type) {
       case 'bold':
-        return <strong>{props.children}</strong>
+        return <strong>{props.children}</strong>;
       case 'italic':
-        return <em>{props.children}</em>
+        return <em>{props.children}</em>;
       case 'strikethrough':
-        return <del>{props.children}</del>
+        return <del>{props.children}</del>;
       case 'underline':
-        return <u>{props.children}</u>
+        return <u>{props.children}</u>;
       default:
-        return next()
+        return next();
     }
   }
 }

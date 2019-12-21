@@ -7,6 +7,7 @@ const BLOCK_TAGS = {
   h1: 'heading-one',
   h2: 'heading-two',
   ol: 'numbered-list',
+  ul: 'bulleted-list',
   li: 'list-item',
 }
 
@@ -52,6 +53,8 @@ export const rules = [
             return <h2>{children}</h2>
           case 'numbered-list':
             return <ol>{children}</ol>
+          case 'bulleted-list':
+            return <ul>{children}</ul>
           case 'list-item':
             return <li>{children}</li>
           default:

@@ -1,4 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody
+} from 'reactstrap';
 import {
   getEdits,
   clearEdits,
@@ -12,16 +20,11 @@ import { updatePost } from '../../../actions/postActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import RequestEdit from './RequestEdit';
-import EditBar from './EditBar';
-import GuestEditor from '../../editor/GuestEditor';
+import TextEditorRead from '../../editor/TextEditorRead';
 
 class Edit extends Component {
   state = {
-    isEdit: false,
-    isAnnotate: false,
-    selection: '',
-    requestEdit: []
+    edit: ''
   };
 
   componentDidMount() {
@@ -30,84 +33,6 @@ class Edit extends Component {
 
   componentWillUnmount() {
     this.props.clearEdits();
-  };
-
-  toggle = () => {
-    this.setState({
-      isEdit: !this.state.isEdit
-    });
-  };
-
-  requestEdit = selection => {
-    let { requestEdit } = this.state;
-
-    if (this.state.isEdit) return;
-
-    this.getSelectionClick(selection);
-    requestEdit.push(
-      <RequestEdit key={this.props.post_id}
-        name={this.props.user_name}
-        selection={selection}
-        onAddEdit={this.onAddEdit}
-        onCancelEdit={this.onCancelEdit}
-        clearSelectionClick={this.clearSelectionClick}
-      />
-    );
-    this.setState({ requestEdit });
-    this.toggle();
-  };
-
-  onAddEdit = (selection, edit) => {
-    const newEdit = {
-      user_id: this.props.user_id,
-      post_id: this.props.post_id,
-      selection: selection,
-      edit: edit
-    };
-
-    const newPost = {
-      edits: this.props.post_edits+1,
-      date: 'current'
-    };
-
-    this.props.addEdit(this.props.post_id, newEdit);
-    this.props.updatePost(this.props.post_id, newPost);
-    this.setState({ requestEdit: [] });
-    this.toggle();
-  };
-
-  onCancelEdit = () => {
-    this.setState({ requestEdit: [] });
-    this.toggle();
-  };
-
-  getSelectionClick = selection => {
-    if (this.state.selection === selection) {
-      // if selection stays the same
-      //this.setState({ isAnnotate: !this.state.isAnnotate });
-    } else if (!this.state.isAnnotate) {
-      this.setState({
-        selection: selection,
-        isAnnotate: !this.state.isAnnotate
-      });
-    } else {
-      this.setState({ selection: selection });
-    }
-  };
-
-  clearSelectionClick = () => {
-    this.setState({
-      selection: '',
-      isAnnotate: false
-    });
-  };
-
-  onUpdate = (edit_id, edit) => {
-    const newEdit = {
-      edit: edit
-    };
-
-    this.props.updateEdit(this.props.post_id, edit_id, newEdit);
   };
 
   onAgree = (edit_id, agrees) => {
@@ -169,29 +94,22 @@ class Edit extends Component {
     const { edits } = this.props.edit;
 
     return(
-      <Fragment>
-        <EditBar
-          user_name={this.props.user_name}
-          isUser={this.props.isUser}
-          isEdit={this.state.isEdit}
-          edits={edits}
-          requestEdit={this.state.requestEdit}
-          getSelectionClick={this.getSelectionClick}
-          clearSelectionClick={this.clearSelectionClick}
-          onUpdate={this.onUpdate}
-          onAgree={this.onAgree}
-          onUnagree={this.onUnagree}
-          onDelete={this.onDelete}
-          onReport={this.onReport}
-        />
-        <GuestEditor
-          initialValue={this.props.post_entry}
-          post_id={this.props.post_id}
-          isAnnotate={this.state.isAnnotate}
-          selection={this.state.selection}
-          requestEdit={this.requestEdit}
-        />
-      </Fragment>
+      <Container>
+        <Row>
+          <Col>
+            <Card>
+              <CardHeader>
+                <h1>TITLE</h1>
+              </CardHeader>
+              <CardBody>
+                <TextEditorRead
+                  initialValue={this.state.edit}
+                />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

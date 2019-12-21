@@ -1,6 +1,6 @@
 const knex = require('./connection');
 
-const selectList = ['edit.id', 'user.name as name', 'edit.post_id', 'edit.selection', 'edit.edit', 'edit.agrees', 'edit.reports', 'edit.date'];
+const selectList = ['edit.id', 'user.name as name', 'edit.post_id', 'edit.edit', 'edit.isComplete', 'edit.agrees', 'edit.reports', 'edit.date'];
 
 module.exports = {
   getOne: id => {
@@ -29,6 +29,7 @@ module.exports = {
     return knex('edit').where('id', id).first().update({
       edit: edit.edit,
       agrees: edit.agrees,
+      isComplete: edit.isComplete,
       reports: edit.reports,
       date: edit.date
     }).then(() => {
