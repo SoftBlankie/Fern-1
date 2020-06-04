@@ -1,0 +1,36 @@
+{
+  "name": "fern",
+  "version": "1.0.0",
+  "description": "Lang-8 alternative journal app built with PERN",
+  "main": "server",
+  "scripts": {
+    "client-install": "npm install --prefex client",
+    "start": "node server",
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftBlankie/Fern.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Derick Phan",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.18.0",
+    "pg": "^7.11.0"
+  }
+}

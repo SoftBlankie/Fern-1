@@ -1,0 +1,102 @@
+import React, { Component } from 'react';
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  NavLink,
+  Alert
+} from 'reactstrap';
+import axios from 'axios';
+
+class RegisterModal extends Component {
+  state = {
+    modal: false,
+    email: '',
+    password: '',
+    msg: null
+  };
+
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal,
+      msg: null
+    });
+  };
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ msg: null });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+
+    const { email, password } = this.state;
+
+    const newUser = {
+      email,
+      password
+    };
+
+    axios
+      .post('/api/auth/signup', newUser)
+      .then(res => {
+        console.log(res);
+        window.location = `/`;
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ msg: err.response.data.message });
+      });
+  };
+
+  render() {
+    return (
+      <div>
+        <NavLink onClick={this.toggle} href="#">
+          Register
+        </NavLink>
+
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>Register</ModalHeader>
+          <ModalBody>
+            { this.state.msg ? ( <Alert color="danger">{ this.state.msg }</Alert>
+            ) : null}
+            <Form onSubmit={this.onSubmit}>
+              <FormGroup>
+                <Label for='email'>Email</Label>
+                <Input
+                  type='email'
+                  name='email'
+                  id='email'
+                  placeholder='Email'
+                  className='mb-3'
+                  onChange={this.onChange}
+                />
+                <Label for='password'>Password</Label>
+                <Input
+                  type='password'
+                  name='password'
+                  id='password'
+                  placeholder='Password'
+                  className='mb-3'
+                  onChange={this.onChange}
+                />
+                <Button color='dark' style={{ marginTop: '2rem' }} block>
+                  Register
+                </Button>
+              </FormGroup>
+            </Form>
+          </ModalBody>
+        </Modal>
+      </div>
+    );
+  }
+}
+
+export default RegisterModal;
