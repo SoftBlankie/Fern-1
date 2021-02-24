@@ -14,7 +14,7 @@ The goal of this site is to provide a hub for language learners to edit and find
 The program is developed using PostgreSQL, Express, React, and NodeJS. Due to the relations between users, posts, etc, PostgreSQL was used over MongoDB due to its relational database in contrast to noSQL. React was used over Angular due to its more flexible and lightweight architecture.
 
 Application Features:
- - JWT authentication
+ - JWT, Bcrypt authentication
  - Protected routes
  - User Info and Support
  - User information
